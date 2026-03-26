@@ -79,40 +79,6 @@
 </div>
 
 
-<!-- MARKET -->
-<h4 class="mb-3">📊 Market Overview</h4>
-
-<div class="row mb-4">
-
-<div class="col-md-3">
-<div class="card card-soft shadow p-3 text-center">
-<h6>Apple</h6>
-<h4>${{ apple }}</h4>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card card-soft shadow p-3 text-center">
-<h6>Tesla</h6>
-<h4>${{ tesla }}</h4>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card card-soft shadow p-3 text-center">
-<h6>Bitcoin</h6>
-<h4>${{ btc }}</h4>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card card-soft shadow p-3 text-center">
-<h6>Ethereum</h6>
-<h4>${{ eth }}</h4>
-</div>
-</div>
-
-</div>
 
 
 <!-- PORTFOLIO SUMMARY -->
@@ -192,4 +158,78 @@
     </div>
 </div>
 
-{% endblock %}
+
+<!-- MARKET OVERVIEW (NOW AT THE BOTTOM) -->
+<div class="mt-5 mb-4">
+    <div class="d-flex align-items-center mb-3">
+        <h4 class="mb-0 fw-bold">📉 Market Overview</h4>
+        <span class="badge bg-success ms-3 pulsate">● Live</span>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="fs-4">🍏</span>
+                    <span class="text-success small fw-bold">+1.2%</span>
+                </div>
+                <h6 class="text-muted mb-1">Apple Inc.</h6>
+                <h4 class="fw-bold mb-0">${{ apple }}</h4>
+                <div class="mt-2 small text-muted">AAPL • NASDAQ</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="fs-4">⚡</span>
+                    <span class="text-danger small fw-bold">-0.8%</span>
+                </div>
+                <h6 class="text-muted mb-1">Tesla Inc.</h6>
+                <h4 class="fw-bold mb-0">${{ tesla }}</h4>
+                <div class="mt-2 small text-muted">TSLA • NASDAQ</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="fs-4">₿</span>
+                    <span class="text-success small fw-bold">+3.5%</span>
+                </div>
+                <h6 class="text-muted mb-1">Bitcoin</h6>
+                <h4 class="fw-bold mb-0">${{ btc }}</h4>
+                <div class="mt-2 small text-muted">BTC • CRYPTO</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="fs-4">💎</span>
+                    <span class="text-success small fw-bold">+2.1%</span>
+                </div>
+                <h6 class="text-muted mb-1">Ethereum</h6>
+                <h4 class="fw-bold mb-0">${{ eth }}</h4>
+                <div class="mt-2 small text-muted">ETH • CRYPTO</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.pulsate {
+    animation: pulse-animation 2s infinite;
+    font-size: 0.7rem;
+    padding: 0.4em 0.8em;
+    border-radius: 50px;
+}
+
+@keyframes pulse-animation {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+</style>
+
+{% endblock %}
