@@ -4,7 +4,7 @@
 
 <style>
 .card-gradient {
-    background: linear-gradient(135deg, #2b6cff, #a000ff);
+    background: linear-gradient(135deg, #1e3a8a, #4c1d95);
     color: white;
     border: none;
 }
@@ -58,9 +58,9 @@
 <h6>Total Gain / Loss</h6>
 
 {% if gain >= 0 %}
-<h3 style="color:lightgreen;">+${{ gain }}</h3>
+<h3 class="text-success">+${{ gain }}</h3>
 {% else %}
-<h3 style="color:red;">-${{ gain | abs }}</h3>
+<h3 class="text-danger">-${{ gain | abs }}</h3>
 {% endif %}
 </div>
 </div>
@@ -69,9 +69,9 @@
 <div class="stat-card bg-orange shadow">
 <h6>Return</h6>
 {% if percent >= 0 %}
-<h3 style="color:lightgreen;">+{{ percent }}%</h3>
+<h3 class="text-success">+{{ percent }}%</h3>
 {% else %}
-<h3 style="color:red;">{{ percent }}%</h3>
+<h3 class="text-danger">{{ percent }}%</h3>
 {% endif %}
 </div>
 </div>
@@ -176,9 +176,9 @@
 
 <td>
 {% if profit >= 0 %}
-<span style="color:green;">+${{ profit | round(2) }}</span>
+<span class="text-success">+${{ profit | round(2) }}</span>
 {% else %}
-<span style="color:red;">-${{ profit | abs | round(2) }}</span>
+<span class="text-danger">-${{ profit | abs | round(2) }}</span>
 {% endif %}
 </td>
 

@@ -5,11 +5,18 @@ margin-top:20px;
 }
 
 .card{
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
-width:200px;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    padding:20px;
+    border-radius:12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid var(--bs-border-color);
+    width:220px;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 table{
@@ -18,8 +25,12 @@ border-collapse:collapse;
 }
 
 th{
-background:#2d6cdf;
-color:white;
+    background-color: var(--bs-primary);
+    color: white;
+}
+
+[data-bs-theme="dark"] .navbar {
+    background: linear-gradient(90deg, #0f172a, #1e293b);
 }
 
 td,th{
