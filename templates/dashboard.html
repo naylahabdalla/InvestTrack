@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.card-gradient {
+    background: linear-gradient(135deg, #2b6cff, #a000ff);
+    color: white;
+    border: none;
+}
+
+.card-soft {
+    border-radius: 12px;
+    border: none;
+}
+
+.stat-card {
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+}
+
+.bg-blue { background: linear-gradient(135deg, #007bff, #00c6ff); }
+.bg-green { background: linear-gradient(135deg, #28a745, #5be584); }
+.bg-purple { background: linear-gradient(135deg, #6f42c1, #d633ff); }
+.bg-orange { background: linear-gradient(135deg, #fd7e14, #ffb347); }
+</style>
+
+
+<!-- HEADER -->
+<div class="card card-gradient p-4 mb-4 shadow">
+
+<h2>Welcome to InvestTrack</h2>
+<p>Track and grow your investments smarter 🚀</p>
+
+</div>
+
+
+<!-- STATS -->
+<div class="row text-center mb-4">
+
+<div class="col-md-3">
+<div class="stat-card bg-blue shadow">
+<h6>Total Invested</h6>
+<h3>${{ total }}</h3>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="stat-card bg-green shadow">
+<h6>Portfolio Value</h6>
+<h3>${{ current }}</h3>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="stat-card bg-purple shadow">
+<h6>Total Gain / Loss</h6>
+
+{% if gain >= 0 %}
+<h3 style="color:lightgreen;">+${{ gain }}</h3>
+{% else %}
+<h3 style="color:red;">-${{ gain | abs }}</h3>
+{% endif %}
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="stat-card bg-orange shadow">
+<h6>Return</h6>
+{% if percent >= 0 %}
+<h3 style="color:lightgreen;">+{{ percent }}%</h3>
+{% else %}
+<h3 style="color:red;">{{ percent }}%</h3>
+{% endif %}
+</div>
+</div>
+
+</div>
+
+
+<!-- MARKET -->
+<h4 class="mb-3">📊 Market Overview</h4>
+
+<div class="row mb-4">
+
+<div class="col-md-3">
+<div class="card card-soft shadow p-3 text-center">
+<h6>Apple</h6>
+<h4>${{ apple }}</h4>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card card-soft shadow p-3 text-center">
+<h6>Tesla</h6>
+<h4>${{ tesla }}</h4>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card card-soft shadow p-3 text-center">
+<h6>Bitcoin</h6>
+<h4>${{ btc }}</h4>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card card-soft shadow p-3 text-center">
+<h6>Ethereum</h6>
+<h4>${{ eth }}</h4>
+</div>
+</div>
+
+</div>
+
+
+<!-- PORTFOLIO SUMMARY -->
+<h4 class="mb-3">💼 Portfolio Summary</h4>
+
+<div class="card shadow p-4 mb-4">
+
+<div class="row text-center">
+
+<div class="col-md-4">
+<h6>Total Investments</h6>
+<h4>{{ count }}</h4>
+</div>
+
+<div class="col-md-4">
+<h6>Total Invested</h6>
+<h4>${{ total }}</h4>
+</div>
+
+<div class="col-md-4">
+<h6>Current Value</h6>
+<h4>${{ current }}</h4>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- LIST -->
+<h4 class="mb-3">📋 Your Investments</h4>
+
+<div class="card shadow p-3">
+
+<table class="table table-hover">
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Invested</th>
+<th>Current</th>
+<th>Gain/Loss</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for inv in investments %}
+
+{% set current_value = inv[3] * 1.23 %}
+{% set profit = current_value - inv[3] %}
+
+<tr>
+
+<td>{{ inv[1] }}</td>
+<td>{{ inv[2] }}</td>
+
+<td>${{ inv[3] }}</td>
+<td>${{ current_value | round(2) }}</td>
+
+<td>
+{% if profit >= 0 %}
+<span style="color:green;">+${{ profit | round(2) }}</span>
+{% else %}
+<span style="color:red;">-${{ profit | abs | round(2) }}</span>
+{% endif %}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

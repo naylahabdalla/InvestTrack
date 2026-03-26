@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .hero {
+        height: 100vh;
+        background-image:url("{{ url_for('static', filename='images/investment.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        color: white;
+    }
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+    }
+
+    .features {
+        padding: 80px 20px;
+        text-align: center;
+    }
+
+    .stats {
+        background: #0f172a;
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .footer {
+        padding: 30px;
+        text-align: center;
+        background: #111;
+        color: white;
+    }
+</style>
+
+
+<!-- HERO SECTION -->
+
+<div class="hero">
+
+    <div class="hero-content">
+
+        <h1 class="display-3 fw-bold">InvestTrack</h1>
+
+        <p class="lead mt-3">
+            Everything you need to track investments
+        </p>
+
+        <p>
+            Powerful features to help you make informed investment decisions
+        </p>
+
+        <a href="/signup" class="btn btn-primary btn-lg mt-4">Get Started Free</a>
+
+    </div>
+
+</div>
+
+
+<!-- FEATURES SECTION -->
+
+<div class="features container">
+
+    <h2 class="mb-5">Features</h2>
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <h4>Global Markets</h4>
+
+            <p>
+                Track investments across multiple countries and currencies with real-time updates.
+            </p>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <h4>Portfolio Analytics</h4>
+
+            <p>
+                Visualize your portfolio performance with interactive charts and detailed metrics.
+            </p>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <h4>Secure & Private</h4>
+
+            <p>
+                Your investment data is encrypted and stored securely with bank-level security.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- STATS SECTION -->
+
+<div class="stats">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-3">
+                <h2>50,000+</h2>
+                <p>Active Users</p>
+            </div>
+
+            <div class="col-md-3">
+                <h2>$2.5B+</h2>
+                <p>Assets Tracked</p>
+            </div>
+
+            <div class="col-md-3">
+                <h2>120+</h2>
+                <p>Countries</p>
+            </div>
+
+            <div class="col-md-3">
+                <h2>99.9%</h2>
+                <p>Uptime</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CTA SECTION -->
+
+<div class="text-center py-5">
+
+    <h2>Start tracking your investments today</h2>
+
+    <p>
+        Join thousands of investors who trust InvestTrack to manage their portfolios
+    </p>
+
+    <a href="/signup" class="btn btn-primary btn-lg mt-3">Get Started Free</a>
+
+</div>
+
+
+
+
+{% endblock %}

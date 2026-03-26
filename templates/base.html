@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>InvestTrack</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- ✅ Custom Styles -->
+    <style>
+        body {
+            background-color: #f5f7fb;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(90deg, #1f1f2e, #2b2b45);
+        }
+
+        .nav-link {
+            color: #ccc !important;
+            margin-right: 10px;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #fff !important;
+            transform: translateY(-1px);
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-outline-light {
+            border-radius: 20px;
+        }
+
+        /* Page spacing */
+        .container {
+            margin-top: 30px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ✅ NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm px-4">
+
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="/dashboard">
+            <span style="font-size:20px; margin-right:8px;">📈</span>
+            InvestTrack
+        </a>
+
+        <!-- Mobile toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav ms-auto align-items-center">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Overview</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/portfolio">Portfolio</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/learn">Learn</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/analytics">Analytics</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/currency">Currency</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/feedback">Feedback</a>
+                </li>
+
+                <!-- Logout Button -->
+                <li class="nav-item ms-3">
+                    {% if user %}
+                    <a href="/logout" class="btn btn-outline-light rounded-pill px-3">Logout</a>
+                    {% else %}
+                    <a href="/login" class="btn btn-outline-light rounded-pill px-3">Login</a>
+                    {% endif %}
+                </li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+    <!-- ✅ PAGE CONTENT -->
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        © 2025 InvestTrack. All rights reserved.
+    </footer>
+
+</body>
+
+</html>

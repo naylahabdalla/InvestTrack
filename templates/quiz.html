@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Investment Quiz</h2>
+
+<form method="POST">
+
+<div class="card p-3 mb-3 shadow">
+<h5>1. What is diversification?</h5>
+
+<input type="radio" name="q1" value="a"> Investing in one asset<br>
+<input type="radio" name="q1" value="b"> Spreading investments across assets<br>
+<input type="radio" name="q1" value="c"> Only investing in crypto<br>
+</div>
+
+
+<div class="card p-3 mb-3 shadow">
+<h5>2. What does ROI stand for?</h5>
+
+<input type="radio" name="q2" value="a"> Rate of Income<br>
+<input type="radio" name="q2" value="b"> Return on Investment<br>
+<input type="radio" name="q2" value="c"> Risk of Investment<br>
+</div>
+
+
+<div class="card p-3 mb-3 shadow">
+<h5>3. Which is considered safer?</h5>
+
+<input type="radio" name="q3" value="a"> Stocks<br>
+<input type="radio" name="q3" value="b"> Bonds<br>
+<input type="radio" name="q3" value="c"> Crypto<br>
+</div>
+
+
+<button class="btn btn-primary mt-3">Submit Quiz</button>
+
+</form>
+
+
+{% if score is not none %}
+
+<div class="card mt-4 p-4 text-center shadow">
+
+<h3>Your Score: {{ score }}/3</h3>
+
+{% if score == 3 %}
+<p class="text-success">Excellent! 🎉</p>
+{% elif score == 2 %}
+<p class="text-warning">Good job! 👍</p>
+{% else %}
+<p class="text-danger">Keep learning 📚</p>
+{% endif %}
+
+</div>
+
+{% endif %}
+
+{% endblock %}

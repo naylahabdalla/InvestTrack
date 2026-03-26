@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">User Feedback</h2>
+
+<div class="card p-4 shadow">
+
+<form method="POST">
+
+<label>Your Feedback</label>
+<textarea name="message" class="form-control" rows="4" required></textarea>
+
+<br>
+
+<button class="btn btn-primary">Submit Feedback</button>
+
+</form>
+
+</div>
+
+{% endblock %}

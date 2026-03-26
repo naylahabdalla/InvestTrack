@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow mb-4">
+
+<div style="background: linear-gradient(90deg,#2b6cff,#a000ff); padding:25px; color:white; border-radius:6px;">
+<h3>Financial Education Hub</h3>
+<p>Expand your investment knowledge</p>
+
+<div class="row mt-3">
+
+<div class="col-md-4">
+<b>Courses Completed</b><br>
+2 / 16
+</div>
+
+<div class="col-md-4">
+<b>Learning Time</b><br>
+2.5 hours
+</div>
+
+<div class="col-md-4">
+<b>Skill Level</b><br>
+Beginner
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<h4 class="mb-3">Learning Paths</h4>
+
+<div class="row">
+
+<!-- Investment Basics -->
+<div class="col-md-6 mb-3">
+<a href="/course/basics" style="text-decoration:none; color:inherit;">
+<div class="card shadow p-4">
+
+<h5>Investment Basics</h5>
+<p>Learn fundamental concepts of investing</p>
+
+<div class="progress">
+<div class="progress-bar" style="width:50%">50%</div>
+</div>
+
+</div>
+</a>
+</div>
+
+<!-- Stock Market -->
+<div class="col-md-6 mb-3">
+<a href="/course/stocks" style="text-decoration:none; color:inherit;">
+<div class="card shadow p-4">
+
+<h5>Stock Market</h5>
+<p>Understanding stocks and equity investments</p>
+
+<div class="progress">
+<div class="progress-bar bg-success" style="width:0%">0%</div>
+</div>
+
+</div>
+</a>
+</div>
+
+<!-- Diversification -->
+<div class="col-md-6 mb-3">
+<a href="/course/diversification" style="text-decoration:none; color:inherit;">
+<div class="card shadow p-4">
+
+<h5>Diversification</h5>
+<p>Building a balanced portfolio</p>
+
+<div class="progress">
+<div class="progress-bar bg-danger" style="width:0%">0%</div>
+</div>
+
+</div>
+</a>
+</div>
+
+<!-- Currency -->
+<div class="col-md-6 mb-3">
+<a href="/course/currency" style="text-decoration:none; color:inherit;">
+<div class="card shadow p-4">
+
+<h5>Currency & Exchange</h5>
+<p>Global investing and forex basics</p>
+
+<div class="progress">
+<div class="progress-bar bg-info" style="width:0%">0%</div>
+</div>
+
+</div>
+</a>
+</div>
+
+</div>
+
+
+<h4 class="mt-5">Featured Resources</h4>
+
+<div class="row">
+
+<div class="col-md-4">
+<div class="card shadow">
+<img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f" class="card-img-top">
+<div class="card-body">
+<h5>Investment Glossary</h5>
+<p>Common terms every investor should know</p>
+<a href="https://www.investopedia.com/financial-term-dictionary-4769738" target="_blank">
+Read More
+</a>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card shadow">
+<img src="https://images.unsplash.com/photo-1508780709619-79562169bc64" class="card-img-top">
+<div class="card-body">
+<h5>Building Your Strategy</h5>
+<p>Step-by-step guide to creating an investment plan</p>
+<a href="https://www.investopedia.com/articles/basics/06/invest1000.asp" target="_blank">
+Read More
+</a>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card shadow">
+<img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3" class="card-img-top">
+<div class="card-body">
+<h5>Market Analysis Tools</h5>
+<p>Tools and techniques for evaluating investments</p>
+<a href="https://www.investopedia.com/articles/trading/05/011705.asp" target="_blank">
+Read More
+</a>
+</div>
+</div>
+</div>
+
+</div>
+
+
+<h4 class="mt-5">Test Your Knowledge</h4>
+
+<div class="card p-3 mb-2 shadow-sm">
+Investment Fundamentals Quiz — 10 Questions
+<a href="/quiz/Investment Basics">
+<button class="btn btn-primary float-end">Start</button>
+</a>
+</div>
+
+<div class="card p-3 mb-2 shadow-sm">
+Portfolio Management Test — 15 Questions
+<a href="/quiz/Stock Market">
+<button class="btn btn-primary float-end">Start</button>
+</a>
+</div>
+
+<div class="card p-3 mb-2 shadow-sm">
+Risk Assessment Quiz — 8 Questions
+<a href="/quiz/Diversification">
+<button class="btn btn-primary float-end">Start</button>
+</a>
+</div>
+
+
+<div class="row mt-4">
+
+<div class="col-md-6">
+<div class="card p-4 shadow-sm">
+<h5>💡 Investment Tip of the Day</h5>
+<p>
+Don't put all your eggs in one basket. Diversification reduces risk.
+</p>
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="card p-4 shadow-sm">
+<h5>📊 Market Insight</h5>
+<p>
+Time in the market beats timing the market. Long-term investing wins.
+</p>
+</div>
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Add Investment</h2>
+
+<form method="POST">
+
+<label>Asset Name</label><br>
+<input type="text" name="asset_name" required><br><br>
+
+<label>Asset Type</label><br>
+<select name="asset_type">
+
+<option value="Stock">Stock</option>
+<option value="Cryptocurrency">Cryptocurrency</option>
+<option value="ETF">ETF</option>
+<option value="Commodity">Commodity</option>
+
+</select><br><br>
+
+<label>Amount Invested</label><br>
+<input type="number" name="amount" required><br><br>
+
+<button type="submit">Add Investment</button>
+
+</form>
+
+<br>
+
+<a href="/portfolio">
+<button>View Portfolio</button>
+</a>
+
+{% endblock %}
+
