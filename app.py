@@ -289,7 +289,7 @@ def course(name):
         """
     }
     content = content_map.get(name.lower().replace(" ", ""), "Detailed content coming soon!")
-    return render_template("course.html", user=session.get("user"), title=name.title(), content=content | safe)
+    return render_template("course.html", user=session.get("user"), title=name.title(), content=content)
 
 @app.route("/quiz/<path:name>", methods=["GET", "POST"])
 def quiz(name):
