@@ -2,60 +2,94 @@
 
 {% block content %}
 
-<div class="container">
-
-    <h2 class="mb-4 fw-bold">📊 Investment Portfolio</h2>
-
-    <!-- KPI CARD -->
-    <div class="card shadow-sm p-4 mb-4" style="border-radius:15px;">
-        <h6 class="text-muted">Total Invested</h6>
-        <h2 class="fw-bold">${{ total }}</h2>
+<div class="row mb-4 align-items-center">
+    <div class="col-6">
+        <h2 class="fw-bold mb-0">💼 My Portfolio</h2>
+        <p class="text-muted small mb-0">Manage and track your asset allocations</p>
     </div>
-
-    <!-- ADD BUTTON -->
-    <div class="mb-4">
-        <a href="/add" class="btn btn-primary w-100 py-2 fw-semibold" style="border-radius:10px;">
-            + Add Investment
+    <div class="col-6 text-end">
+        <a href="/add" class="btn btn-primary px-4 py-2 shadow-sm rounded-pill fw-bold">
+            <span class="me-1">+</span> New Investment
         </a>
     </div>
+</div>
 
-    <!-- TABLE -->
-    <div class="card shadow-sm p-3" style="border-radius:15px;">
-        <h5 class="mb-3">Your Investments</h5>
-        <div class="table-responsive">
-            <table class="table align-middle">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Asset</th>
-                        <th>Type</th>
-                        <th>Amount ($)</th>
-                        <th class="text-end">Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for inv in investments %}
-                    <tr>
-                        <td>{{ inv[0] }}</td>
-                        <td class="fw-semibold">{{ inv[1] }}</td>
-                        <td>
-                            <span class="badge bg-secondary">{{ inv[2] }}</span>
-                        </td>
-                        <td>${{ inv[3] }}</td>
-                        <td class="text-end">
-                            <a href="/delete/{{ inv[0] }}" class="btn btn-sm btn-danger">
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-
-            </table>
+<div class="row mb-4">
+    <!-- TOTAL INVESTED -->
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100" style="border-radius:20px; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white;">
+            <div class="d-flex justify-content-between align-items-center mb-2 text-white-50">
+                <span class="small fw-bold text-uppercase tracking-wider">Total Invested</span>
+                <span class="fs-4">📈</span>
+            </div>
+            <h2 class="fw-bold mb-1">${{ total }}</h2>
+            <div class="small text-white-50">Across {{ investments|length }} assets</div>
         </div>
     </div>
 
+    <!-- QUICK TIP -->
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm p-4 h-100" style="border-radius:20px;">
+            <h6 class="fw-bold text-primary mb-2">Portfolio Insights</h6>
+            <p class="mb-0 text-muted">
+                Your portfolio is centered around <strong>{{ investments[0][1] if investments else 'N/A' }}</strong>. 
+                Consider diversifying across different asset types to minimize risk and maximize long-term returns.
+            </p>
+            <div class="mt-3">
+                <span class="badge bg-light text-dark border rounded-pill px-3 py-2">Updated: Just now</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ASSETS TABLE -->
+<div class="card border-0 shadow-sm p-0 overflow-hidden" style="border-radius:20px;">
+    <div class="bg-light p-3 border-bottom d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold">Active Assets</h5>
+        <div class="text-muted small">{{ investments|length }} items in total</div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+                <tr class="text-uppercase small text-muted">
+                    <th class="ps-4" style="font-weight: 600;">Asset Name</th>
+                    <th style="font-weight: 600;">Type</th>
+                    <th style="font-weight: 600;">Allocated</th>
+                    <th class="text-end pe-4" style="font-weight: 600;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inv in investments %}
+                <tr>
+                    <td class="ps-4">
+                        <div class="fw-bold">{{ inv[1] }}</div>
+                        <div class="text-muted small">ID: #{{ inv[0] }}</div>
+                    </td>
+                    <td>
+                        <span class="badge rounded-pill {% if inv[2] == 'Stock' %}bg-primary-subtle text-primary{% elif inv[2] == 'Crypto' %}bg-warning-subtle text-warning{% else %}bg-secondary-subtle text-secondary{% endif %} px-3">
+                            {{ inv[2] }}
+                        </span>
+                    </td>
+                    <td class="fw-bold text-dark">
+                        ${{ inv[3] }}
+                    </td>
+                    <td class="text-end pe-4">
+                        <a href="/delete/{{ inv[0] }}" class="btn btn-outline-danger btn-sm rounded-pill px-3 border-0">
+                            <span class="me-1">🗑️</span> Remove
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% if not investments %}
+                <tr>
+                    <td colspan="4" class="text-center py-5 text-muted">
+                        No investments found. Start by adding a new one!
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {% endblock %}

@@ -2,21 +2,43 @@
 
 {% block content %}
 
-<h2 class="mb-4">User Feedback</h2>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card border-0 shadow-lg p-4 p-md-5" style="border-radius:24px;">
+            <div class="text-center mb-4">
+                <div class="display-5 mb-2">💬</div>
+                <h2 class="fw-bold">We Value Your Input</h2>
+                <p class="text-muted">Help us improve InvestTrack by sharing your thoughts</p>
+            </div>
 
-<div class="card p-4 shadow">
+            <form method="POST">
+                <div class="mb-4">
+                    <label class="form-label small fw-bold text-uppercase text-muted">Feedback Category</label>
+                    <select class="form-select border-0 bg-light rounded-3 py-2" name="category">
+                        <option value="General">General Feedback</option>
+                        <option value="Bug">Report a Bug</option>
+                        <option value="Feature">Feature Request</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
 
-<form method="POST">
+                <div class="mb-4">
+                    <label class="form-label small fw-bold text-uppercase text-muted">Your Message</label>
+                    <textarea name="message" class="form-control border-0 bg-light rounded-3" rows="5" placeholder="Tell us what's on your mind..." required></textarea>
+                </div>
 
-<label>Your Feedback</label>
-<textarea name="message" class="form-control" rows="4" required></textarea>
+                <div class="d-grid">
+                    <button class="btn btn-primary py-3 fw-bold shadow-sm rounded-pill">
+                        Submit My Feedback
+                    </button>
+                </div>
+            </form>
 
-<br>
-
-<button class="btn btn-primary">Submit Feedback</button>
-
-</form>
-
+            <div class="mt-4 text-center">
+                <p class="small text-muted mb-0">Your feedback is anonymous and helps us grow. <br> Thank you for being part of our community!</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

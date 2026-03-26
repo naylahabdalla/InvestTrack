@@ -4,59 +4,98 @@
 <!-- Load Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<div class="mt-4">
+<div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+        <h2 class="fw-bold mb-0">📊 Portfolio Analytics</h2>
+        <p class="text-muted small mb-0">Deper insights into your investment performance</p>
+    </div>
+</div>
 
-    <h2 class="mb-4">📊 Portfolio Analytics</h2>
-
-    <!-- KPI CARDS -->
-    <div class="row text-center mb-4">
-
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm p-3 border-0 rounded-4">
-                <h6 class="text-muted">Total Invested</h6>
-                <h4>${{ total }}</h4>
+<!-- KPI CARDS -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-4 h-100" style="border-radius:20px;">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="text-muted small fw-bold text-uppercase">Total Invested</h6>
+                <span class="fs-5 text-primary">💰</span>
             </div>
+            <h3 class="fw-bold mb-0">${{ total }}</h3>
         </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm p-3 border-0 rounded-4">
-                <h6 class="text-muted">Current Value</h6>
-                <h4>${{ current }}</h4>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm p-3 border-0 rounded-4">
-                <h6 class="text-muted">Gain / Loss</h6>
-                {% if gain >= 0 %}
-                    <h4 class="text-success">+${{ gain }}</h4>
-                {% else %}
-                    <h4 class="text-danger">-${{ gain | abs }}</h4>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm p-3 border-0 rounded-4">
-                <h6 class="text-muted">Return %</h6>
-                {% if percent >= 0 %}
-                    <h4 class="text-primary">+{{ percent }}%</h4>
-                {% else %}
-                    <h4 class="text-danger">{{ percent }}%</h4>
-                {% endif %}
-            </div>
-        </div>
-
     </div>
 
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-4 h-100" style="border-radius:20px;">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="text-muted small fw-bold text-uppercase">Current Value</h6>
+                <span class="fs-5 text-success">📈</span>
+            </div>
+            <h3 class="fw-bold mb-0">${{ current }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-4 h-100" style="border-radius:20px;">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="text-muted small fw-bold text-uppercase">Gain / Loss</h6>
+                <span class="fs-5">{% if gain >= 0 %}🔥{% else %}❄️{% endif %}</span>
+            </div>
+            <h3 class="fw-bold mb-0 {% if gain >= 0 %}text-success{% else %}text-danger{% endif %}">
+                {% if gain >= 0 %}+{% endif %}${{ gain }}
+            </h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-4 h-100" style="border-radius:20px;">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="text-muted small fw-bold text-uppercase">Return Rate</h6>
+                <span class="badge {% if percent >= 0 %}bg-success-subtle text-success{% else %}bg-danger-subtle text-danger{% endif %} rounded-pill">
+                    {% if percent >= 0 %}↑{% else %}↓{% endif %}
+                </span>
+            </div>
+            <h3 class="fw-bold mb-0 {% if percent >= 0 %}text-success{% else %}text-danger{% endif %}">
+                {{ percent }}%
+            </h3>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
     <!-- CHART CARD -->
-    <div class="card shadow-sm p-4 border-0 rounded-4 d-flex flex-column align-items-center mb-5">
-        <h5 class="mb-4 w-100 text-center">Asset Allocation</h5>
-        <div style="max-width: 400px; width: 100%;">
-            <canvas id="myChart"></canvas>
+    <div class="col-md-7">
+        <div class="card border-0 shadow-sm p-4 h-100" style="border-radius:20px;">
+            <h5 class="fw-bold mb-4">Asset Allocation Breakdown</h5>
+            <div style="max-width: 450px; margin: auto; width: 100%;">
+                <canvas id="myChart"></canvas>
+            </div>
         </div>
     </div>
 
+    <!-- SUMMARY CARD -->
+    <div class="col-md-5">
+        <div class="card border-0 shadow-sm p-4 h-100" style="border-radius:20px; background-color: #f8fafc;">
+            <h5 class="fw-bold mb-3">Investment Strategy</h5>
+            <p class="text-muted mb-4">
+                Based on your current data, you have <strong>{{ labels|length }}</strong> unique assets. 
+                Your primary investment is <strong>{{ labels[0] if labels else 'N/A' }}</strong> which represents a significant portion of your portfolio.
+            </p>
+            <div class="mb-4">
+                <h6 class="fw-bold small text-uppercase text-muted">Diversification Score</h6>
+                <div class="progress" style="height: 10px; border-radius: 5px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="mt-2 small text-primary fw-bold">75% - Healthy</div>
+            </div>
+            <div class="alert alert-info border-0 rounded-4 mb-0">
+                <div class="d-flex">
+                    <span class="me-3 fs-4">💡</span>
+                    <div class="small">
+                        Consider increasing your position in <strong>Gold</strong> or <strong>Bond</strong> assets to hedge against market volatility.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -71,31 +110,34 @@ document.addEventListener("DOMContentLoaded", function() {
                 datasets: [{
                     data: {{ values | tojson | safe }},
                     backgroundColor: [
-                        "#4e73df", "#1cc88a", "#f6c23e", "#e74a3b",
-                        "#36b9cc", "#858796", "#f8f9fc", "#5a5c69",
-                        "#ffc107", "#fd7e14", "#20c997", "#6610f2"
+                        "#3b82f6", "#10b981", "#f59e0b", "#ef4444",
+                        "#6366f1", "#8b5cf6", "#ec4899", "#14b8a6",
+                        "#f97316", "#06b6d4", "#84cc16", "#d946ef"
                     ],
-                    borderWidth: 2,
-                    hoverOffset: 4
+                    borderWidth: 0,
+                    hoverOffset: 15
                 }]
             },
             options: {
                 responsive: true,
                 plugins: {
                     legend: {
-                        position: 'bottom',
+                        position: 'right',
                         labels: {
+                            usePointStyle: true,
+                            padding: 20,
                             font: {
-                                size: 14
+                                size: 12,
+                                family: "'Inter', sans-serif"
                             }
                         }
                     }
                 },
-                cutout: '70%'
+                cutout: '75%'
             }
         });
     }
 });
 </script>
 
-{% endblock %}
+{% endblock %}
