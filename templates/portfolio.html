@@ -22,37 +22,38 @@
     <!-- TABLE -->
     <div class="card shadow-sm p-3" style="border-radius:15px;">
         <h5 class="mb-3">Your Investments</h5>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Asset</th>
+                        <th>Type</th>
+                        <th>Amount ($)</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
 
-        <table class="table align-middle">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Asset</th>
-                    <th>Type</th>
-                    <th>Amount ($)</th>
-                    <th class="text-end">Action</th>
-                </tr>
-            </thead>
+                <tbody>
+                    {% for inv in investments %}
+                    <tr>
+                        <td>{{ inv[0] }}</td>
+                        <td class="fw-semibold">{{ inv[1] }}</td>
+                        <td>
+                            <span class="badge bg-secondary">{{ inv[2] }}</span>
+                        </td>
+                        <td>${{ inv[3] }}</td>
+                        <td class="text-end">
+                            <a href="/delete/{{ inv[0] }}" class="btn btn-sm btn-danger">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
 
-            <tbody>
-                {% for inv in investments %}
-                <tr>
-                    <td>{{ inv[0] }}</td>
-                    <td class="fw-semibold">{{ inv[1] }}</td>
-                    <td>
-                        <span class="badge bg-secondary">{{ inv[2] }}</span>
-                    </td>
-                    <td>${{ inv[3] }}</td>
-                    <td class="text-end">
-                        <a href="/delete/{{ inv[0] }}" class="btn btn-sm btn-danger">
-                            Delete
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-
-        </table>
+            </table>
+        </div>
     </div>
 
 </div>
