@@ -2,197 +2,238 @@
 
 {% block content %}
 
-<div class="card shadow mb-4">
+<style>
+.glass-header {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    padding: 40px;
+    color: white;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+}
 
-<div style="background: linear-gradient(90deg,#2b6cff,#a000ff); padding:25px; color:white; border-radius:6px;">
-<h3>Financial Education Hub</h3>
-<p>Expand your investment knowledge</p>
+.glass-header::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    transform: rotate(30deg);
+}
 
-<div class="row mt-3">
+.path-card {
+    transition: all 0.3s ease;
+    border-radius: 20px;
+}
 
-<div class="col-md-4">
-<b>Courses Completed</b><br>
-2 / 16
+.path-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important;
+}
+
+.progress-thin {
+    height: 6px;
+    border-radius: 10px;
+}
+</style>
+
+<!-- HEADER -->
+<div class="glass-header mb-5">
+    <div class="row align-items-center">
+        <div class="col-md-7">
+            <h2 class="fw-bold mb-2">🎓 Financial Education Hub</h2>
+            <p class="text-white-50 mb-4">Master the art of investing with our curated paths and resources</p>
+            <div class="d-flex gap-4">
+                <div>
+                    <div class="small text-white-50">Completed</div>
+                    <div class="fw-bold">4 / 18</div>
+                </div>
+                <div class="vr opacity-25"></div>
+                <div>
+                    <div class="small text-white-50">Hours Logged</div>
+                    <div class="fw-bold">5.2 hrs</div>
+                </div>
+                <div class="vr opacity-25"></div>
+                <div>
+                    <div class="small text-white-50">Level</div>
+                    <div class="fw-bold">Intermediate</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 d-none d-md-block text-end">
+            <span style="font-size: 8rem; opacity: 0.2;">📚</span>
+        </div>
+    </div>
 </div>
 
-<div class="col-md-4">
-<b>Learning Time</b><br>
-2.5 hours
+<h4 class="fw-bold mb-4">Mastery Paths</h4>
+<div class="row g-4">
+    <!-- Investment Basics -->
+    <div class="col-md-4">
+        <a href="/course/basics" class="text-decoration-none color-inherit">
+            <div class="card path-card border-0 shadow-sm p-4 h-100">
+                <div class="fs-2 mb-3">🌱</div>
+                <h5 class="fw-bold">Investment Basics</h5>
+                <p class="text-muted small">Fundamental concepts for every new investor</p>
+                <div class="mt-auto">
+                    <div class="d-flex justify-content-between mb-1 small text-muted">
+                        <span>Progress</span>
+                        <span>50%</span>
+                    </div>
+                    <div class="progress progress-thin">
+                        <div class="progress-bar bg-primary" style="width: 50%"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Stock Market -->
+    <div class="col-md-4">
+        <a href="/course/stocks" class="text-decoration-none color-inherit">
+            <div class="card path-card border-0 shadow-sm p-4 h-100">
+                <div class="fs-2 mb-3">📊</div>
+                <h5 class="fw-bold">Stock Market</h5>
+                <p class="text-muted small">Trading, equity, and market dynamics</p>
+                <div class="mt-auto">
+                    <div class="d-flex justify-content-between mb-1 small text-muted">
+                        <span>Progress</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress progress-thin">
+                        <div class="progress-bar bg-success" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Diversification -->
+    <div class="col-md-4">
+        <a href="/course/diversification" class="text-decoration-none color-inherit">
+            <div class="card path-card border-0 shadow-sm p-4 h-100">
+                <div class="fs-2 mb-3">🛡️</div>
+                <h5 class="fw-bold">Diversification</h5>
+                <p class="text-muted small">Risk management and asset allocation</p>
+                <div class="mt-auto">
+                    <div class="d-flex justify-content-between mb-1 small text-muted">
+                        <span>Progress</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress progress-thin">
+                        <div class="progress-bar bg-danger" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Currency -->
+    <div class="col-md-4">
+        <a href="/course/currency" class="text-decoration-none color-inherit">
+            <div class="card path-card border-0 shadow-sm p-4 h-100">
+                <div class="fs-2 mb-3">💱</div>
+                <h5 class="fw-bold">Forex & Currency</h5>
+                <p class="text-muted small">Global exchange rates and trade pairs</p>
+                <div class="mt-auto">
+                    <div class="d-flex justify-content-between mb-1 small text-muted">
+                        <span>Progress</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress progress-thin">
+                        <div class="progress-bar bg-info" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Real Estate -->
+    <div class="col-md-4">
+        <a href="/course/realestate" class="text-decoration-none color-inherit">
+            <div class="card path-card border-0 shadow-sm p-4 h-100">
+                <div class="fs-2 mb-3">🏠</div>
+                <h5 class="fw-bold">Real Estate</h5>
+                <p class="text-muted small">Property investing and REITs overview</p>
+                <div class="mt-auto">
+                    <div class="d-flex justify-content-between mb-1 small text-muted">
+                        <span>Progress</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress progress-thin">
+                        <div class="progress-bar bg-warning" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Retirement -->
+    <div class="col-md-4">
+        <a href="/course/retirement" class="text-decoration-none color-inherit">
+            <div class="card path-card border-0 shadow-sm p-4 h-100">
+                <div class="fs-2 mb-3">🏦</div>
+                <h5 class="fw-bold">Retirement Prep</h5>
+                <p class="text-muted small">Long-term planning and tax advantages</p>
+                <div class="mt-auto">
+                    <div class="d-flex justify-content-between mb-1 small text-muted">
+                        <span>Progress</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress progress-thin">
+                        <div class="progress-bar bg-dark" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
 </div>
 
-<div class="col-md-4">
-<b>Skill Level</b><br>
-Beginner
+<h4 class="fw-bold mt-5 mb-4">Knowledge Assessments</h4>
+<div class="card border-0 shadow-sm rounded-4 p-4">
+    <div class="list-group list-group-flush">
+        <div class="list-group-item px-0 py-3 d-flex justify-content-between align-items-center bg-transparent">
+            <div>
+                <h6 class="fw-bold mb-1">Investment Fundamentals Quiz</h6>
+                <p class="text-muted small mb-0">10 Questions • Beginner</p>
+            </div>
+            <a href="/quiz/Investment Basics" class="btn btn-outline-primary px-4 rounded-pill fw-bold">Start</a>
+        </div>
+        <div class="list-group-item px-0 py-3 d-flex justify-content-between align-items-center bg-transparent">
+            <div>
+                <h6 class="fw-bold mb-1">Portfolio Management Strategy</h6>
+                <p class="text-muted small mb-0">15 Questions • Intermediate</p>
+            </div>
+            <a href="/quiz/Stock Market" class="btn btn-outline-primary px-4 rounded-pill fw-bold">Start</a>
+        </div>
+        <div class="list-group-item px-0 py-3 d-flex justify-content-between align-items-center bg-transparent border-0">
+            <div>
+                <h6 class="fw-bold mb-1">Risk Assessment Masterclass</h6>
+                <p class="text-muted small mb-0">8 Questions • Advanced</p>
+            </div>
+            <a href="/quiz/Diversification" class="btn btn-outline-primary px-4 rounded-pill fw-bold">Start</a>
+        </div>
+    </div>
 </div>
 
+<div class="row g-4 mt-2 mb-5">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4 h-100 rounded-4 bg-primary-subtle text-primary">
+            <h5>💡 Investment Tip</h5>
+            <p class="mb-0">"Don't put all your eggs in one basket." - The core philosophy of diversification. Spreading assets reduces localized risk.</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4 h-100 rounded-4 bg-success-subtle text-success">
+            <h5>📊 Market Insight</h5>
+            <p class="mb-0">Time in the market is generally superior to timing the market. Long-term compounding is the greatest tool for wealth generation.</p>
+        </div>
+    </div>
 </div>
 
-</div>
-
-</div>
-
-
-<h4 class="mb-3">Learning Paths</h4>
-
-<div class="row">
-
-<!-- Investment Basics -->
-<div class="col-md-6 mb-3">
-<a href="/course/basics" style="text-decoration:none; color:inherit;">
-<div class="card shadow p-4">
-
-<h5>Investment Basics</h5>
-<p>Learn fundamental concepts of investing</p>
-
-<div class="progress">
-<div class="progress-bar" style="width:50%">50%</div>
-</div>
-
-</div>
-</a>
-</div>
-
-<!-- Stock Market -->
-<div class="col-md-6 mb-3">
-<a href="/course/stocks" style="text-decoration:none; color:inherit;">
-<div class="card shadow p-4">
-
-<h5>Stock Market</h5>
-<p>Understanding stocks and equity investments</p>
-
-<div class="progress">
-<div class="progress-bar bg-success" style="width:0%">0%</div>
-</div>
-
-</div>
-</a>
-</div>
-
-<!-- Diversification -->
-<div class="col-md-6 mb-3">
-<a href="/course/diversification" style="text-decoration:none; color:inherit;">
-<div class="card shadow p-4">
-
-<h5>Diversification</h5>
-<p>Building a balanced portfolio</p>
-
-<div class="progress">
-<div class="progress-bar bg-danger" style="width:0%">0%</div>
-</div>
-
-</div>
-</a>
-</div>
-
-<!-- Currency -->
-<div class="col-md-6 mb-3">
-<a href="/course/currency" style="text-decoration:none; color:inherit;">
-<div class="card shadow p-4">
-
-<h5>Currency & Exchange</h5>
-<p>Global investing and forex basics</p>
-
-<div class="progress">
-<div class="progress-bar bg-info" style="width:0%">0%</div>
-</div>
-
-</div>
-</a>
-</div>
-
-</div>
-
-
-<h4 class="mt-5">Featured Resources</h4>
-
-<div class="row">
-
-<div class="col-md-4">
-<div class="card shadow">
-<img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f" class="card-img-top">
-<div class="card-body">
-<h5>Investment Glossary</h5>
-<p>Common terms every investor should know</p>
-<a href="https://www.investopedia.com/financial-term-dictionary-4769738" target="_blank">
-Read More
-</a>
-</div>
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="card shadow">
-<img src="https://images.unsplash.com/photo-1508780709619-79562169bc64" class="card-img-top">
-<div class="card-body">
-<h5>Building Your Strategy</h5>
-<p>Step-by-step guide to creating an investment plan</p>
-<a href="https://www.investopedia.com/articles/basics/06/invest1000.asp" target="_blank">
-Read More
-</a>
-</div>
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="card shadow">
-<img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3" class="card-img-top">
-<div class="card-body">
-<h5>Market Analysis Tools</h5>
-<p>Tools and techniques for evaluating investments</p>
-<a href="https://www.investopedia.com/articles/trading/05/011705.asp" target="_blank">
-Read More
-</a>
-</div>
-</div>
-</div>
-
-</div>
-
-
-<h4 class="mt-5">Test Your Knowledge</h4>
-
-<div class="card p-3 mb-2 shadow-sm">
-Investment Fundamentals Quiz — 10 Questions
-<a href="/quiz/Investment Basics">
-<button class="btn btn-primary float-end">Start</button>
-</a>
-</div>
-
-<div class="card p-3 mb-2 shadow-sm">
-Portfolio Management Test — 15 Questions
-<a href="/quiz/Stock Market">
-<button class="btn btn-primary float-end">Start</button>
-</a>
-</div>
-
-<div class="card p-3 mb-2 shadow-sm">
-Risk Assessment Quiz — 8 Questions
-<a href="/quiz/Diversification">
-<button class="btn btn-primary float-end">Start</button>
-</a>
-</div>
-
-
-<div class="row mt-4">
-
-<div class="col-md-6">
-<div class="card p-4 shadow-sm">
-<h5>💡 Investment Tip of the Day</h5>
-<p>
-Don't put all your eggs in one basket. Diversification reduces risk.
-</p>
-</div>
-</div>
-
-<div class="col-md-6">
-<div class="card p-4 shadow-sm">
-<h5>📊 Market Insight</h5>
-<p>
-Time in the market beats timing the market. Long-term investing wins.
-</p>
-</div>
-</div>
-
-</div>
+{% endblock %}
 
 {% endblock %}

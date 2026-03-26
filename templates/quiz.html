@@ -2,58 +2,167 @@
 
 {% block content %}
 
-<h2 class="mb-4">Investment Quiz</h2>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="d-flex align-items-center mb-4">
+            <a href="/learn" class="btn btn-light rounded-pill me-3 shadow-sm border">← Back</a>
+            <h2 class="fw-bold mb-0">📝 Investment Knowledge Assessment</h2>
+        </div>
 
-<form method="POST">
+        <form method="POST">
+            <!-- Question 1 -->
+            <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius:20px;">
+                <h5 class="fw-bold mb-3">1. What is the primary purpose of diversification?</h5>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q1" value="a" class="form-check-input me-3" required>
+                        <span>To guarantee a 100% return on any investment</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q1" value="b" class="form-check-input me-3">
+                        <span>To spread risk across different asset classes</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q1" value="c" class="form-check-input me-3">
+                        <span>To avoid paying taxes on capital gains</span>
+                    </label>
+                </div>
+            </div>
 
-<div class="card p-3 mb-3 shadow">
-<h5>1. What is diversification?</h5>
+            <!-- Question 2 -->
+            <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius:20px;">
+                <h5 class="fw-bold mb-3">2. What does ROI stand for in financial terms?</h5>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q2" value="a" class="form-check-input me-3" required>
+                        <span>Rate of Inflation</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q2" value="b" class="form-check-input me-3">
+                        <span>Return on Investment</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q2" value="c" class="form-check-input me-3">
+                        <span>Risk of Insolvency</span>
+                    </label>
+                </div>
+            </div>
 
-<input type="radio" name="q1" value="a"> Investing in one asset<br>
-<input type="radio" name="q1" value="b"> Spreading investments across assets<br>
-<input type="radio" name="q1" value="c"> Only investing in crypto<br>
+            <!-- Question 3 -->
+            <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius:20px;">
+                <h5 class="fw-bold mb-3">3. Which of these is typically considered a lower-risk investment?</h5>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q3" value="a" class="form-check-input me-3" required>
+                        <span>Individual tech startup stocks</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q3" value="b" class="form-check-input me-3">
+                        <span>Government Bonds</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q3" value="c" class="form-check-input me-3">
+                        <span>Cryptocurrency tokens</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius:20px;">
+                <h5 class="fw-bold mb-3">4. What is a REIT?</h5>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q4" value="a" class="form-check-input me-3" required>
+                        <span>Real Estate Interest Tax</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q4" value="b" class="form-check-input me-3">
+                        <span>Real Estate Investment Trust</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q4" value="c" class="form-check-input me-3">
+                        <span>Retired Employees Income Total</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius:20px;">
+                <h5 class="fw-bold mb-3">5. What is the "4% Rule" often used for?</h5>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q5" value="a" class="form-check-input me-3" required>
+                        <span>Calculating the maximum tax rate on profit</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q5" value="b" class="form-check-input me-3">
+                        <span>Estimating sustainable retirement withdrawals</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 p-0">
+                    <label class="btn btn-outline-light w-100 text-start text-dark p-3 border rounded-3 d-flex align-items-center">
+                        <input type="radio" name="q5" value="c" class="form-check-input me-3">
+                        <span>The average daily fluctuation of the S&P 500</span>
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow mb-5">Submit Assessment</button>
+        </form>
+
+        {% if score is not none %}
+        <div class="card border-0 shadow-lg p-5 text-center mb-5" style="border-radius:30px; background: linear-gradient(135deg, #ffffff, #f0f4ff);">
+            <div class="display-4 mb-3">
+                {% if score == 5 %}🏆{% elif score >= 3 %}🥈{% else %}📚{% endif %}
+            </div>
+            <h2 class="fw-bold mb-1">Your Score: {{ score }} / 5</h2>
+            <p class="text-muted mb-4">Assessment complete!</p>
+
+            {% if score == 5 %}
+            <h4 class="text-success fw-bold">Master Investor Status! 🎉</h4>
+            <p>You have a solid grasp of complex financial concepts.</p>
+            {% elif score >= 3 %}
+            <h4 class="text-primary fw-bold">Great Effort! 👍</h4>
+            <p>You're on the right track. Keep studying to reach 100%.</p>
+            {% else %}
+            <h4 class="text-danger fw-bold">Keep Learning! 📖</h4>
+            <p>Finance takes time. Re-read the courses and try again!</p>
+            {% endif %}
+
+            <div class="mt-4">
+                <a href="/learn" class="btn btn-dark px-5 rounded-pill py-2 fw-bold">Return to Hub</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
 </div>
 
-
-<div class="card p-3 mb-3 shadow">
-<h5>2. What does ROI stand for?</h5>
-
-<input type="radio" name="q2" value="a"> Rate of Income<br>
-<input type="radio" name="q2" value="b"> Return on Investment<br>
-<input type="radio" name="q2" value="c"> Risk of Investment<br>
-</div>
-
-
-<div class="card p-3 mb-3 shadow">
-<h5>3. Which is considered safer?</h5>
-
-<input type="radio" name="q3" value="a"> Stocks<br>
-<input type="radio" name="q3" value="b"> Bonds<br>
-<input type="radio" name="q3" value="c"> Crypto<br>
-</div>
-
-
-<button class="btn btn-primary mt-3">Submit Quiz</button>
-
-</form>
-
-
-{% if score is not none %}
-
-<div class="card mt-4 p-4 text-center shadow">
-
-<h3>Your Score: {{ score }}/3</h3>
-
-{% if score == 3 %}
-<p class="text-success">Excellent! 🎉</p>
-{% elif score == 2 %}
-<p class="text-warning">Good job! 👍</p>
-{% else %}
-<p class="text-danger">Keep learning 📚</p>
-{% endif %}
-
-</div>
-
-{% endif %}
+<style>
+/* Style radio selected state */
+.form-check-input:checked + span {
+    font-weight: bold;
+}
+.btn-outline-light:hover {
+    background-color: #f8f9fa !important;
+}
+</style>
 
 {% endblock %}
