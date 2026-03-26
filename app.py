@@ -188,7 +188,7 @@ def feedback():
 
         supabase.table("feedback").insert({"username": session["user"], "message": message}).execute()
 
-        return "Feedback submitted!"
+        return redirect("/dashboard")
 
     return render_template("feedback.html", user=session.get("user"))
 
