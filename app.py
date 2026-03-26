@@ -136,7 +136,7 @@ def add():
 @app.route("/logout")
 def logout():
     session.pop("user", None)
-    return redirect("/login")
+    return redirect("/")
 
 @app.route("/analytics")
 def analytics():
