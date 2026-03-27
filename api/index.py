@@ -46,42 +46,56 @@ class MarketService:
 
     @classmethod
     def get_prices(cls, asset_names):
+        if not asset_names:
+            return {}
+            
         now = time.time()
-        tickers = [cls._ticker_map.get(name.lower(), name) for name in asset_names]
+        # Unique to avoid double fetching
+        unique_names = list(set(name.lower() for name in asset_names))
+        tickers = [cls._ticker_map.get(name, name) for name in unique_names]
         
-        # Filter for expired or missing cache entries
         to_fetch = [t for t in tickers if t not in cls._cache or (now - cls._cache[t]['time']) > cls._cache_ttl]
         
         if to_fetch:
             try:
-                # Batch fetch prices using yfinance
-                data = yf.download(to_fetch, period="3d", interval="1d", progress=False)['Close']
+                # Fetch only Close price to keep it small
+                # Use period="5d" to ensure we have at least 2 days of data even over weekends
+                data = yf.download(to_fetch, period="5d", interval="1d", progress=False)['Close']
                 
-                # Ensure data is a DataFrame
-                if hasattr(data, "to_frame") and not hasattr(data, "columns"):
-                    # It's a Series (single ticker)
-                    ticker = to_fetch[0]
-                    current_price = float(data.iloc[-1])
-                    prev_close = float(data.iloc[-2]) if len(data) > 1 else current_price
-                    change_pct = ((current_price - prev_close) / prev_close * 100) if prev_close > 0 else 0.0
-                    cls._cache[ticker] = {'price': current_price, 'change': change_pct, 'time': now}
-                else:
-                    # It's a DataFrame (multi-ticker or single-column DF)
-                    for ticker in to_fetch:
-                        try:
-                            # Access the column for this ticker
-                            series = data[ticker] if ticker in data.columns else data
-                            if hasattr(series, "iloc"):
-                                cur = float(series.iloc[-1])
-                                prev = float(series.iloc[-2]) if len(series) > 1 else cur
-                                chg = ((cur - prev) / prev * 100) if prev > 0 else 0.0
-                                cls._cache[ticker] = {'price': cur, 'change': chg, 'time': now}
-                        except:
-                            pass
+                for ticker in to_fetch:
+                    try:
+                        # Handle varied yfinance return shapes
+                        if isinstance(data, (float, int)):
+                            cur = float(data)
+                            prev = cur
+                        elif hasattr(data, "columns") and ticker in data.columns:
+                            series = data[ticker].dropna()
+                            cur = float(series.iloc[-1]) if not series.empty else 0.0
+                            prev = float(series.iloc[-2]) if len(series) > 1 else cur
+                        elif hasattr(data, "iloc"):
+                            # Single ticker case where data is a Series or 1-col DF
+                            series = data.dropna()
+                            cur = float(series.iloc[-1]) if not series.empty else 0.0
+                            prev = float(series.iloc[-2]) if len(series) > 1 else cur
+                        else:
+                            cur, prev = 0.0, 0.0
+                            
+                        chg = ((cur - prev) / prev * 100) if prev > 0 else 0.0
+                        cls._cache[ticker] = {'price': round(cur, 2), 'change': round(chg, 2), 'time': now}
+                    except Exception as te:
+                        print(f"Ticker {ticker} error: {te}")
+                        # Don't crash, just use what we have or zero
+                        if ticker not in cls._cache:
+                            cls._cache[ticker] = {'price': 0.0, 'change': 0.0, 'time': now}
             except Exception as e:
-                print(f"Market fetch error: {e}")
+                print(f"Global Market fetch error: {e}")
 
-        return {t: cls._cache.get(t, {'price': 0.0, 'change': 0.0}) for t in tickers}
+        # Return a dictionary mapped by the ORIGINAL names requested
+        result = {}
+        for name in asset_names:
+            t = cls._ticker_map.get(name.lower(), name)
+            result[t] = cls._cache.get(t, {'price': 0.0, 'change': 0.0})
+        return result
 
 @app.context_processor
 def inject_version():
