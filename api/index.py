@@ -55,23 +55,29 @@ class MarketService:
         if to_fetch:
             try:
                 # Batch fetch prices using yfinance
-                data = yf.download(to_fetch, period="2d", interval="1d", progress=False)['Close']
-                for ticker in to_fetch:
-                    try:
-                        # Handle both single and multi-ticker returns
-                        if len(to_fetch) == 1:
-                            prices = data
-                        else:
-                            prices = data[ticker]
-                        
-                        current_price = float(prices.iloc[-1])
-                        prev_close = float(prices.iloc[-2]) if len(prices) > 1 else current_price
-                        change_pct = ((current_price - prev_close) / prev_close * 100) if prev_close > 0 else 0.0
-                        
-                        cls._cache[ticker] = {'price': current_price, 'change': change_pct, 'time': now}
-                    except:
-                        # Fallback for failed tickers
-                        cls._cache[ticker] = cls._cache.get(ticker, {'price': 0.0, 'change': 0.0, 'time': now})
+                data = yf.download(to_fetch, period="3d", interval="1d", progress=False)['Close']
+                
+                # Ensure data is a DataFrame
+                if hasattr(data, "to_frame") and not hasattr(data, "columns"):
+                    # It's a Series (single ticker)
+                    ticker = to_fetch[0]
+                    current_price = float(data.iloc[-1])
+                    prev_close = float(data.iloc[-2]) if len(data) > 1 else current_price
+                    change_pct = ((current_price - prev_close) / prev_close * 100) if prev_close > 0 else 0.0
+                    cls._cache[ticker] = {'price': current_price, 'change': change_pct, 'time': now}
+                else:
+                    # It's a DataFrame (multi-ticker or single-column DF)
+                    for ticker in to_fetch:
+                        try:
+                            # Access the column for this ticker
+                            series = data[ticker] if ticker in data.columns else data
+                            if hasattr(series, "iloc"):
+                                cur = float(series.iloc[-1])
+                                prev = float(series.iloc[-2]) if len(series) > 1 else cur
+                                chg = ((cur - prev) / prev * 100) if prev > 0 else 0.0
+                                cls._cache[ticker] = {'price': cur, 'change': chg, 'time': now}
+                        except:
+                            pass
             except Exception as e:
                 print(f"Market fetch error: {e}")
 
