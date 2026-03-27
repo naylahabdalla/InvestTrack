@@ -128,6 +128,9 @@ def add():
         return redirect("/login")
 
     if request.method == "POST":
+        if session.get("user") == "demo":
+            return render_template("add_investment.html", user=session.get("user"), error="Action disabled in Demo Mode")
+        
         name = request.form["asset_name"]
         type_ = request.form["asset_type"]
         amount = float(request.form["amount"])
@@ -190,6 +193,9 @@ def feedback():
         return redirect("/login")
 
     if request.method == "POST":
+        if session.get("user") == "demo":
+            return render_template("feedback.html", user=session.get("user"), error="Action disabled in Demo Mode")
+        
         message = request.form["message"]
 
         supabase.table("feedback").insert({"username": session["user"], "message": message}).execute()
@@ -216,6 +222,8 @@ def portfolio():
 @app.route("/delete/<int:id>")
 def delete(id):
     if "user" not in session: return redirect("/login")
+    if session.get("user") == "demo":
+        return redirect("/portfolio")
     supabase.table("investments").delete().eq("id", id).eq("username", session["user"]).execute()
     return redirect("/portfolio")
 

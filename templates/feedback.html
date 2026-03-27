@@ -11,6 +11,10 @@
                 <p class="text-muted">Help us improve InvestTrack by sharing your thoughts</p>
             </div>
 
+            {% if error %}
+            <div class="alert alert-danger text-center">{{ error }}</div>
+            {% endif %}
+
             <form method="POST">
                 <div class="mb-4">
                     <label class="form-label small fw-bold text-uppercase text-muted">Feedback Category</label>
