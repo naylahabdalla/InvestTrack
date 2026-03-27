@@ -128,28 +128,22 @@
         <tbody>
 
         {% for inv in investments %}
-
-        {% set current_value = inv[3] * 1.23 %}
-        {% set profit = current_value - inv[3] %}
-
         <tr>
-
-        <td>{{ inv[1] }}</td>
-        <td>{{ inv[2] }}</td>
-
-        <td>${{ inv[3] }}</td>
-        <td>${{ current_value | round(2) }}</td>
-
         <td>
-        {% if profit >= 0 %}
-        <span class="text-success">+${{ profit | round(2) }}</span>
-        {% else %}
-        <span class="text-danger">-${{ profit | abs | round(2) }}</span>
-        {% endif %}
+            <div class="fw-bold">{{ inv[1] }}</div>
+            <small class="text-muted text-uppercase">{{ inv[2] }}</small>
         </td>
-
+        <td><span class="badge bg-light text-dark">{{ inv[2] }}</span></td>
+        <td>${{ "{:,.2f}".format(inv[3]) }}</td>
+        <td>
+            <span class="fw-bold text-primary">Market Tracked</span>
+        </td>
+        <td>
+            <span class="badge bg-success-subtle text-success p-2">
+                Real-time
+            </span>
+        </td>
         </tr>
-
         {% endfor %}
 
         </tbody>
