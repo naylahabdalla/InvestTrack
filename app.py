@@ -4,13 +4,17 @@ import yfinance as yf
 import requests
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
+import os
+from dotenv import load_dotenv
 
-url: str = "https://livxzkknhrqusxkyrieq.supabase.co"
-key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxpdnh6a2tuaHJxdXN4a3lyaWVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MDk0NjUsImV4cCI6MjA5MDA4NTQ2NX0.b1WV6RtX3suBkTquZiY-4NS8p0QOzViGimAJkrqMr4U"
+load_dotenv()
+
+url: str = os.getenv("SUPABASE_URL")
+key: str = os.getenv("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
 app = Flask(__name__)
-app.secret_key = "investtrack_secret"
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "fallback_secret_for_dev_only")
 
 # ---------------- PASSWORD CHECK ----------------
 def is_strong_password(password):
