@@ -2,39 +2,173 @@
 
 {% block content %}
 
-<h2>Add Investment</h2>
- 
-{% if error %}
-<div class="alert alert-danger">{{ error }}</div>
-{% endif %}
+<style>
+    .add-card {
+        max-width: 550px;
+        margin: 50px auto;
+        border: none;
+        border-radius: 24px;
+        background: #ffffff;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
 
-<form method="POST">
+    [data-bs-theme="dark"] .add-card {
+        background: #1e293b;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
 
-<label>Asset Name</label><br>
-<input type="text" name="asset_name" required><br><br>
+    .card-header-gradient {
+        background: linear-gradient(135deg, #1e293b, #334155);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+    }
 
-<label>Asset Type</label><br>
-<select name="asset_type">
+    .form-section {
+        padding: 40px;
+    }
 
-<option value="Stock">Stock</option>
-<option value="Cryptocurrency">Cryptocurrency</option>
-<option value="ETF">ETF</option>
-<option value="Commodity">Commodity</option>
+    .input-group-text {
+        background: transparent;
+        border-right: none;
+        color: #64748b;
+    }
 
-</select><br><br>
+    .form-control, .form-select {
+        border-radius: 12px;
+        padding: 12px 15px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.2s ease;
+    }
 
-<label>Amount Invested</label><br>
-<input type="number" name="amount" required><br><br>
+    [data-bs-theme="dark"] .form-control, [data-bs-theme="dark"] .form-select {
+        background-color: #0f172a;
+        border-color: #334155;
+        color: #f1f5f9;
+    }
 
-<button type="submit">Add Investment</button>
+    .form-control:focus, .form-select:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        transform: translateY(-1px);
+    }
 
-</form>
+    .btn-submit {
+        background: #1e293b;
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
 
-<br>
+    .btn-submit:hover {
+        background: #334155;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        color: #fff;
+    }
 
-<a href="/portfolio">
-<button>View Portfolio</button>
-</a>
+    .asset-icon {
+        font-size: 24px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .input-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #64748b;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 25px;
+        color: #64748b;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .back-link:hover {
+        color: #1e293b;
+    }
+
+    [data-bs-theme="dark"] .back-link:hover {
+        color: #f1f5f9;
+    }
+</style>
+
+<div class="container">
+    <div class="add-card animate__animated animate__fadeInUp">
+        <div class="card-header-gradient">
+            <span class="asset-icon">💼</span>
+            <h2 class="h3 fw-bold mb-1">Add New Investment</h2>
+            <p class="mb-0 opacity-75">Track another asset in your growing portfolio</p>
+        </div>
+
+        <div class="form-section">
+            {% if error %}
+            <div class="alert alert-danger d-flex align-items-center mb-4" role="alert" style="border-radius: 12px;">
+                <span class="me-2">⚠️</span>
+                <div>{{ error }}</div>
+            </div>
+            {% endif %}
+
+            <form method="POST">
+                <!-- Asset Name -->
+                <div class="mb-4">
+                    <label class="input-label">Asset Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-tag"></i>🏷️</span>
+                        <input type="text" name="asset_name" class="form-control" placeholder="e.g. Apple Inc. or Bitcoin" required>
+                    </div>
+                </div>
+
+                <!-- Asset Type -->
+                <div class="mb-4">
+                    <label class="input-label">Asset Type</label>
+                    <div class="input-group">
+                        <span class="input-group-text">📂</span>
+                        <select name="asset_type" class="form-select">
+                            <option value="Stock">Stock</option>
+                            <option value="Cryptocurrency">Cryptocurrency</option>
+                            <option value="ETF">ETF</option>
+                            <option value="Commodity">Commodity</option>
+                            <option value="Real Estate">Real Estate</option>
+                            <option value="Bonds">Bonds</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Amount -->
+                <div class="mb-4">
+                    <label class="input-label">Amount Invested</label>
+                    <div class="input-group">
+                        <span class="input-group-text">💰</span>
+                        <input type="number" step="0.01" name="amount" class="form-control" placeholder="0.00" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-submit mt-2">
+                    Add to Portfolio
+                </button>
+            </form>
+
+            <a href="/portfolio" class="back-link">
+                <i class="bi bi-arrow-left me-1"></i> ← Back to Portfolio
+            </a>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
-
