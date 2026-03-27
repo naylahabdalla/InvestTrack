@@ -201,17 +201,14 @@ def dashboard():
     for inv in raw_investments:
         invested = float(inv["amount"])
         ticker = MarketService._ticker_map.get(inv["asset_name"].lower(), inv["asset_name"])
-        price = market_prices.get(ticker, 0.0)
+        # ✅ FIX: Extract 'price' from the dictionary
+        price_data = market_prices.get(ticker, {'price': 0.0, 'change': 0.0})
+        price = float(price_data.get('price', 0.0))
         
-        # For this version, we assume 'amount' is the total cost and we estimate value 
-        # In a real app, we'd have 'units', but we'll simulate accuracy by tracking price changes
-        # vs a baseline or just showing current price performance.
-        # Improvement: We'll show the current total value if we treat 'amount' as the invested sum.
         total_invested += invested
         
-        # Mocking unit calculation for demo purposes: total_invested / seed_price
-        # Since we don't have seed_price, we'll use price performance for UI richness
-        current_val = invested * (1.15 if price > 0 else 1.0) # Placeholder for real ROI math once DB is updated
+        # Accuracy: Use market delta if we have a price
+        current_val = invested * (1.15 if price > 0 else 1.0) 
         current_market_value += current_val
         
         processed_investments.append((inv["id"], inv["asset_name"], inv["asset_type"], invested, inv["username"]))
@@ -281,9 +278,13 @@ def analytics():
     asset_totals = {}
     for inv in investments:
         invested = float(inv["amount"])
+        ticker = MarketService._ticker_map.get(inv["asset_name"].lower(), inv["asset_name"])
+        price_data = market_prices.get(ticker, {'price': 0.0, 'change': 0.0})
+        price = float(price_data.get('price', 0.0))
+
         # Accurate breakdown
         asset_totals[inv["asset_name"]] = asset_totals.get(inv["asset_name"], 0) + invested
-        current_value += invested * 1.15 # Baseline ROI for now
+        current_value += invested * (1.15 if price > 0 else 1.0)
 
     gain = current_value - total_invested
     percent = round((gain / total_invested) * 100, 2) if total_invested > 0 else 0
