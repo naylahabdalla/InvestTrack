@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+VERSION: str = "1.1.0"
+
 url: str = os.getenv("SUPABASE_URL")
 key: str = os.getenv("SUPABASE_KEY")
 
@@ -18,8 +20,12 @@ if not url or not key:
 
 supabase: Client = create_client(url, key)
 
-app = Flask(__name__)
+app: Flask = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "investtrack_default_secret_key")
+
+@app.context_processor
+def inject_version():
+    return dict(version=VERSION)
 
 # ---------------- PASSWORD CHECK ----------------
 def is_strong_password(password):
@@ -116,6 +122,21 @@ def dashboard():
     gain = current - total
     percent = (gain / total * 100) if total > 0 else 0
 
+    # 📊 REAL-TIME DATA FETCHING
+    def get_price(ticker):
+        try:
+            stock = yf.Ticker(ticker)
+            return round(stock.history(period="1d")["Close"].iloc[-1], 2)
+        except:
+            return 0.0
+
+    prices = {
+        "apple": get_price("AAPL") or 175.0,
+        "tesla": get_price("TSLA") or 240.0,
+        "btc": get_price("BTC-USD") or 65000.0,
+        "eth": get_price("ETH-USD") or 3500.0
+    }
+
     return render_template(
         "dashboard.html", user=session.get("user"),
         investments=investments,
@@ -124,10 +145,7 @@ def dashboard():
         gain=round(gain,2),
         percent=round(percent,2),
         count=len(investments),
-        apple=150.0,
-        tesla=200.0,
-        btc=40000.0,
-        eth=2500.0
+        **prices
     )
 
 # ---------------- ADD ----------------
