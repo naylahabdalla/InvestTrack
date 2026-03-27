@@ -11,10 +11,15 @@ load_dotenv()
 
 url: str = os.getenv("SUPABASE_URL")
 key: str = os.getenv("SUPABASE_KEY")
+
+if not url or not key:
+    raise ValueError("Missing SUPABASE_URL or SUPABASE_KEY environment variables. "
+                     "Please check your .env file or deployment settings.")
+
 supabase: Client = create_client(url, key)
 
 app = Flask(__name__)
-app.secret_key = os.getenv("FLASK_SECRET_KEY", "fallback_secret_for_dev_only")
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "investtrack_default_secret_key")
 
 # ---------------- PASSWORD CHECK ----------------
 def is_strong_password(password):
