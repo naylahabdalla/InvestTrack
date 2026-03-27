@@ -55,23 +55,27 @@ class MarketService:
         if to_fetch:
             try:
                 # Batch fetch prices using yfinance
-                data = yf.download(to_fetch, period="1d", interval="1m", progress=False)['Close']
+                data = yf.download(to_fetch, period="2d", interval="1d", progress=False)['Close']
                 for ticker in to_fetch:
                     try:
                         # Handle both single and multi-ticker returns
                         if len(to_fetch) == 1:
-                            price = float(data.iloc[-1])
+                            prices = data
                         else:
-                            price = float(data[ticker].iloc[-1])
+                            prices = data[ticker]
                         
-                        cls._cache[ticker] = {'price': price, 'time': now}
+                        current_price = float(prices.iloc[-1])
+                        prev_close = float(prices.iloc[-2]) if len(prices) > 1 else current_price
+                        change_pct = ((current_price - prev_close) / prev_close * 100) if prev_close > 0 else 0.0
+                        
+                        cls._cache[ticker] = {'price': current_price, 'change': change_pct, 'time': now}
                     except:
                         # Fallback for failed tickers
-                        cls._cache[ticker] = cls._cache.get(ticker, {'price': 0.0, 'time': now})
+                        cls._cache[ticker] = cls._cache.get(ticker, {'price': 0.0, 'change': 0.0, 'time': now})
             except Exception as e:
                 print(f"Market fetch error: {e}")
 
-        return {t: cls._cache.get(t, {'price': 0.0})['price'] for t in tickers}
+        return {t: cls._cache.get(t, {'price': 0.0, 'change': 0.0}) for t in tickers}
 
 @app.context_processor
 def inject_version():
@@ -203,10 +207,10 @@ def dashboard():
         gain=round(gain, 2),
         percent=round(percent, 2),
         count=len(processed_investments),
-        apple=market_prices.get("AAPL", 175.0),
-        tesla=market_prices.get("TSLA", 240.0),
-        btc=market_prices.get("BTC-USD", 65000.0),
-        eth=market_prices.get("ETH-USD", 3500.0)
+        apple=market_prices.get("AAPL", {}),
+        tesla=market_prices.get("TSLA", {}),
+        btc=market_prices.get("BTC-USD", {}),
+        eth=market_prices.get("ETH-USD", {})
     )
 
 # ---------------- ADD ----------------

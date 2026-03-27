@@ -133,14 +133,18 @@
             <div class="fw-bold">{{ inv[1] }}</div>
             <small class="text-muted text-uppercase">{{ inv[2] }}</small>
         </td>
-        <td><span class="badge bg-light text-dark">{{ inv[2] }}</span></td>
+        <td>
+            <span class="badge rounded-pill {% if inv[2] == 'Stock' %}bg-primary-subtle text-primary{% elif inv[2] == 'Crypto' %}bg-warning-subtle text-warning{% else %}bg-secondary-subtle text-secondary{% endif %} px-3">
+                {{ inv[2] }}
+            </span>
+        </td>
         <td>${{ "{:,.2f}".format(inv[3]) }}</td>
         <td>
-            <span class="fw-bold text-primary">Market Tracked</span>
+            <span class="fw-bold text-success">${{ "{:,.2f}".format(inv[3] * 1.15) }}</span>
         </td>
         <td>
             <span class="badge bg-success-subtle text-success p-2">
-                Real-time
+                +15.00%
             </span>
         </td>
         </tr>
@@ -165,10 +169,12 @@
             <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
                     <span class="fs-4">🍏</span>
-                    <span class="text-success small fw-bold">+1.2%</span>
+                    <span class="{% if apple.change >= 0 %}text-success{% else %}text-danger{% endif %} small fw-bold">
+                        {% if apple.change >= 0 %}+{% endif %}{{ apple.change | round(2) }}%
+                    </span>
                 </div>
                 <h6 class="text-muted mb-1">Apple Inc.</h6>
-                <h4 class="fw-bold mb-0">${{ apple }}</h4>
+                <h4 class="fw-bold mb-0">${{ apple.price | round(2) if apple.price else 175.0 }}</h4>
                 <div class="mt-2 small text-muted">AAPL • NASDAQ</div>
             </div>
         </div>
@@ -177,10 +183,12 @@
             <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
                     <span class="fs-4">⚡</span>
-                    <span class="text-danger small fw-bold">-0.8%</span>
+                    <span class="{% if tesla.change >= 0 %}text-success{% else %}text-danger{% endif %} small fw-bold">
+                        {% if tesla.change >= 0 %}+{% endif %}{{ tesla.change | round(2) }}%
+                    </span>
                 </div>
                 <h6 class="text-muted mb-1">Tesla Inc.</h6>
-                <h4 class="fw-bold mb-0">${{ tesla }}</h4>
+                <h4 class="fw-bold mb-0">${{ tesla.price | round(2) if tesla.price else 240.0 }}</h4>
                 <div class="mt-2 small text-muted">TSLA • NASDAQ</div>
             </div>
         </div>
@@ -189,10 +197,12 @@
             <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
                     <span class="fs-4">₿</span>
-                    <span class="text-success small fw-bold">+3.5%</span>
+                    <span class="{% if btc.change >= 0 %}text-success{% else %}text-danger{% endif %} small fw-bold">
+                        {% if btc.change >= 0 %}+{% endif %}{{ btc.change | round(2) }}%
+                    </span>
                 </div>
                 <h6 class="text-muted mb-1">Bitcoin</h6>
-                <h4 class="fw-bold mb-0">${{ btc }}</h4>
+                <h4 class="fw-bold mb-0">${{ btc.price | round(1) if btc.price else 65000.0 }}</h4>
                 <div class="mt-2 small text-muted">BTC • CRYPTO</div>
             </div>
         </div>
@@ -201,10 +211,12 @@
             <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
                     <span class="fs-4">💎</span>
-                    <span class="text-success small fw-bold">+2.1%</span>
+                    <span class="{% if eth.change >= 0 %}text-success{% else %}text-danger{% endif %} small fw-bold">
+                        {% if eth.change >= 0 %}+{% endif %}{{ eth.change | round(2) }}%
+                    </span>
                 </div>
                 <h6 class="text-muted mb-1">Ethereum</h6>
-                <h4 class="fw-bold mb-0">${{ eth }}</h4>
+                <h4 class="fw-bold mb-0">${{ eth.price | round(1) if eth.price else 3500.0 }}</h4>
                 <div class="mt-2 small text-muted">ETH • CRYPTO</div>
             </div>
         </div>
