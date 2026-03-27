@@ -85,6 +85,12 @@ def login():
             error = "Invalid username or password"
 
     return render_template("login.html", error=error)
+ 
+# ---------------- DEMO ----------------
+@app.route("/demo")
+def demo_login():
+    session["user"] = "demo"
+    return redirect("/dashboard")
 
 # ---------------- DASHBOARD ----------------
 @app.route("/dashboard")
