@@ -64,7 +64,7 @@
         <div class="col-lg-4 mb-4">
             <div class="card shadow-sm p-4 border-0 rounded-4 h-100">
                 <h5 class="mb-4 fw-bold">Quick Insights</h5>
-                <ul class="list-group list-group-flush">
+                <ul class="list-group list-group-flush mb-4">
                     <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
                         <span class="text-muted">Portfolio Status</span>
                         {% if gain >= 0 %}
@@ -78,7 +78,25 @@
                         <span class="fw-bold">{{ labels[0] if labels else 'N/A' }}</span>
                     </li>
                 </ul>
-                <div class="mt-auto pt-4">
+                
+                <!-- Recommendation Section -->
+                <div class="p-3 rounded-4 mt-auto mb-3 {% if total == 0 %}bg-light{% elif gain >= 0 %}bg-success-subtle border border-success-subtle{% else %}bg-danger-subtle border border-danger-subtle{% endif %}">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="fs-4 me-2">🤖</span>
+                        <h6 class="mb-0 fw-bold {% if total == 0 %}text-secondary{% elif gain >= 0 %}text-success{% else %}text-danger{% endif %}">Smart Recommendation</h6>
+                    </div>
+                    <p class="small mb-0 {% if total == 0 %}text-muted{% elif gain >= 0 %}text-success{% else %}text-danger{% endif %}" style="opacity: 0.9;">
+                        {% if total == 0 %}
+                            Your portfolio is currently empty. Start by adding investments to see insights!
+                        {% elif gain >= 0 %}
+                            <strong>Hold & Reinvest.</strong> Your portfolio is currently performing well! Consider holding onto your winning assets and reinvesting profits into diversified areas to compound your wealth over time.
+                        {% else %}
+                            <strong>Hold Steady & Review.</strong> Market fluctuations are completely normal. Avoid panic selling! Review your assets to ensure they meet your long-term goals, or consider buying more at a discount.
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div class="mt-2 pt-2 border-top">
                     <p class="small text-muted mb-0">* Values are based on your manually entered current market prices or sell prices.</p>
                 </div>
             </div>
