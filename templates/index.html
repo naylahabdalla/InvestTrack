@@ -52,6 +52,178 @@
         background: #111;
         color: white;
     }
+
+    /* Premium Experience Section */
+    .portfolio-experience {
+        padding: 100px 0;
+        background: var(--exp-bg);
+        transition: background 0.3s ease;
+    }
+
+    [data-bs-theme="light"] {
+        --exp-bg: #ffffff;
+        --card-bg: #ffffff;
+        --card-border: #e2e8f0;
+        --sidebar-bg: rgba(248, 250, 252, 0.8);
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --grid-item-bg: #f1f5f9;
+        --accent-glow: rgba(99, 102, 241, 0.1);
+    }
+
+    [data-bs-theme="dark"] {
+        --exp-bg: #0f172a;
+        --card-bg: #1e293b;
+        --card-border: #334155;
+        --sidebar-bg: rgba(15, 23, 42, 0.8);
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --grid-item-bg: #334155;
+        --accent-glow: rgba(99, 102, 241, 0.4);
+    }
+
+    .feature-item {
+        border-bottom: 1px solid var(--card-border);
+        padding: 24px 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .feature-item h4 {
+        font-weight: 600;
+        font-size: 1.25rem;
+        color: var(--text-main);
+    }
+
+    .feature-body p {
+        color: var(--text-muted);
+        line-height: 1.6;
+    }
+
+    .preview-card-outer {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        padding: 40px;
+        border-radius: 32px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        position: relative;
+    }
+
+    .preview-card-outer::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 32px;
+        box-shadow: inset 0 0 40px var(--accent-glow);
+        pointer-events: none;
+    }
+
+    .preview-card {
+        background: var(--card-bg);
+        border-radius: 24px;
+        display: flex;
+        overflow: hidden;
+        border: 1px solid var(--card-border);
+        min-height: 400px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .asset-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        padding: 24px;
+        flex: 1;
+    }
+
+    .asset-tile {
+        background: var(--grid-item-bg);
+        aspect-ratio: 1;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid transparent;
+    }
+
+    .asset-tile:hover {
+        transform: translateY(-5px) scale(1.05);
+        border-color: #6366f1;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    }
+
+    .asset-name {
+        font-size: 0.7rem;
+        margin-top: 8px;
+        font-weight: 500;
+        color: var(--text-muted);
+    }
+
+    .portfolio-summary {
+        width: 220px;
+        background: var(--sidebar-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-left: 1px solid var(--card-border);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .summary-item {
+        margin-bottom: 20px;
+    }
+
+    .summary-label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+    }
+
+    .summary-value {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--text-main);
+        letter-spacing: -0.025em;
+    }
+
+    .summary-change {
+        font-size: 0.85rem;
+        color: #10b981;
+        font-weight: 700;
+    }
+
+    .invest-btn {
+        margin-top: auto;
+        background: #0f172a;
+        color: #fff;
+        border: none;
+        padding: 14px;
+        border-radius: 14px;
+        font-weight: 700;
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.05em;
+    }
+
+    .invest-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        opacity: 0.95;
+    }
+
+    [data-bs-theme="dark"] .invest-btn {
+        background: #f8fafc;
+        color: #0f172a;
+    }
 </style>
 
 
@@ -78,47 +250,92 @@
 </div>
 
 
-<!-- FEATURES SECTION -->
+<!-- PREMIUM EXPERIENCE SECTION -->
+<section class="portfolio-experience">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5 pe-lg-5">
+                <h2 class="display-5 fw-bold mb-4">See your whole <br><span class="text-primary">portfolio click into place</span></h2>
+                
+                <div class="feature-item active">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Diverse Asset Tracking</h4>
+                        <span class="fs-4">−</span>
+                    </div>
+                    <div class="feature-body">
+                        <p class="mt-3">Monitor stocks, crypto, real estate, and more in one unified view. Everything you own, tracked effortlessly.</p>
+                        <a href="/signup" class="btn btn-link p-0 fw-bold text-decoration-none">Get started →</a>
+                    </div>
+                </div>
 
-<div class="features container">
+                <div class="feature-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Real-Time Market Data</h4>
+                        <span class="fs-4">+</span>
+                    </div>
+                </div>
 
-    <h2 class="mb-5">Features</h2>
+                <div class="feature-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Performance Analytics</h4>
+                        <span class="fs-4">+</span>
+                    </div>
+                </div>
 
-    <div class="row">
+                <div class="feature-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Global Markets Access</h4>
+                        <span class="fs-4">+</span>
+                    </div>
+                </div>
+            </div>
 
-        <div class="col-md-4">
-
-            <h4>Global Markets</h4>
-
-            <p>
-                Track investments across multiple countries and currencies with real-time updates.
-            </p>
-
+            <div class="col-lg-7 mt-5 mt-lg-0">
+                <div class="preview-card-outer">
+                    <div class="preview-card">
+                        <div class="asset-grid">
+                            <div class="asset-tile">🍎 <span class="asset-name">Apple</span></div>
+                            <div class="asset-tile">⚡ <span class="asset-name">Tesla</span></div>
+                            <div class="asset-tile">₿ <span class="asset-name">Bitcoin</span></div>
+                            <div class="asset-tile">💠 <span class="asset-name">Ethereum</span></div>
+                            <div class="asset-tile">🏛️ <span class="asset-name">S&P 500</span></div>
+                            <div class="asset-tile">💰 <span class="asset-name">Gold</span></div>
+                            <div class="asset-tile">🏠 <span class="asset-name">REITs</span></div>
+                            <div class="asset-tile">🛢️ <span class="asset-name">Crude Oil</span></div>
+                            <div class="asset-tile">🌾 <span class="asset-name">Wheat</span></div>
+                            <div class="asset-tile">📉 <span class="asset-name">US Bonds</span></div>
+                            <div class="asset-tile">💹 <span class="asset-name">Forex</span></div>
+                            <div class="asset-tile">💎 <span class="asset-name">Luxury</span></div>
+                        </div>
+                        <div class="portfolio-summary">
+                            <div class="summary-item">
+                                <div class="summary-label">Account Value</div>
+                                <div class="summary-value">$24,560.00</div>
+                                <div class="summary-change">+$782.40 (3.2%)</div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-label">Buying Power</div>
+                                <div class="summary-value">$4,210.50</div>
+                            </div>
+                            <div class="summary-item mb-auto">
+                                <div class="summary-label">Most Active</div>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">AAPL</span>
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-main);">$182.40</span>
+                                </div>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">BTC</span>
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-main);">$64,120</span>
+                                </div>
+                            </div>
+                            <button class="invest-btn">Pay for Investment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="col-md-4">
-
-            <h4>Portfolio Analytics</h4>
-
-            <p>
-                Visualize your portfolio performance with interactive charts and detailed metrics.
-            </p>
-
-        </div>
-
-        <div class="col-md-4">
-
-            <h4>Secure & Private</h4>
-
-            <p>
-                Your investment data is encrypted and stored securely with bank-level security.
-            </p>
-
-        </div>
-
     </div>
-
-</div>
+</section>
 
 
 <!-- STATS SECTION -->
