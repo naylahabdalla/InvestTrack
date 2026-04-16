@@ -5,6 +5,7 @@ import requests
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
 from functools import wraps
+import os
 
 url: str = "https://livxzkknhrqusxkyrieq.supabase.co"
 key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxpdnh6a2tuaHJxdXN4a3lyaWVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MDk0NjUsImV4cCI6MjA5MDA4NTQ2NX0.b1WV6RtX3suBkTquZiY-4NS8p0QOzViGimAJkrqMr4U"
@@ -12,6 +13,20 @@ supabase: Client = create_client(url, key)
 
 app = Flask(__name__)
 app.secret_key = "investtrack_secret"
+
+# ✅ Configure template and static folders for Vercel & Local
+base_dir = os.path.dirname(os.path.abspath(__file__))
+template_dir = os.path.join(base_dir, 'templates')
+static_dir = os.path.join(base_dir, 'static')
+
+# If running from api/index.py, the folders are one level up
+if not os.path.exists(template_dir):
+    template_dir = os.path.join(os.path.dirname(base_dir), 'templates')
+if not os.path.exists(static_dir):
+    static_dir = os.path.join(os.path.dirname(base_dir), 'static')
+
+app.template_folder = template_dir
+app.static_folder = static_dir
 
 # ---------------- PASSWORD CHECK ----------------
 def is_strong_password(password):
@@ -29,11 +44,7 @@ def is_strong_password(password):
 # ---------------- HOME ----------------
 @app.route("/")
 def home():
-    try:
-        return render_template("index.html", user=session.get("user"))
-    except Exception as e:
-        import traceback
-        return f"HOME ERROR: {str(e)}<br><pre>{traceback.format_exc()}</pre>", 500
+    return render_template("index.html", user=session.get("user"))
 
 # ---------------- SIGNUP ----------------
 @app.route("/signup", methods=["GET", "POST"])
@@ -94,62 +105,58 @@ def login():
 # ---------------- DASHBOARD ----------------
 @app.route("/dashboard")
 def dashboard():
-    try:
-        if "user" not in session:
-            return redirect("/login")
+    if "user" not in session:
+        return redirect("/login")
 
-        response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
-        investments_raw = response.data
+    response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
+    investments_raw = response.data
+    
+    total_invested = 0
+    total_current_value = 0
+    
+    display_investments = []
+    for inv in investments_raw:
+        initial = float(inv.get("amount") or 0)
+        status = inv.get("status", "Active")
         
-        total_invested = 0
-        total_current_value = 0
+        if status == "Sold":
+            current_price = float(inv.get("sell_price") or initial)
+        else:
+            current_price = float(inv.get("current_value") or initial)
+            
+        total_invested += initial
+        total_current_value += current_price
         
-        display_investments = []
-        for inv in investments_raw:
-            initial = float(inv.get("amount") or 0)
-            status = inv.get("status", "Active")
-            
-            if status == "Sold":
-                current_price = float(inv.get("sell_price") or initial)
-            else:
-                current_price = float(inv.get("current_value") or initial)
-                
-            total_invested += initial
-            total_current_value += current_price
-            
-            gain = current_price - initial
-            per = (gain / initial * 100) if initial > 0 else 0
-            
-            display_investments.append({
-                "id": inv["id"],
-                "asset_name": inv["asset_name"],
-                "asset_type": inv["asset_type"],
-                "amount": initial,
-                "status": status,
-                "current_price": current_price,
-                "gain": gain,
-                "percent": per
-            })
+        gain = current_price - initial
+        per = (gain / initial * 100) if initial > 0 else 0
+        
+        display_investments.append({
+            "id": inv["id"],
+            "asset_name": inv["asset_name"],
+            "asset_type": inv["asset_type"],
+            "amount": initial,
+            "status": status,
+            "current_price": current_price,
+            "gain": gain,
+            "percent": per
+        })
 
-        gain_total = total_current_value - total_invested
-        percent_total = (gain_total / total_invested * 100) if total_invested > 0 else 0
+    gain_total = total_current_value - total_invested
+    percent_total = (gain_total / total_invested * 100) if total_invested > 0 else 0
 
-        return render_template(
-            "dashboard.html", user=session.get("user"),
-            investments=display_investments,
-            total=round(total_invested, 2),
-            current=round(total_current_value, 2),
-            gain=round(gain_total, 2),
-            percent=round(percent_total, 2),
-            count=len(display_investments),
-            apple=150.0,
-            tesla=200.0,
-            btc=40000.0,
-            eth=2500.0
-        )
-    except Exception as e:
-        import traceback
-        return f"DASHBOARD ERROR: {str(e)}<br><pre>{traceback.format_exc()}</pre>", 500
+    return render_template(
+        "dashboard.html", user=session.get("user"),
+        investments=display_investments,
+        total=round(total_invested, 2),
+        current=round(total_current_value, 2),
+        gain=round(gain_total, 2),
+        percent=round(percent_total, 2),
+        count=len(display_investments),
+        apple=150.0,
+        tesla=200.0,
+        btc=40000.0,
+        eth=2500.0
+    )
 
 # ---------------- ADD ----------------
 @app.route("/add", methods=["GET", "POST"])
