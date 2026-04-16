@@ -13,7 +13,11 @@
 
 <br>
 
+{% if session.get('is_demo') %}
+<button class="btn btn-secondary disabled" title="Disabled in Demo">Submit Feedback (Disabled in Demo)</button>
+{% else %}
 <button class="btn btn-primary">Submit Feedback</button>
+{% endif %}
 
 </form>
 

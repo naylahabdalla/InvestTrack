@@ -14,9 +14,15 @@
 
     <!-- ADD BUTTON -->
     <div class="mb-4">
+        {% if session.get('is_demo') %}
+        <button class="btn btn-secondary w-100 py-2 fw-semibold disabled" style="border-radius:10px; opacity: 0.6;">
+            + Add Investment (Disabled in Demo)
+        </button>
+        {% else %}
         <a href="/add" class="btn btn-primary w-100 py-2 fw-semibold" style="border-radius:10px;">
             + Add Investment
         </a>
+        {% endif %}
     </div>
 
     <!-- TABLE -->
@@ -44,9 +50,13 @@
                         </td>
                         <td>${{ inv[3] }}</td>
                         <td class="text-end">
+                            {% if session.get('is_demo') %}
+                            <span class="text-muted small">Read-Only</span>
+                            {% else %}
                             <a href="/delete/{{ inv[0] }}" class="btn btn-sm btn-danger">
                                 Delete
                             </a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}

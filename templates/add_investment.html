@@ -22,7 +22,11 @@
 <label>Amount Invested</label><br>
 <input type="number" name="amount" required><br><br>
 
-<button type="submit">Add Investment</button>
+{% if session.get('is_demo') %}
+<button type="submit" class="btn btn-secondary disabled" title="Disabled in Demo">Add Investment (Disabled in Demo)</button>
+{% else %}
+<button type="submit" class="btn btn-primary">Add Investment</button>
+{% endif %}
 
 </form>
 
