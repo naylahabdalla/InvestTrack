@@ -29,7 +29,11 @@ def is_strong_password(password):
 # ---------------- HOME ----------------
 @app.route("/")
 def home():
-    return render_template("index.html", user=session.get("user"))
+    try:
+        return render_template("index.html", user=session.get("user"))
+    except Exception as e:
+        import traceback
+        return f"HOME ERROR: {str(e)}<br><pre>{traceback.format_exc()}</pre>", 500
 
 # ---------------- SIGNUP ----------------
 @app.route("/signup", methods=["GET", "POST"])
@@ -90,58 +94,62 @@ def login():
 # ---------------- DASHBOARD ----------------
 @app.route("/dashboard")
 def dashboard():
-    if "user" not in session:
-        return redirect("/login")
+    try:
+        if "user" not in session:
+            return redirect("/login")
 
-    response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
-    investments_raw = response.data
-    
-    total_invested = 0
-    total_current_value = 0
-    
-    display_investments = []
-    for inv in investments_raw:
-        initial = float(inv.get("amount") or 0)
-        status = inv.get("status", "Active")
+        response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
+        investments_raw = response.data
         
-        if status == "Sold":
-            current_price = float(inv.get("sell_price") or initial)
-        else:
-            current_price = float(inv.get("current_value") or initial)
+        total_invested = 0
+        total_current_value = 0
+        
+        display_investments = []
+        for inv in investments_raw:
+            initial = float(inv.get("amount") or 0)
+            status = inv.get("status", "Active")
             
-        total_invested += initial
-        total_current_value += current_price
-        
-        gain = current_price - initial
-        per = (gain / initial * 100) if initial > 0 else 0
-        
-        display_investments.append({
-            "id": inv["id"],
-            "asset_name": inv["asset_name"],
-            "asset_type": inv["asset_type"],
-            "amount": initial,
-            "status": status,
-            "current_price": current_price,
-            "gain": gain,
-            "percent": per
-        })
+            if status == "Sold":
+                current_price = float(inv.get("sell_price") or initial)
+            else:
+                current_price = float(inv.get("current_value") or initial)
+                
+            total_invested += initial
+            total_current_value += current_price
+            
+            gain = current_price - initial
+            per = (gain / initial * 100) if initial > 0 else 0
+            
+            display_investments.append({
+                "id": inv["id"],
+                "asset_name": inv["asset_name"],
+                "asset_type": inv["asset_type"],
+                "amount": initial,
+                "status": status,
+                "current_price": current_price,
+                "gain": gain,
+                "percent": per
+            })
 
-    gain_total = total_current_value - total_invested
-    percent_total = (gain_total / total_invested * 100) if total_invested > 0 else 0
+        gain_total = total_current_value - total_invested
+        percent_total = (gain_total / total_invested * 100) if total_invested > 0 else 0
 
-    return render_template(
-        "dashboard.html", user=session.get("user"),
-        investments=display_investments,
-        total=round(total_invested, 2),
-        current=round(total_current_value, 2),
-        gain=round(gain_total, 2),
-        percent=round(percent_total, 2),
-        count=len(display_investments),
-        apple=150.0,
-        tesla=200.0,
-        btc=40000.0,
-        eth=2500.0
-    )
+        return render_template(
+            "dashboard.html", user=session.get("user"),
+            investments=display_investments,
+            total=round(total_invested, 2),
+            current=round(total_current_value, 2),
+            gain=round(gain_total, 2),
+            percent=round(percent_total, 2),
+            count=len(display_investments),
+            apple=150.0,
+            tesla=200.0,
+            btc=40000.0,
+            eth=2500.0
+        )
+    except Exception as e:
+        import traceback
+        return f"DASHBOARD ERROR: {str(e)}<br><pre>{traceback.format_exc()}</pre>", 500
 
 # ---------------- ADD ----------------
 @app.route("/add", methods=["GET", "POST"])
