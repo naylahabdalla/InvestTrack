@@ -4,56 +4,84 @@
 <!-- Load Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<div class="mt-4">
+<div class="mt-4 container">
 
-    <h2 class="mb-4">📊 Portfolio Analytics</h2>
+    <h2 class="mb-4 fw-bold">📊 Portfolio Analytics</h2>
 
     <!-- KPI CARDS -->
     <div class="row text-center mb-4">
 
         <div class="col-md-3 mb-3">
-            <div class="card shadow-sm p-3 border-0 rounded-4">
-                <h6 class="text-muted">Total Invested</h6>
-                <h4>${{ total }}</h4>
+            <div class="card shadow-sm p-4 border-0 rounded-4 h-100">
+                <h6 class="text-muted text-uppercase small fw-bold">Total Invested</h6>
+                <h3 class="fw-bold mb-0">${{ "{:,.2f}".format(total) }}</h3>
             </div>
         </div>
 
         <div class="col-md-3 mb-3">
-            <div class="card shadow-sm p-3 border-0 rounded-4">
-                <h6 class="text-muted">Current Value</h6>
-                <h4>${{ current }}</h4>
+            <div class="card shadow-sm p-4 border-0 rounded-4 h-100">
+                <h6 class="text-muted text-uppercase small fw-bold">Total Current Value</h6>
+                <h3 class="fw-bold mb-0">${{ "{:,.2f}".format(current) }}</h3>
             </div>
         </div>
 
         <div class="col-md-3 mb-3">
-            <div class="card shadow-sm p-3 border-0 rounded-4">
-                <h6 class="text-muted">Gain / Loss</h6>
+            <div class="card shadow-sm p-4 border-0 rounded-4 h-100">
+                <h6 class="text-muted text-uppercase small fw-bold">Total Gain / Loss</h6>
                 {% if gain >= 0 %}
-                    <h4 class="text-success">+${{ gain }}</h4>
+                    <h3 class="text-success fw-bold mb-0">+${{ "{:,.2f}".format(gain) }}</h3>
                 {% else %}
-                    <h4 class="text-danger">-${{ gain | abs }}</h4>
+                    <h3 class="text-danger fw-bold mb-0">-${{ "{:,.2f}".format(gain | abs) }}</h3>
                 {% endif %}
             </div>
         </div>
 
         <div class="col-md-3 mb-3">
-            <div class="card shadow-sm p-3 border-0 rounded-4">
-                <h6 class="text-muted">Return %</h6>
+            <div class="card shadow-sm p-4 border-0 rounded-4 h-100">
+                <h6 class="text-muted text-uppercase small fw-bold">Overall Return</h6>
                 {% if percent >= 0 %}
-                    <h4 class="text-primary">+{{ percent }}%</h4>
+                    <h3 class="text-success fw-bold mb-0">+{{ "{:.2f}".format(percent) }}%</h3>
                 {% else %}
-                    <h4 class="text-danger">{{ percent }}%</h4>
+                    <h3 class="text-danger fw-bold mb-0">{{ "{:.2f}".format(percent) }}%</h3>
                 {% endif %}
             </div>
         </div>
 
     </div>
 
-    <!-- CHART CARD -->
-    <div class="card shadow-sm p-4 border-0 rounded-4 d-flex flex-column align-items-center mb-5">
-        <h5 class="mb-4 w-100 text-center">Asset Allocation</h5>
-        <div style="max-width: 400px; width: 100%;">
-            <canvas id="myChart"></canvas>
+    <div class="row">
+        <!-- ALLOCATION CHART -->
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm p-4 border-0 rounded-4 h-100 d-flex flex-column align-items-center">
+                <h5 class="mb-4 w-100 fw-bold">Asset Allocation (Current Value)</h5>
+                <div style="max-width: 450px; width: 100%;">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUMMARY CARD -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm p-4 border-0 rounded-4 h-100">
+                <h5 class="mb-4 fw-bold">Quick Insights</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
+                        <span class="text-muted">Portfolio Status</span>
+                        {% if gain >= 0 %}
+                            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3">Profitable</span>
+                        {% else %}
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3">In Loss</span>
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
+                        <span class="text-muted">Most Diversified Type</span>
+                        <span class="fw-bold">{{ labels[0] if labels else 'N/A' }}</span>
+                    </li>
+                </ul>
+                <div class="mt-auto pt-4">
+                    <p class="small text-muted mb-0">* Values are based on your manually entered current market prices or sell prices.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -71,27 +99,45 @@ document.addEventListener("DOMContentLoaded", function() {
                 datasets: [{
                     data: {{ values | tojson | safe }},
                     backgroundColor: [
-                        "#4e73df", "#1cc88a", "#f6c23e", "#e74a3b",
-                        "#36b9cc", "#858796", "#f8f9fc", "#5a5c69",
-                        "#ffc107", "#fd7e14", "#20c997", "#6610f2"
+                        "#6366f1", "#10b981", "#f59e0b", "#ef4444",
+                        "#0ea5e9", "#8b5cf6", "#ec4899", "#64748b",
+                        "#facc15", "#fb923c", "#2dd4bf", "#818cf8"
                     ],
                     borderWidth: 2,
-                    hoverOffset: 4
+                    hoverOffset: 15
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: true,
                 plugins: {
                     legend: {
                         position: 'bottom',
                         labels: {
+                            usePointStyle: true,
+                            padding: 20,
                             font: {
-                                size: 14
+                                size: 12,
+                                weight: '600'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed);
+                                }
+                                return label;
                             }
                         }
                     }
                 },
-                cutout: '70%'
+                cutout: '75%'
             }
         });
     }

@@ -94,26 +94,49 @@ def dashboard():
         return redirect("/login")
 
     response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
-    investments = [(inv["id"], inv["asset_name"], inv["asset_type"], inv["amount"], inv["username"]) for inv in response.data]
+    investments_raw = response.data
+    
+    total_invested = 0
+    total_current_value = 0
+    
+    display_investments = []
+    for inv in investments_raw:
+        initial = float(inv.get("amount") or 0)
+        status = inv.get("status", "Active")
+        
+        if status == "Sold":
+            current_price = float(inv.get("sell_price") or initial)
+        else:
+            current_price = float(inv.get("current_value") or initial)
+            
+        total_invested += initial
+        total_current_value += current_price
+        
+        gain = current_price - initial
+        per = (gain / initial * 100) if initial > 0 else 0
+        
+        display_investments.append({
+            "id": inv["id"],
+            "asset_name": inv["asset_name"],
+            "asset_type": inv["asset_type"],
+            "amount": initial,
+            "status": status,
+            "current_price": current_price,
+            "gain": gain,
+            "percent": per
+        })
 
-    total = sum(float(inv[3]) for inv in investments)
-
-    current = total * 1.23
-    gain = current - total
-    percent = (gain / total * 100) if total > 0 else 0
+    gain_total = total_current_value - total_invested
+    percent_total = (gain_total / total_invested * 100) if total_invested > 0 else 0
 
     return render_template(
         "dashboard.html", user=session.get("user"),
-        investments=investments,
-        total=round(total,2),
-        current=round(current,2),
-        gain=round(gain,2),
-        percent=round(percent,2),
-        count=len(investments),
-        apple=150.0,
-        tesla=200.0,
-        btc=40000.0,
-        eth=2500.0
+        investments=display_investments,
+        total=round(total_invested, 2),
+        current=round(total_current_value, 2),
+        gain=round(gain_total, 2),
+        percent=round(percent_total, 2),
+        count=len(display_investments)
     )
 
 # ---------------- ADD ----------------
@@ -129,8 +152,22 @@ def add():
         name = request.form["asset_name"]
         type_ = request.form["asset_type"]
         amount = float(request.form["amount"])
+        status = request.form.get("status", "Active")
+        
+        data = {
+            "asset_name": name, 
+            "asset_type": type_, 
+            "amount": amount, 
+            "username": session["user"],
+            "status": status
+        }
+        
+        if status == "Sold":
+            data["sell_price"] = float(request.form.get("sell_price") or amount)
+        else:
+            data["current_value"] = float(request.form.get("current_value") or amount)
 
-        supabase.table("investments").insert({"asset_name": name, "asset_type": type_, "amount": amount, "username": session["user"]}).execute()
+        supabase.table("investments").insert(data).execute()
 
         return redirect("/dashboard")
 
@@ -159,39 +196,44 @@ def demo_guard(f):
 
 @app.route("/analytics")
 def analytics():
-
     if "user" not in session:
         return redirect("/login")
 
     response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
-    investments = [(inv["id"], inv["asset_name"], inv["asset_type"], inv["amount"], inv["username"]) for inv in response.data]
-
-    total = sum(float(inv[3]) for inv in investments)
-
-    current = total * 1.23
-    gain = current - total
-    percent = round((gain / total) * 100, 2) if total > 0 else 0
-
-    labels = []
-    values = []
-
+    investments_raw = response.data
+    
+    total_invested = 0
+    total_current_value = 0
     asset_totals = {}
-    for inv in investments:
-        name = inv[1]
-        amount = float(inv[3])
-        asset_totals[name] = asset_totals.get(name, 0) + amount
+    
+    for inv in investments_raw:
+        initial = float(inv.get("amount") or 0)
+        status = inv.get("status", "Active")
+        
+        if status == "Sold":
+            current_price = float(inv.get("sell_price") or initial)
+        else:
+            current_price = float(inv.get("current_value") or initial)
+            
+        total_invested += initial
+        total_current_value += current_price
+        
+        name = inv["asset_name"]
+        asset_totals[name] = asset_totals.get(name, 0) + current_price
 
-    for name, value in asset_totals.items():
-        labels.append(name)
-        values.append(round(value, 2))
+    gain_total = total_current_value - total_invested
+    percent_total = (gain_total / total_invested * 100) if total_invested > 0 else 0
+
+    labels = list(asset_totals.keys())
+    values = [round(v, 2) for v in asset_totals.values()]
 
     return render_template(
         "analytics.html",
         user=session.get("user"),
-        total=round(total,2),
-        current=round(current,2),
-        gain=round(gain,2),
-        percent=percent,
+        total=round(total_invested, 2),
+        current=round(total_current_value, 2),
+        gain=round(gain_total, 2),
+        percent=round(percent_total, 2),
         labels=labels,
         values=values
     )
@@ -221,13 +263,41 @@ def learn():
         return redirect("/login")
 
     return render_template("learn.html", user=session.get("user"))
+
 @app.route("/portfolio")
 def portfolio():
     if "user" not in session: return redirect("/login")
     response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
-    investments = [(inv["id"], inv["asset_name"], inv["asset_type"], inv["amount"], inv["username"]) for inv in response.data]
-    total = sum(float(inv[3]) for inv in investments)
-    return render_template("portfolio.html", user=session.get("user"), investments=investments, total=round(total, 2))
+    investments_raw = response.data
+    
+    display_investments = []
+    total_invested = 0
+    
+    for inv in investments_raw:
+        initial = float(inv.get("amount") or 0)
+        status = inv.get("status", "Active")
+        
+        if status == "Sold":
+            current_price = float(inv.get("sell_price") or initial)
+        else:
+            current_price = float(inv.get("current_value") or initial)
+            
+        total_invested += initial
+        gain = current_price - initial
+        per = (gain / initial * 100) if initial > 0 else 0
+        
+        display_investments.append({
+            "id": inv["id"],
+            "asset_name": inv["asset_name"],
+            "asset_type": inv["asset_type"],
+            "amount": initial,
+            "status": status,
+            "current_price": current_price,
+            "gain": gain,
+            "percent": per
+        })
+        
+    return render_template("portfolio.html", user=session.get("user"), investments=display_investments, total=round(total_invested, 2))
 
 @app.route("/delete/<int:id>")
 def delete(id):
