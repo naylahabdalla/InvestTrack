@@ -30,20 +30,20 @@
 
     <!-- TABLE -->
     <div class="card shadow-sm border-0 rounded-4 p-0 overflow-hidden">
-        <div class="p-4 border-bottom bg-light">
+        <div class="p-4 border-bottom bg-body-tertiary">
             <h5 class="mb-0 fw-bold">Asset Breakdown</h5>
         </div>
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-                <thead class="bg-light">
+                <thead class="bg-body-tertiary text-body-secondary small text-uppercase">
                     <tr>
-                        <th class="ps-4">Asset</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                        <th>Initial ($)</th>
-                        <th>Market/Sell ($)</th>
-                        <th>Net Gain/Loss</th>
-                        <th class="text-end pe-4">Action</th>
+                        <th class="ps-4 py-3">Asset</th>
+                        <th class="py-3">Type</th>
+                        <th class="py-3">Status</th>
+                        <th class="py-3 text-nowrap">Initial ($)</th>
+                        <th class="py-3 text-nowrap">Market/Sell ($)</th>
+                        <th class="py-3">Net Gain/Loss</th>
+                        <th class="text-end pe-4 py-3">Action</th>
                     </tr>
                 </thead>
 
@@ -51,16 +51,16 @@
                     {% for inv in investments %}
                     <tr>
                         <td class="ps-4">
-                            <div class="fw-bold text-dark">{{ inv.asset_name }}</div>
+                            <div class="fw-bold text-body">{{ inv.asset_name }}</div>
                         </td>
                         <td>
-                            <span class="badge rounded-pill bg-secondary px-3">{{ inv.asset_type }}</span>
+                            <span class="badge rounded-pill bg-secondary bg-opacity-10 text-secondary px-3">{{ inv.asset_type }}</span>
                         </td>
                         <td>
                             {% if inv.status == 'Sold' %}
-                                <span class="badge rounded-pill bg-info text-dark px-3">Sold</span>
+                                <span class="badge rounded-pill bg-info-subtle text-info-emphasis border border-info-subtle px-3">Sold</span>
                             {% else %}
-                                <span class="badge rounded-pill bg-success px-3">Active</span>
+                                <span class="badge rounded-pill bg-success-subtle text-success-emphasis border border-success-subtle px-3">Active</span>
                             {% endif %}
                         </td>
                         <td class="fw-semibold">${{ "{:,.2f}".format(inv.amount) }}</td>

@@ -4,16 +4,16 @@
 <div class="container mt-4 mb-5">
     
     <div class="mb-4">
-        <a href="/learn" class="text-decoration-none text-muted">
+        <a href="/learn" class="text-decoration-none text-body-secondary">
             <span class="fs-4">&larr;</span> Back to Quizzes
         </a>
     </div>
 
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden ">
                 <div class="p-5 text-white" style="background: linear-gradient(135deg, #facc15, #f59e0b);">
-                    <h2 class="fw-bold mb-0 text-dark">{{ quiz.title }}</h2>
+                    <h2 class="fw-bold mb-0 text-body">{{ quiz.title }}</h2>
                 </div>
 
                 <div class="card-body p-4 p-md-5">
@@ -39,7 +39,7 @@
                         {% endfor %}
 
                         <div class="d-grid mt-5">
-                            <button class="btn btn-warning btn-lg rounded-pill fw-bold text-dark shadow-sm">Submit Quiz Answers</button>
+                            <button class="btn btn-warning btn-lg rounded-pill fw-bold text-body shadow-sm">Submit Quiz Answers</button>
                         </div>
                     </form>
 
@@ -55,12 +55,12 @@
                         <div class="alert alert-success border-success-subtle bg-success-subtle text-success fw-bold d-inline-block px-4 py-3 rounded-pill mb-4">
                             Congratulations! You passed the assessment!
                         </div>
-                        <p class="text-muted">Your progress has been tracked. Head back to the Learning Hub to see your skill level increase.</p>
+                        <p class="text-body-secondary">Your progress has been tracked. Head back to the Learning Hub to see your skill level increase.</p>
                         {% else %}
                         <div class="alert alert-warning border-warning-subtle bg-warning-subtle text-warning fw-bold d-inline-block px-4 py-3 rounded-pill mb-4">
                             Almost there. Review the course and try again.
                         </div>
-                        <p class="text-muted">You did not get all answers correct. Master the fundamentals and retake the quiz to complete this module.</p>
+                        <p class="text-body-secondary">You did not get all answers correct. Master the fundamentals and retake the quiz to complete this module.</p>
                         {% endif %}
 
                         <div class="d-flex justify-content-center gap-3 mt-5">

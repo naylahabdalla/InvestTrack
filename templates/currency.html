@@ -20,8 +20,8 @@
                         <div class="row g-3 g-md-4 align-items-center">
                             <!-- From Currency -->
                             <div class="col-md-5">
-                                <label class="form-label text-muted small text-uppercase fw-bold mb-1">From</label>
-                                <select name="from_currency" class="form-select form-select-lg mb-3 shadow-none bg-light border-0">
+                                <label class="form-label text-body-secondary small text-uppercase fw-bold mb-1">From</label>
+                                <select name="from_currency" class="form-select form-select-lg mb-3 shadow-none bg-body-tertiary border-0">
                                     <option value="USD">🇺🇸 USD - US Dollar</option>
                                     <option value="EUR">🇪🇺 EUR - Euro</option>
                                     <option value="GBP">🇬🇧 GBP - British Pound</option>
@@ -33,20 +33,20 @@
                             
                             <!-- Arrow Icon -->
                             <div class="col-md-2 text-center d-none d-md-flex justify-content-center mt-4">
-                                <span class="fs-3 text-muted">➔</span>
+                                <span class="fs-3 text-body-secondary">➔</span>
                             </div>
 
                             <!-- To Currency -->
                             <div class="col-md-5">
-                                <label class="form-label text-muted small text-uppercase fw-bold mb-1">To</label>
-                                <select name="to_currency" class="form-select form-select-lg mb-3 shadow-none bg-light border-0">
+                                <label class="form-label text-body-secondary small text-uppercase fw-bold mb-1">To</label>
+                                <select name="to_currency" class="form-select form-select-lg mb-3 shadow-none bg-body-tertiary border-0">
                                     <option value="EUR">🇪🇺 EUR - Euro</option>
                                     <option value="USD">🇺🇸 USD - US Dollar</option>
                                     <option value="GBP">🇬🇧 GBP - British Pound</option>
                                     <option value="TRY">🇹🇷 TRY - Turkish Lira</option>
                                     <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
                                 </select>
-                                <input type="text" class="form-control form-control-lg bg-light shadow-none fw-bold text-success" value="{% if result %}{{ result }}{% endif %}" placeholder="Converted result" readonly>
+                                <input type="text" class="form-control form-control-lg bg-body-tertiary shadow-none fw-bold text-success" value="{% if result %}{{ result }}{% endif %}" placeholder="Converted result" readonly>
                             </div>
                         </div>
 
@@ -66,34 +66,34 @@
             <div class="row g-3">
                 <div class="col-6">
                     <div class="card border-0 shadow-sm rounded-4 text-center p-3">
-                        <span class="text-muted small fw-bold">USD → EUR</span>
+                        <span class="text-body-secondary small fw-bold">USD → EUR</span>
                         <h4 class="fw-bold mt-1 text-primary">0.92</h4>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="card border-0 shadow-sm rounded-4 text-center p-3">
-                        <span class="text-muted small fw-bold">GBP → USD</span>
+                        <span class="text-body-secondary small fw-bold">GBP → USD</span>
                         <h4 class="fw-bold mt-1 text-primary">1.27</h4>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="card border-0 shadow-sm rounded-4 text-center p-3">
-                        <span class="text-muted small fw-bold">USD → JPY</span>
+                        <span class="text-body-secondary small fw-bold">USD → JPY</span>
                         <h4 class="fw-bold mt-1 text-primary">149.50</h4>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="card border-0 shadow-sm rounded-4 text-center p-3">
-                        <span class="text-muted small fw-bold">EUR → GBP</span>
+                        <span class="text-body-secondary small fw-bold">EUR → GBP</span>
                         <h4 class="fw-bold mt-1 text-primary">0.86</h4>
                     </div>
                 </div>
             </div>
 
             <!-- Disclaimer Card -->
-            <div class="card border-0 bg-light rounded-4 mt-4 p-4 text-center">
+            <div class="card border-0 bg-body-tertiary rounded-4 mt-4 p-4 text-center">
                 <h6 class="fw-bold mb-2">💡 Market Volatility Note</h6>
-                <p class="small text-muted mb-0">Exchange rates are approximate and fluctuate based on market conditions. For actual transactions, please verify rates with your financial institution.</p>
+                <p class="small text-body-secondary mb-0">Exchange rates are approximate and fluctuate based on market conditions. For actual transactions, please verify rates with your financial institution.</p>
             </div>
         </div>
     </div>

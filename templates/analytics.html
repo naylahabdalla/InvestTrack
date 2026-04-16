@@ -13,21 +13,21 @@
 
         <div class="col-md-3 mb-3">
             <div class="card shadow-sm p-4 border-0 rounded-4 h-100">
-                <h6 class="text-muted text-uppercase small fw-bold">Total Invested</h6>
+                <h6 class="text-body-secondary text-uppercase small fw-bold">Total Invested</h6>
                 <h3 class="fw-bold mb-0">${{ "{:,.2f}".format(total) }}</h3>
             </div>
         </div>
 
         <div class="col-md-3 mb-3">
             <div class="card shadow-sm p-4 border-0 rounded-4 h-100">
-                <h6 class="text-muted text-uppercase small fw-bold">Total Current Value</h6>
+                <h6 class="text-body-secondary text-uppercase small fw-bold">Total Current Value</h6>
                 <h3 class="fw-bold mb-0">${{ "{:,.2f}".format(current) }}</h3>
             </div>
         </div>
 
         <div class="col-md-3 mb-3">
             <div class="card shadow-sm p-4 border-0 rounded-4 h-100">
-                <h6 class="text-muted text-uppercase small fw-bold">Total Gain / Loss</h6>
+                <h6 class="text-body-secondary text-uppercase small fw-bold">Total Gain / Loss</h6>
                 {% if gain >= 0 %}
                     <h3 class="text-success fw-bold mb-0">+${{ "{:,.2f}".format(gain) }}</h3>
                 {% else %}
@@ -38,7 +38,7 @@
 
         <div class="col-md-3 mb-3">
             <div class="card shadow-sm p-4 border-0 rounded-4 h-100">
-                <h6 class="text-muted text-uppercase small fw-bold">Overall Return</h6>
+                <h6 class="text-body-secondary text-uppercase small fw-bold">Overall Return</h6>
                 {% if percent >= 0 %}
                     <h3 class="text-success fw-bold mb-0">+{{ "{:.2f}".format(percent) }}%</h3>
                 {% else %}
@@ -66,7 +66,7 @@
                 <h5 class="mb-4 fw-bold">Quick Insights</h5>
                 <ul class="list-group list-group-flush mb-4">
                     <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
-                        <span class="text-muted">Portfolio Status</span>
+                        <span class="text-body-secondary">Portfolio Status</span>
                         {% if gain >= 0 %}
                             <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3">Profitable</span>
                         {% else %}
@@ -74,18 +74,18 @@
                         {% endif %}
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
-                        <span class="text-muted">Most Diversified Type</span>
+                        <span class="text-body-secondary">Most Diversified Type</span>
                         <span class="fw-bold">{{ labels[0] if labels else 'N/A' }}</span>
                     </li>
                 </ul>
                 
                 <!-- Recommendation Section -->
-                <div class="p-3 rounded-4 mt-auto mb-3 {% if total == 0 %}bg-light{% elif gain >= 0 %}bg-success-subtle border border-success-subtle{% else %}bg-danger-subtle border border-danger-subtle{% endif %}">
+                <div class="p-3 rounded-4 mt-auto mb-3 {% if total == 0 %}bg-body-tertiary{% elif gain >= 0 %}bg-success-subtle border border-success-subtle{% else %}bg-danger-subtle border border-danger-subtle{% endif %}">
                     <div class="d-flex align-items-center mb-2">
                         <span class="fs-4 me-2">🤖</span>
-                        <h6 class="mb-0 fw-bold {% if total == 0 %}text-secondary{% elif gain >= 0 %}text-success{% else %}text-danger{% endif %}">Smart Recommendation</h6>
+                        <h6 class="mb-0 fw-bold {% if total == 0 %}text-body-secondary{% elif gain >= 0 %}text-success{% else %}text-danger{% endif %}">Smart Recommendation</h6>
                     </div>
-                    <p class="small mb-0 {% if total == 0 %}text-muted{% elif gain >= 0 %}text-success{% else %}text-danger{% endif %}" style="opacity: 0.9;">
+                    <p class="small mb-0 {% if total == 0 %}text-body-secondary{% elif gain >= 0 %}text-success{% else %}text-danger{% endif %}" style="opacity: 0.9;">
                         {% if total == 0 %}
                             Your portfolio is currently empty. Start by adding investments to see insights!
                         {% elif gain >= 0 %}
@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="mt-2 pt-2 border-top">
-                    <p class="small text-muted mb-0">* Values are based on your manually entered current market prices or sell prices.</p>
+                    <p class="small text-body-secondary mb-0">* Values are based on your manually entered current market prices or sell prices.</p>
                 </div>
             </div>
         </div>
