@@ -7,6 +7,10 @@
         min-height: 100vh;
         padding: 0;
         background-color: #000;
+        background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/static/images/investment_hero_bg.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -14,17 +18,6 @@
         position: relative;
         color: white;
         overflow: hidden;
-    }
-
-    .hero-bg-graphic {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        max-width: 900px;
-        z-index: 1;
-        opacity: 0.8;
     }
 
     .hero-content {
@@ -427,8 +420,6 @@
 
 <!-- HERO SECTION -->
 <div class="hero">
-    <img src="{{ url_for('static', filename='images/hero_blob.png') }}" class="hero-bg-graphic" alt="Background Graphic">
-    
     <div class="hero-content" data-aos="zoom-in">
         <h1>Make your <br>next move</h1>
 
