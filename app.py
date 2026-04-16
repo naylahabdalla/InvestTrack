@@ -138,7 +138,8 @@ def dashboard():
             "status": status,
             "current_price": current_price,
             "gain": gain,
-            "percent": per
+            "percent": per,
+            "result_type": "Gain" if gain > 0 else ("Loss" if gain < 0 else "Break-even")
         })
 
     gain_total = total_current_value - total_invested
@@ -332,7 +333,8 @@ def portfolio():
             "status": status,
             "current_price": current_price,
             "gain": gain,
-            "percent": per
+            "percent": per,
+            "result_type": "Gain" if gain > 0 else ("Loss" if gain < 0 else "Break-even")
         })
         
     return render_template("portfolio.html", user=session.get("user"), investments=display_investments, total=round(total_invested, 2))

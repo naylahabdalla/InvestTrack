@@ -121,6 +121,7 @@
         <th>Type</th>
         <th>Invested</th>
         <th>Current</th>
+        <th>Result</th>
         <th>Gain/Loss</th>
         </tr>
         </thead>
@@ -137,6 +138,16 @@
 
         <td>${{ "{:,.2f}".format(inv.amount | default(0)) }}</td>
         <td>${{ "{:,.2f}".format(inv.current_price | default(0)) }}</td>
+
+        <td>
+            {% if inv.result_type == 'Gain' %}
+                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Gain ✅</span>
+            {% elif inv.result_type == 'Loss' %}
+                <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3">Loss 📉</span>
+            {% else %}
+                <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3">Break-even ⚖️</span>
+            {% endif %}
+        </td>
 
         <td>
         {% if inv.gain >= 0 %}
