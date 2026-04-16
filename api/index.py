@@ -4,6 +4,7 @@ import yfinance as yf
 import requests
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
+from functools import wraps
 
 url: str = "https://livxzkknhrqusxkyrieq.supabase.co"
 key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxpdnh6a2tuaHJxdXN4a3lyaWVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MDk0NjUsImV4cCI6MjA5MDA4NTQ2NX0.b1WV6RtX3suBkTquZiY-4NS8p0QOzViGimAJkrqMr4U"
@@ -93,7 +94,7 @@ def dashboard():
         return redirect("/login")
 
     response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
-    investments = [(inv["id"], inv["asset_name"], inv["asset_type"], (inv["amount"] or 0), inv["username"]) for inv in response.data]
+    investments = [(inv["id"], inv["asset_name"], inv["asset_type"], inv["amount"], inv["username"]) for inv in response.data]
 
     total = sum(float(inv[3]) for inv in investments)
 
@@ -122,6 +123,9 @@ def add():
         return redirect("/login")
 
     if request.method == "POST":
+        if session.get("is_demo"):
+            return redirect("/dashboard")
+        
         name = request.form["asset_name"]
         type_ = request.form["asset_type"]
         amount = float(request.form["amount"])
@@ -132,11 +136,26 @@ def add():
 
     return render_template("add_investment.html", user=session.get("user"))
 
-# ---------------- LOGOUT ----------------
 @app.route("/logout")
 def logout():
     session.pop("user", None)
+    session.pop("is_demo", None)
     return redirect("/")
+
+# ---------------- DEMO MODE ----------------
+@app.route("/demo")
+def demo():
+    session["user"] = "demo_user"
+    session["is_demo"] = True
+    return redirect("/dashboard")
+
+def demo_guard(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("is_demo"):
+            return redirect("/dashboard")
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.route("/analytics")
 def analytics():
@@ -159,7 +178,7 @@ def analytics():
     asset_totals = {}
     for inv in investments:
         name = inv[1]
-        amount = float(inv[3] or 0)
+        amount = float(inv[3])
         asset_totals[name] = asset_totals.get(name, 0) + amount
 
     for name, value in asset_totals.items():
@@ -184,6 +203,9 @@ def feedback():
         return redirect("/login")
 
     if request.method == "POST":
+        if session.get("is_demo"):
+            return redirect("/dashboard")
+            
         message = request.form["message"]
 
         supabase.table("feedback").insert({"username": session["user"], "message": message}).execute()
@@ -203,13 +225,14 @@ def learn():
 def portfolio():
     if "user" not in session: return redirect("/login")
     response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
-    investments = [(inv["id"], inv["asset_name"], inv["asset_type"], (inv["amount"] or 0), inv["username"]) for inv in response.data]
+    investments = [(inv["id"], inv["asset_name"], inv["asset_type"], inv["amount"], inv["username"]) for inv in response.data]
     total = sum(float(inv[3]) for inv in investments)
     return render_template("portfolio.html", user=session.get("user"), investments=investments, total=round(total, 2))
 
 @app.route("/delete/<int:id>")
 def delete(id):
     if "user" not in session: return redirect("/login")
+    if session.get("is_demo"): return redirect("/dashboard")
     supabase.table("investments").delete().eq("id", id).eq("username", session["user"]).execute()
     return redirect("/portfolio")
 
