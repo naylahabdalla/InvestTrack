@@ -224,6 +224,155 @@
         background: #f8fafc;
         color: #0f172a;
     }
+
+    /* Enhanced Stats Section */
+    .stats {
+        background: transparent !important;
+        padding: 100px 0;
+    }
+
+    .stat-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        padding: 40px 24px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        border-color: #6366f1;
+    }
+
+    .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #6366f1, #a855f7);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .stat-card:hover::before {
+        opacity: 1;
+    }
+
+    .stat-icon {
+        width: 64px;
+        height: 64px;
+        background: var(--grid-item-bg);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin-bottom: 24px;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover .stat-icon {
+        background: #6366f1;
+        color: white;
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--text-main);
+        letter-spacing: -0.05em;
+        margin-bottom: 8px;
+    }
+
+    .stat-label {
+        color: var(--text-muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.1em;
+    }
+
+    /* Enhanced CTA Section */
+    .cta-container {
+        padding-bottom: 120px;
+    }
+
+    .cta-box {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        border-radius: 40px;
+        padding: 80px 40px;
+        color: white !important;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.4);
+        text-align: center;
+    }
+
+    .cta-box::before {
+        content: "";
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+        top: -200px;
+        right: -100px;
+    }
+
+    .cta-box h2 {
+        font-weight: 800;
+        font-size: 3.5rem;
+        letter-spacing: -0.04em;
+        margin-bottom: 24px;
+        color: white !important;
+    }
+
+    .cta-box p {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 700px;
+        margin: 0 auto 40px;
+        line-height: 1.6;
+    }
+
+    .cta-btn {
+        background: white;
+        color: #4f46e5 !important;
+        font-weight: 800;
+        padding: 20px 48px;
+        border-radius: 20px;
+        font-size: 1.25rem;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: none;
+        display: inline-block;
+        text-decoration: none;
+    }
+
+    .cta-btn:hover {
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        background: #f8fafc;
+        color: #4338ca !important;
+    }
+
+    .cta-micro-copy {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: 24px;
+        display: block;
+        font-weight: 500;
+    }
 </style>
 
 
@@ -339,53 +488,56 @@
 
 
 <!-- STATS SECTION -->
-
-<div class="stats">
-
+<section class="stats">
     <div class="container">
-
-        <div class="row">
-
-            <div class="col-md-3">
-                <h2>50,000+</h2>
-                <p>Active Users</p>
+        <div class="row g-4">
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="0">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number">50k+</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
             </div>
 
-            <div class="col-md-3">
-                <h2>$2.5B+</h2>
-                <p>Assets Tracked</p>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-number">$2.5B</div>
+                    <div class="stat-label">Assets Tracked</div>
+                </div>
             </div>
 
-            <div class="col-md-3">
-                <h2>120+</h2>
-                <p>Countries</p>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-card">
+                    <div class="stat-icon">🌍</div>
+                    <div class="stat-number">120+</div>
+                    <div class="stat-label">Countries</div>
+                </div>
             </div>
 
-            <div class="col-md-3">
-                <h2>99.9%</h2>
-                <p>Uptime</p>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-card">
+                    <div class="stat-icon">🛡️</div>
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">System Uptime</div>
+                </div>
             </div>
-
         </div>
-
     </div>
-
-</div>
+</section>
 
 
 <!-- CTA SECTION -->
-
-<div class="text-center py-5">
-
-    <h2>Start tracking your investments today</h2>
-
-    <p>
-        Join thousands of investors who trust InvestTrack to manage their portfolios
-    </p>
-
-    <a href="/signup" class="btn btn-primary btn-lg mt-3">Get Started Free</a>
-
-</div>
+<section class="cta-container">
+    <div class="container">
+        <div class="cta-box" data-aos="zoom-out">
+            <h2>Ready to master <br>your investments?</h2>
+            <p>Join over 50,000 investors leveraging professional-grade tracking tools to grow their wealth with confidence.</p>
+            <a href="/signup" class="cta-btn">Start Tracking For Free</a>
+            <span class="cta-micro-copy">✨ No credit card required • Instant setup • Cancel anytime</span>
+        </div>
+    </div>
+</section>
 
 
 
