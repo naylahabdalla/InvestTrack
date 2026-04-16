@@ -1,142 +1,101 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="container mt-4 mb-5">
+    <!-- Header Area -->
+    <div class="card bg-dark text-white border-0 shadow-lg rounded-4 overflow-hidden mb-4">
+        <div class="px-5 py-4" style="background: linear-gradient(135deg, #0f172a, #334155);">
+            <h2 class="fw-bold mb-1">Global Currency Converter 💱</h2>
+            <p class="fs-6 opacity-75 mb-0">Plan your international investments with real-time exchange rates.</p>
+        </div>
+    </div>
 
-<div class="card shadow mb-4">
+    <div class="row">
+        <!-- Converter Form -->
+        <div class="col-lg-7 mb-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4 p-md-5">
+                    <h5 class="fw-bold mb-4">Convert Currency</h5>
+                    <form method="POST">
+                        <div class="row g-3 g-md-4 align-items-center">
+                            <!-- From Currency -->
+                            <div class="col-md-5">
+                                <label class="form-label text-muted small text-uppercase fw-bold mb-1">From</label>
+                                <select name="from_currency" class="form-select form-select-lg mb-3 shadow-none bg-light border-0">
+                                    <option value="USD">🇺🇸 USD - US Dollar</option>
+                                    <option value="EUR">🇪🇺 EUR - Euro</option>
+                                    <option value="GBP">🇬🇧 GBP - British Pound</option>
+                                    <option value="TRY">🇹🇷 TRY - Turkish Lira</option>
+                                    <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                                </select>
+                                <input type="number" step="0.01" name="amount" class="form-control form-control-lg shadow-none" placeholder="Enter amount" required>
+                            </div>
+                            
+                            <!-- Arrow Icon -->
+                            <div class="col-md-2 text-center d-none d-md-flex justify-content-center mt-4">
+                                <span class="fs-3 text-muted">➔</span>
+                            </div>
 
-<div style="background: linear-gradient(90deg,#2b6cff,#a000ff); padding:20px; color:white; border-radius:6px 6px 0 0;">
-<h3>Currency Converter</h3>
-<p>Real-time exchange rates for global investments</p>
+                            <!-- To Currency -->
+                            <div class="col-md-5">
+                                <label class="form-label text-muted small text-uppercase fw-bold mb-1">To</label>
+                                <select name="to_currency" class="form-select form-select-lg mb-3 shadow-none bg-light border-0">
+                                    <option value="EUR">🇪🇺 EUR - Euro</option>
+                                    <option value="USD">🇺🇸 USD - US Dollar</option>
+                                    <option value="GBP">🇬🇧 GBP - British Pound</option>
+                                    <option value="TRY">🇹🇷 TRY - Turkish Lira</option>
+                                    <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                                </select>
+                                <input type="text" class="form-control form-control-lg bg-light shadow-none fw-bold text-success" value="{% if result %}{{ result }}{% endif %}" placeholder="Converted result" readonly>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 text-end">
+                            <button class="btn btn-dark btn-lg rounded-pill px-5 fw-bold shadow-sm w-100 w-md-auto">
+                                Calculate Conversion
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Rates Sidebar -->
+        <div class="col-lg-5 mb-4">
+            <h5 class="fw-bold mb-3 px-2">Popular Rates</h5>
+            <div class="row g-3">
+                <div class="col-6">
+                    <div class="card border-0 shadow-sm rounded-4 text-center p-3">
+                        <span class="text-muted small fw-bold">USD → EUR</span>
+                        <h4 class="fw-bold mt-1 text-primary">0.92</h4>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card border-0 shadow-sm rounded-4 text-center p-3">
+                        <span class="text-muted small fw-bold">GBP → USD</span>
+                        <h4 class="fw-bold mt-1 text-primary">1.27</h4>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card border-0 shadow-sm rounded-4 text-center p-3">
+                        <span class="text-muted small fw-bold">USD → JPY</span>
+                        <h4 class="fw-bold mt-1 text-primary">149.50</h4>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card border-0 shadow-sm rounded-4 text-center p-3">
+                        <span class="text-muted small fw-bold">EUR → GBP</span>
+                        <h4 class="fw-bold mt-1 text-primary">0.86</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disclaimer Card -->
+            <div class="card border-0 bg-light rounded-4 mt-4 p-4 text-center">
+                <h6 class="fw-bold mb-2">💡 Market Volatility Note</h6>
+                <p class="small text-muted mb-0">Exchange rates are approximate and fluctuate based on market conditions. For actual transactions, please verify rates with your financial institution.</p>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div class="p-4">
-
-<form method="POST">
-
-<div class="row">
-
-<div class="col-md-6">
-
-<label>From</label>
-
-<select name="from_currency" class="form-control mb-2">
-
-<option value="USD">US USD - US Dollar</option>
-<option value="EUR">EU EUR - Euro</option>
-<option value="GBP">UK GBP - British Pound</option>
-<option value="TRY">TR TRY - Turkish Lira</option>
-<option value="JPY">JP JPY - Japanese Yen</option>
-
-</select>
-
-<input
-type="number"
-step="0.01"
-name="amount"
-class="form-control"
-placeholder="Enter amount"
-required
->
-
-</div>
-
-<div class="col-md-6">
-
-<label>To</label>
-
-<select name="to_currency" class="form-control mb-2">
-
-<option value="EUR">EU EUR - Euro</option>
-<option value="USD">US USD - US Dollar</option>
-<option value="GBP">UK GBP - British Pound</option>
-<option value="TRY">TR TRY - Turkish Lira</option>
-<option value="JPY">JP JPY - Japanese Yen</option>
-
-</select>
-
-<input
-type="text"
-class="form-control"
-value="{{ result }}"
-readonly
->
-
-</div>
-
-</div>
-
-<div class="text-center mt-4">
-
-<button class="btn btn-primary">
-Convert Currency
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="col-md-4">
-<div class="card p-3 shadow-sm">
-USD → EUR
-<h4>0.92</h4>
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="card p-3 shadow-sm">
-GBP → USD
-<h4>1.27</h4>
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="card p-3 shadow-sm">
-USD → JPY
-<h4>149.50</h4>
-</div>
-</div>
-
-<div class="col-md-4 mt-3">
-<div class="card p-3 shadow-sm">
-EUR → GBP
-<h4>0.86</h4>
-</div>
-</div>
-
-<div class="col-md-4 mt-3">
-<div class="card p-3 shadow-sm">
-USD → CNY
-<h4>7.24</h4>
-</div>
-</div>
-
-<div class="col-md-4 mt-3">
-<div class="card p-3 shadow-sm">
-AUD → USD
-<h4>0.66</h4>
-</div>
-</div>
-
-</div>
-
-
-<div class="card mt-4 p-4 shadow-sm">
-
-<h5>💡 Exchange Rate Information</h5>
-
-<p>
-Exchange rates are updated in real time and may fluctuate based on market
-conditions. For actual transactions, please verify rates with your financial
-institution as they may include additional fees.
-</p>
-
-</div>
-
 {% endblock %}

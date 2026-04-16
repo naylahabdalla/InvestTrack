@@ -285,6 +285,88 @@ def learn():
 
     return render_template("learn.html", user=session.get("user"), stats=stats)
 
+@app.route("/portfolio")
+def portfolio():
+    if "user" not in session: return redirect("/login")
+    response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
+    investments_raw = response.data
+    
+    display_investments = []
+    total_invested = 0
+    
+    for inv in investments_raw:
+        initial = float(inv.get("amount") or 0)
+        status = inv.get("status", "Active")
+        
+        if status == "Sold":
+            current_price = float(inv.get("sell_price") or initial)
+        else:
+            current_price = float(inv.get("current_value") or initial)
+            
+        total_invested += initial
+        gain = current_price - initial
+        per = (gain / initial * 100) if initial > 0 else 0
+        
+        display_investments.append({
+            "id": inv["id"],
+            "asset_name": inv["asset_name"],
+            "asset_type": inv["asset_type"],
+            "amount": initial,
+            "status": status,
+            "current_price": current_price,
+            "gain": gain,
+            "percent": per
+        })
+        
+    return render_template("portfolio.html", user=session.get("user"), investments=display_investments, total=round(total_invested, 2))
+
+@app.route("/delete/<int:id>")
+def delete(id):
+    if "user" not in session: return redirect("/login")
+    if session.get("is_demo"): return redirect("/dashboard")
+    supabase.table("investments").delete().eq("id", id).eq("username", session["user"]).execute()
+    return redirect("/portfolio")
+
+@app.route("/currency", methods=["GET", "POST"])
+def currency():
+    if "user" not in session: return redirect("/login")
+    result = None
+    converted_amount = None
+    if request.method == "POST":
+        try:
+            amount = float(request.form.get("amount", 0))
+        except ValueError:
+            amount = 0
+        from_curr = request.form.get("from_currency")
+        to_curr = request.form.get("to_currency")
+        rates = {"USD": 1.0, "EUR": 0.92, "GBP": 0.79, "TRY": 31.0, "JPY": 150.0}
+        if from_curr in rates and to_curr in rates:
+            result = round(amount / rates[from_curr] * rates[to_curr], 2)
+            converted_amount = f"{result:,.2f}"
+    return render_template("currency.html", user=session.get("user"), result=converted_amount)
+    if "user" not in session:
+        return redirect("/login")
+        
+    completed_courses = session.get('completed_courses', [])
+    completed_quizzes = session.get('completed_quizzes', [])
+    
+    # Calculate progress for 4 courses and 2 quizzes
+    course_progress = len(completed_courses)
+    quiz_progress = len(completed_quizzes)
+    
+    skill_map = ["Beginner", "Novice", "Intermediate", "Advanced", "Expert"]
+    skill_index = min((course_progress + quiz_progress), len(skill_map) - 1)
+    
+    stats = {
+        "completed": course_progress + quiz_progress,
+        "total_modules": 6,
+        "skill": skill_map[skill_index],
+        "courses_done": completed_courses,
+        "quizzes_done": completed_quizzes
+    }
+
+    return render_template("learn.html", user=session.get("user"), stats=stats)
+
 @app.route("/course/<path:name>")
 def course(name):
     if "user" not in session: return redirect("/login")

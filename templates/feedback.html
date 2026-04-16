@@ -1,26 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="container mt-4 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="p-4 p-md-5" style="background: linear-gradient(135deg, #10b981, #059669);">
+                    <h2 class="fw-bold text-white mb-2">We Value Your Feedback 💬</h2>
+                    <p class="text-white opacity-75 mb-0">Help us improve InvestTrack by sharing your thoughts or reporting issues.</p>
+                </div>
+                
+                <div class="card-body p-4 p-md-5">
+                    <form method="POST">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted small text-uppercase">Your Message</label>
+                            <textarea name="message" class="form-control form-control-lg bg-light border-0 shadow-none" rows="5" placeholder="What do you love? What can we do better?" required></textarea>
+                        </div>
+                        
+                        <div class="d-grid mt-2">
+                            {% if session.get('is_demo') %}
+                                <button class="btn btn-secondary btn-lg rounded-pill fw-bold" disabled title="Disabled in Demo">
+                                    Submit Feedback (Disabled in Demo Mode)
+                                </button>
+                                <p class="text-center text-muted small mt-3 mb-0">Feedback submissions are disabled in Read-Only Demo mode.</p>
+                            {% else %}
+                                <button class="btn btn-success btn-lg rounded-pill fw-bold shadow-sm custom-hover">
+                                    Send Feedback
+                                </button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="/dashboard" class="text-muted text-decoration-none">
+                    <span class="fs-5">&larr;</span> Cancel and return to Dashboard
+                </a>
+            </div>
 
-<h2 class="mb-4">User Feedback</h2>
-
-<div class="card p-4 shadow">
-
-<form method="POST">
-
-<label>Your Feedback</label>
-<textarea name="message" class="form-control" rows="4" required></textarea>
-
-<br>
-
-{% if session.get('is_demo') %}
-<button class="btn btn-secondary disabled" title="Disabled in Demo">Submit Feedback (Disabled in Demo)</button>
-{% else %}
-<button class="btn btn-primary">Submit Feedback</button>
-{% endif %}
-
-</form>
-
+        </div>
+    </div>
 </div>
 
+<style>
+    .custom-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .custom-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2) !important; }
+</style>
 {% endblock %}
