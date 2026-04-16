@@ -40,6 +40,27 @@ def is_strong_password(password):
         return False
     return True
 
+# ---------------- HELPER: LIVE PRICES ----------------
+def fetch_live_prices(investments_raw, include_overview=False):
+    active_tickers = set(
+        inv.get("ticker").strip().upper() 
+        for inv in investments_raw 
+        if inv.get("status") != "Sold" and inv.get("ticker")
+    )
+    if include_overview:
+        active_tickers.update({"AAPL", "TSLA", "BTC-USD", "ETH-USD"})
+
+    live_prices = {}
+    for t in active_tickers:
+        try:
+            price = yf.Ticker(t).fast_info['lastPrice']
+            if price and price > 0:
+                live_prices[t] = float(price)
+        except Exception:
+            pass
+    return live_prices
+
+
 
 # ---------------- HOME ----------------
 @app.route("/")
@@ -111,6 +132,8 @@ def dashboard():
     response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
     investments_raw = response.data
     
+    live_prices = fetch_live_prices(investments_raw, include_overview=True)
+    
     total_invested = 0
     total_current_value = 0
     
@@ -122,7 +145,12 @@ def dashboard():
         if status == "Sold":
             current_price = float(inv.get("sell_price") or initial)
         else:
-            current_price = float(inv.get("current_value") or initial)
+            ticker = inv.get("ticker")
+            quantity = inv.get("quantity")
+            if ticker and quantity is not None and ticker.strip().upper() in live_prices:
+                current_price = live_prices[ticker.strip().upper()] * float(quantity)
+            else:
+                current_price = float(inv.get("current_value") or initial)
             
         total_invested += initial
         total_current_value += current_price
@@ -153,10 +181,10 @@ def dashboard():
         gain=round(gain_total, 2),
         percent=round(percent_total, 2),
         count=len(display_investments),
-        apple=150.0,
-        tesla=200.0,
-        btc=40000.0,
-        eth=2500.0
+        apple=round(live_prices.get("AAPL", 150.0), 2),
+        tesla=round(live_prices.get("TSLA", 200.0), 2),
+        btc=round(live_prices.get("BTC-USD", 40000.0), 2),
+        eth=round(live_prices.get("ETH-USD", 2500.0), 2)
     )
 
 # ---------------- ADD ----------------
@@ -173,13 +201,18 @@ def add():
         type_ = request.form["asset_type"]
         amount = float(request.form["amount"])
         status = request.form.get("status", "Active")
+        ticker = request.form.get("ticker", "").strip()
+        quantity_str = request.form.get("quantity", "").strip()
+        quantity = float(quantity_str) if quantity_str else None
         
         data = {
             "asset_name": name, 
             "asset_type": type_, 
             "amount": amount, 
             "username": session["user"],
-            "status": status
+            "status": status,
+            "ticker": ticker if ticker else None,
+            "quantity": quantity
         }
         
         if status == "Sold":
@@ -222,6 +255,8 @@ def analytics():
     response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
     investments_raw = response.data
     
+    live_prices = fetch_live_prices(investments_raw, include_overview=False)
+    
     total_invested = 0
     total_current_value = 0
     asset_totals = {}
@@ -233,7 +268,12 @@ def analytics():
         if status == "Sold":
             current_price = float(inv.get("sell_price") or initial)
         else:
-            current_price = float(inv.get("current_value") or initial)
+            ticker = inv.get("ticker")
+            quantity = inv.get("quantity")
+            if ticker and quantity is not None and ticker.strip().upper() in live_prices:
+                current_price = live_prices[ticker.strip().upper()] * float(quantity)
+            else:
+                current_price = float(inv.get("current_value") or initial)
             
         total_invested += initial
         total_current_value += current_price
@@ -309,6 +349,8 @@ def portfolio():
     response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
     investments_raw = response.data
     
+    live_prices = fetch_live_prices(investments_raw, include_overview=False)
+    
     display_investments = []
     total_invested = 0
     
@@ -319,7 +361,12 @@ def portfolio():
         if status == "Sold":
             current_price = float(inv.get("sell_price") or initial)
         else:
-            current_price = float(inv.get("current_value") or initial)
+            ticker = inv.get("ticker")
+            quantity = inv.get("quantity")
+            if ticker and quantity is not None and ticker.strip().upper() in live_prices:
+                current_price = live_prices[ticker.strip().upper()] * float(quantity)
+            else:
+                current_price = float(inv.get("current_value") or initial)
             
         total_invested += initial
         gain = current_price - initial
