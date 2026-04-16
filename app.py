@@ -136,7 +136,11 @@ def dashboard():
         current=round(total_current_value, 2),
         gain=round(gain_total, 2),
         percent=round(percent_total, 2),
-        count=len(display_investments)
+        count=len(display_investments),
+        apple=150.0,
+        tesla=200.0,
+        btc=40000.0,
+        eth=2500.0
     )
 
 # ---------------- ADD ----------------
