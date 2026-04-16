@@ -2,9 +2,13 @@
 
 {% block content %}
 
+</div> <!-- Escape base.html container to go edge-to-edge -->
+
 <style>
     .hero {
-        min-height: 100vh;
+        min-height: calc(100vh - 66px); /* Adjust for navbar */
+        margin-top: -30px; /* Offset the container margin-top from base.html */
+        width: 100vw;
         padding: 0;
         background-color: #000;
         background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/static/images/investment_hero_bg.png");
@@ -580,4 +584,5 @@
 
 
 
+<div class="container" style="display: none;"> <!-- Reopen container for base.html to close properly -->
 {% endblock %}
