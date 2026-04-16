@@ -5,33 +5,82 @@
 <style>
     .hero {
         min-height: 100vh;
-        height: auto;
-        padding: 100px 20px;
-        background-image:url("{{ url_for('static', filename='images/investment.jpg') }}");
-        background-size: cover;
-        background-position: center;
+        padding: 0;
+        background-color: #000;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
         position: relative;
         color: white;
+        overflow: hidden;
     }
 
-    .hero::before {
-        content: "";
+    .hero-bg-graphic {
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);
+        max-width: 900px;
+        z-index: 1;
+        opacity: 0.8;
     }
 
     .hero-content {
         position: relative;
         z-index: 2;
-        max-width: 900px;
+        max-width: 1000px;
+        padding: 20px;
+    }
+
+    .hero-content h1 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 900;
+        font-size: 6rem;
+        letter-spacing: -0.04em;
+        line-height: 1;
+        margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 3.5rem;
+        }
+    }
+
+    .hero-btn-group {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-hero {
+        padding: 16px 40px;
+        border-radius: 40px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-hero-white {
+        background: #fff;
+        color: #0066ff !important;
+        border: none;
+    }
+
+    .btn-hero-blue {
+        background: #0066ff;
+        color: #fff !important;
+        border: none;
+    }
+
+    .btn-hero:hover {
+        transform: scale(1.05) translateY(-3px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
     }
 
     .features {
@@ -377,25 +426,17 @@
 
 
 <!-- HERO SECTION -->
-
 <div class="hero">
+    <img src="{{ url_for('static', filename='images/hero_blob.png') }}" class="hero-bg-graphic" alt="Background Graphic">
+    
+    <div class="hero-content" data-aos="zoom-in">
+        <h1>Make your <br>next move</h1>
 
-    <div class="hero-content">
-
-        <h1 class="display-3 fw-bold">InvestTrack</h1>
-
-        <p class="lead mt-3">
-            Everything you need to track investments
-        </p>
-
-        <p>
-            Powerful features to help you make informed investment decisions
-        </p>
-
-        <a href="/signup" class="btn btn-primary btn-lg mt-4">Get Started Free</a>
-
+        <div class="hero-btn-group mt-2">
+            <a href="/signup" class="btn-hero btn-hero-white">Get started</a>
+            <a href="/feedback" class="btn-hero btn-hero-blue">Contact sales</a>
+        </div>
     </div>
-
 </div>
 
 
