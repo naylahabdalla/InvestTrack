@@ -75,6 +75,37 @@
             display: inline-block;
             vertical-align: middle;
         }
+
+        /* Dropdown Custom Arrow */
+        .dropdown-toggle::after {
+            display: none; /* Hide default Bootstrap caret */
+        }
+        .nav-dropdown-arrow {
+            font-size: 0.6rem;
+            margin-left: 6px;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .dropdown.show .nav-dropdown-arrow {
+            transform: rotate(180deg);
+        }
+        .dropdown-menu {
+            background: #1f1f2e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 10px 0;
+            margin-top: 10px !important;
+        }
+        .dropdown-item {
+            color: #ccc !important;
+            padding: 8px 20px;
+            transition: all 0.2s;
+        }
+        .dropdown-item:hover {
+            background: rgba(255,255,255,0.05);
+            color: #fff !important;
+            padding-left: 24px;
+        }
     </style>
 
 </head>
@@ -103,29 +134,24 @@
 
             <ul class="navbar-nav ms-auto align-items-center">
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">Overview</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/portfolio">Portfolio</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/learn">Learn</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/analytics">Analytics</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/currency">Currency</a>
+                {% if user %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="featuresDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Features <span class="nav-dropdown-arrow">▼</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="featuresDropdown">
+                        <li><a class="dropdown-item" href="/dashboard">Overview</a></li>
+                        <li><a class="dropdown-item" href="/portfolio">Portfolio</a></li>
+                        <li><a class="dropdown-item" href="/learn">Learn</a></li>
+                        <li><a class="dropdown-item" href="/analytics">Analytics</a></li>
+                        <li><a class="dropdown-item" href="/currency">Currency</a></li>
+                    </ul>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="/feedback">Feedback</a>
                 </li>
+                {% endif %}
 
                 <!-- Theme Toggle -->
                 <li class="nav-item ms-2">
