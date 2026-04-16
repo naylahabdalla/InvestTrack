@@ -262,92 +262,127 @@ def feedback():
 
 @app.route("/learn")
 def learn():
-
     if "user" not in session:
         return redirect("/login")
-
-    return render_template("learn.html", user=session.get("user"))
-
-@app.route("/portfolio")
-def portfolio():
-    if "user" not in session: return redirect("/login")
-    response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
-    investments_raw = response.data
+        
+    completed_courses = session.get('completed_courses', [])
+    completed_quizzes = session.get('completed_quizzes', [])
     
-    display_investments = []
-    total_invested = 0
+    # Calculate progress for 4 courses and 2 quizzes
+    course_progress = len(completed_courses)
+    quiz_progress = len(completed_quizzes)
     
-    for inv in investments_raw:
-        initial = float(inv.get("amount") or 0)
-        status = inv.get("status", "Active")
-        
-        if status == "Sold":
-            current_price = float(inv.get("sell_price") or initial)
-        else:
-            current_price = float(inv.get("current_value") or initial)
-            
-        total_invested += initial
-        gain = current_price - initial
-        per = (gain / initial * 100) if initial > 0 else 0
-        
-        display_investments.append({
-            "id": inv["id"],
-            "asset_name": inv["asset_name"],
-            "asset_type": inv["asset_type"],
-            "amount": initial,
-            "status": status,
-            "current_price": current_price,
-            "gain": gain,
-            "percent": per
-        })
-        
-    return render_template("portfolio.html", user=session.get("user"), investments=display_investments, total=round(total_invested, 2))
+    skill_map = ["Beginner", "Novice", "Intermediate", "Advanced", "Expert"]
+    skill_index = min((course_progress + quiz_progress), len(skill_map) - 1)
+    
+    stats = {
+        "completed": course_progress + quiz_progress,
+        "total_modules": 6,
+        "skill": skill_map[skill_index],
+        "courses_done": completed_courses,
+        "quizzes_done": completed_quizzes
+    }
 
-@app.route("/delete/<int:id>")
-def delete(id):
-    if "user" not in session: return redirect("/login")
-    if session.get("is_demo"): return redirect("/dashboard")
-    supabase.table("investments").delete().eq("id", id).eq("username", session["user"]).execute()
-    return redirect("/portfolio")
-
-@app.route("/currency", methods=["GET", "POST"])
-def currency():
-    if "user" not in session: return redirect("/login")
-    result = None
-    if request.method == "POST":
-        try:
-            amount = float(request.form.get("amount", 0))
-        except ValueError:
-            amount = 0
-        from_curr = request.form.get("from_currency")
-        to_curr = request.form.get("to_currency")
-        rates = {"USD": 1.0, "EUR": 0.92, "GBP": 0.79, "TRY": 31.0, "JPY": 150.0}
-        if from_curr in rates and to_curr in rates:
-            result = round(amount / rates[from_curr] * rates[to_curr], 2)
-    return render_template("currency.html", user=session.get("user"), result=result)
+    return render_template("learn.html", user=session.get("user"), stats=stats)
 
 @app.route("/course/<path:name>")
 def course(name):
     if "user" not in session: return redirect("/login")
+    
+    completed_courses = session.get('completed_courses', [])
+    if name not in completed_courses:
+        completed_courses.append(name.lower())
+        session['completed_courses'] = completed_courses
+        session.modified = True
+
     content_map = {
-        "basics": "Learn the fundamentals of investing...",
-        "stocks": "Understand how the stock market works...",
-        "diversification": "Discover how spreading your investments minimizes risk...",
-        "currency": "Learn about global currency and exchange rates..."
+        "basics": {
+            "title": "Investment Basics",
+            "desc": "Before buying any asset, you must understand the rules of the game.",
+            "modules": [
+                {"name": "What is an Investment?", "body": "An asset acquired with the goal of generating income or appreciation."},
+                {"name": "Risk vs Reward", "body": "Higher potential returns usually come with higher risk. Understanding your risk tolerance is key."},
+                {"name": "Compound Interest", "body": "The 8th wonder of the world. Earning interest on your interest over time."}
+            ]
+        },
+        "stocks": {
+            "title": "Stock Market",
+            "desc": "Own a piece of your favorite companies.",
+            "modules": [
+                {"name": "What is a Stock?", "body": "A share representing a fraction of ownership in a corporation."},
+                {"name": "How to Buy", "body": "You purchase stocks through brokerage accounts. Price fluctuates based on supply and demand."},
+                {"name": "Dividends", "body": "A distribution of profits by a corporation to its shareholders."}
+            ]
+        },
+        "diversification": {
+            "title": "Diversification",
+            "desc": "Don't put all your eggs in one basket.",
+            "modules": [
+                {"name": "Asset Allocation", "body": "Dividing your portfolio among different asset categories, such as stocks, bonds, and cash."},
+                {"name": "Why it Works", "body": "Different assets react differently to market events, reducing overall drag on your portfolio."},
+                {"name": "Mutual Funds & ETFs", "body": "Baskets of investments that offer instant diversification for new investors."}
+            ]
+        },
+        "currency": {
+            "title": "Currency & Exchange",
+            "desc": "The global market that never sleeps.",
+            "modules": [
+                {"name": "Forex Market", "body": "The Foreign Exchange market where global currencies are traded."},
+                {"name": "Exchange Rates", "body": "The value of one currency for the purpose of conversion to another (e.g. EUR/USD)."},
+                {"name": "Crypto", "body": "Digital or virtual currency secured by cryptography, operating independently of a central bank."}
+            ]
+        }
     }
-    content = content_map.get(name.lower(), "Detailed content coming soon!")
-    return render_template("course.html", user=session.get("user"), title=name.title(), content=content)
+    
+    course_data = content_map.get(name.lower(), {
+        "title": name.title(), "desc": "Detailed content coming soon!", "modules": []
+    })
+    return render_template("course.html", user=session.get("user"), course=course_data)
 
 @app.route("/quiz/<path:name>", methods=["GET", "POST"])
 def quiz(name):
     if "user" not in session: return redirect("/login")
+    
     score = None
+    passed = False
+    
+    quizzes = {
+        "basics": {
+            "title": "Investment Fundamentals Test",
+            "questions": [
+                {"q": "What is compound interest?", "opts": {"a": "Interest on standard loans", "b": "Earning interest on interest", "c": "A fixed yearly rate"}, "ans": "b"},
+                {"q": "What is the primary relationship between risk and reward?", "opts": {"a": "Higher risk usually implies higher potential reward", "b": "Higher risk means lower potential reward", "c": "There is no relationship"}, "ans": "a"},
+                {"q": "Which of these is generally considered the safest investment?", "opts": {"a": "Cryptocurrency", "b": "Government Bonds", "c": "Startup Stocks"}, "ans": "b"}
+            ]
+        },
+        "stocks": {
+            "title": "Stock Market Test",
+            "questions": [
+                {"q": "What does buying a stock signify?", "opts": {"a": "Loaning money to a company", "b": "Partial ownership of a company", "c": "A guaranteed yearly payout"}, "ans": "b"},
+                {"q": "What is a dividend?", "opts": {"a": "A company profit shared with stockholders", "b": "A penalty fee for selling early", "c": "A type of corporate bond"}, "ans": "a"},
+                {"q": "What does ETF stand for?", "opts": {"a": "Estimated Trading Fund", "b": "Exchange-Traded Fund", "c": "Equity Trust Federation"}, "ans": "b"}
+            ]
+        }
+    }
+    
+    quiz_data = quizzes.get(name.lower(), quizzes["basics"])
+    
     if request.method == "POST":
-        ans1 = request.form.get("q1")
-        ans2 = request.form.get("q2")
-        ans3 = request.form.get("q3")
-        score = sum([ans1 == "b", ans2 == "b", ans3 == "b"])
-    return render_template("quiz.html", user=session.get("user"), score=score)
+        score = 0
+        for i, q in enumerate(quiz_data["questions"]):
+            user_ans = request.form.get(f"q{i}")
+            if user_ans == q["ans"]:
+                score += 1
+                
+        if score == len(quiz_data["questions"]):
+            passed = True
+            completed_quizzes = session.get('completed_quizzes', [])
+            if name.lower() not in completed_quizzes:
+                completed_quizzes.append(name.lower())
+                session['completed_quizzes'] = completed_quizzes
+                session.modified = True
+                
+    return render_template("quiz.html", user=session.get("user"), quiz=quiz_data, score=score, passed=passed, total=len(quiz_data["questions"]))
 
 # ---------------- RUN ----------------
 if __name__ == "__main__":

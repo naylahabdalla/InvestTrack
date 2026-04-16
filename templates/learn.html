@@ -1,198 +1,170 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="container mt-4">
+    <div class="card bg-dark text-white border-0 shadow-lg rounded-4 overflow-hidden mb-5">
+        <div class="row g-0">
+            <div class="col-md-8 p-5" style="background: linear-gradient(135deg, #1e3a8a, #6f42c1);">
+                <h2 class="fw-bold mb-3">Financial Education Hub 🎓</h2>
+                <p class="fs-5 opacity-75">The more you learn, the smarter you invest. Master the markets one course at a time.</p>
+                
+                <div class="row mt-4 pt-3 border-top border-light border-opacity-25">
+                    <div class="col-4">
+                        <span class="small text-uppercase opacity-75 fw-bold">Progress</span>
+                        <h4 class="mb-0 mt-1 fw-bold">{{ stats.completed }} / {{ stats.total_modules }}</h4>
+                    </div>
+                    <div class="col-4">
+                        <span class="small text-uppercase opacity-75 fw-bold">Skill Level</span>
+                        <h4 class="mb-0 mt-1 fw-bold text-info">{{ stats.skill }}</h4>
+                    </div>
+                    <div class="col-4">
+                        <span class="small text-uppercase opacity-75 fw-bold">Status</span>
+                        <h4 class="mb-0 mt-1 fw-bold text-success">Active</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 d-none d-md-flex align-items-center justify-content-center" style="background: #2b1c4a;">
+                 <div class="text-center p-4">
+                     <div class="display-1 mb-2">🚀</div>
+                     <p class="text-info fw-bold mb-0">Level Up Your Wealth</p>
+                 </div>
+            </div>
+        </div>
+    </div>
 
-<div class="card shadow mb-4">
+    <div class="row">
+        <!-- Courses Section -->
+        <div class="col-lg-8">
+            <h4 class="mb-4 fw-bold">📚 Required Learning Paths</h4>
+            
+            <div class="row g-4">
+                <!-- Basics -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-lift transition-all">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="fw-bold mb-0">Investment Basics</h5>
+                                {% if 'basics' in stats.courses_done %}
+                                    <span class="badge bg-success rounded-pill">Completed ✓</span>
+                                {% else %}
+                                    <span class="badge bg-light text-dark border rounded-pill">0%</span>
+                                {% endif %}
+                            </div>
+                            <p class="text-muted small mb-4">Learn fundamental concepts of risk, reward, and compound interest.</p>
+                            <a href="/course/basics" class="btn btn-primary w-100 rounded-pill fw-bold">
+                                {% if 'basics' in stats.courses_done %}Review Course{% else %}Start Course{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-<div style="background: linear-gradient(90deg,#2b6cff,#a000ff); padding:25px; color:white; border-radius:6px;">
-<h3>Financial Education Hub</h3>
-<p>Expand your investment knowledge</p>
+                <!-- Stock Market -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-lift transition-all">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="fw-bold mb-0">Stock Market</h5>
+                                {% if 'stocks' in stats.courses_done %}
+                                    <span class="badge bg-success rounded-pill">Completed ✓</span>
+                                {% else %}
+                                    <span class="badge bg-light text-dark border rounded-pill">0%</span>
+                                {% endif %}
+                            </div>
+                            <p class="text-muted small mb-4">Understanding equity, brokers, and how dividends pay you back.</p>
+                            <a href="/course/stocks" class="btn btn-primary w-100 rounded-pill fw-bold">
+                                {% if 'stocks' in stats.courses_done %}Review Course{% else %}Start Course{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-<div class="row mt-3">
+                <!-- Diversification -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-lift transition-all">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="fw-bold mb-0">Diversification</h5>
+                                {% if 'diversification' in stats.courses_done %}
+                                    <span class="badge bg-success rounded-pill">Completed ✓</span>
+                                {% else %}
+                                    <span class="badge bg-light text-dark border rounded-pill">0%</span>
+                                {% endif %}
+                            </div>
+                            <p class="text-muted small mb-4">Building a balanced portfolio to minimize your market risk.</p>
+                            <a href="/course/diversification" class="btn btn-primary w-100 rounded-pill fw-bold">
+                                {% if 'diversification' in stats.courses_done %}Review Course{% else %}Start Course{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-<div class="col-md-4">
-<b>Courses Completed</b><br>
-2 / 16
+                <!-- Currency -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-lift transition-all">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="fw-bold mb-0">Currency & Crypto</h5>
+                                {% if 'currency' in stats.courses_done %}
+                                    <span class="badge bg-success rounded-pill">Completed ✓</span>
+                                {% else %}
+                                    <span class="badge bg-light text-dark border rounded-pill">0%</span>
+                                {% endif %}
+                            </div>
+                            <p class="text-muted small mb-4">Explore global foreign exchange rates and cryptocurrency markets.</p>
+                            <a href="/course/currency" class="btn btn-primary w-100 rounded-pill fw-bold">
+                                {% if 'currency' in stats.courses_done %}Review Course{% else %}Start Course{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quizzes Section -->
+        <div class="col-lg-4 mt-5 mt-lg-0">
+            <h4 class="mb-4 fw-bold">📝 Master Quizzes</h4>
+            
+            <div class="card border-0 shadow-sm rounded-4 mb-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <h6 class="fw-bold mb-0 flex-grow-1">Investment Fundamentals</h6>
+                        {% if 'basics' in stats.quizzes_done %}
+                            <span class="text-success fw-bold">Passed ✓</span>
+                        {% endif %}
+                    </div>
+                    <p class="small text-muted mb-3">Test your knowledge on risk, reward, and compound interest.</p>
+                    <a href="/quiz/basics" class="btn btn-outline-dark btn-sm rounded-pill w-100">Take Quiz</a>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <h6 class="fw-bold mb-0 flex-grow-1">Stock Market Mastery</h6>
+                        {% if 'stocks' in stats.quizzes_done %}
+                            <span class="text-success fw-bold">Passed ✓</span>
+                        {% endif %}
+                    </div>
+                    <p class="small text-muted mb-3">Verify your understanding of equities, dividends, and ETFs.</p>
+                    <a href="/quiz/stocks" class="btn btn-outline-dark btn-sm rounded-pill w-100">Take Quiz</a>
+                </div>
+            </div>
+            
+            <div class="mt-4 p-4 rounded-4 bg-light border">
+                <h6 class="fw-bold">💡 Unlock Your Potential</h6>
+                <p class="small text-muted mb-0">Complete courses and perfectly pass quizzes to upgrade your investor skill level from Beginner to Expert. Start learning today!</p>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="col-md-4">
-<b>Learning Time</b><br>
-2.5 hours
-</div>
-
-<div class="col-md-4">
-<b>Skill Level</b><br>
-Beginner
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<h4 class="mb-3">Learning Paths</h4>
-
-<div class="row">
-
-<!-- Investment Basics -->
-<div class="col-md-6 mb-3">
-<a href="/course/basics" style="text-decoration:none; color:inherit;">
-<div class="card shadow p-4">
-
-<h5>Investment Basics</h5>
-<p>Learn fundamental concepts of investing</p>
-
-<div class="progress">
-<div class="progress-bar" style="width:50%">50%</div>
-</div>
-
-</div>
-</a>
-</div>
-
-<!-- Stock Market -->
-<div class="col-md-6 mb-3">
-<a href="/course/stocks" style="text-decoration:none; color:inherit;">
-<div class="card shadow p-4">
-
-<h5>Stock Market</h5>
-<p>Understanding stocks and equity investments</p>
-
-<div class="progress">
-<div class="progress-bar bg-success" style="width:0%">0%</div>
-</div>
-
-</div>
-</a>
-</div>
-
-<!-- Diversification -->
-<div class="col-md-6 mb-3">
-<a href="/course/diversification" style="text-decoration:none; color:inherit;">
-<div class="card shadow p-4">
-
-<h5>Diversification</h5>
-<p>Building a balanced portfolio</p>
-
-<div class="progress">
-<div class="progress-bar bg-danger" style="width:0%">0%</div>
-</div>
-
-</div>
-</a>
-</div>
-
-<!-- Currency -->
-<div class="col-md-6 mb-3">
-<a href="/course/currency" style="text-decoration:none; color:inherit;">
-<div class="card shadow p-4">
-
-<h5>Currency & Exchange</h5>
-<p>Global investing and forex basics</p>
-
-<div class="progress">
-<div class="progress-bar bg-info" style="width:0%">0%</div>
-</div>
-
-</div>
-</a>
-</div>
-
-</div>
-
-
-<h4 class="mt-5">Featured Resources</h4>
-
-<div class="row">
-
-<div class="col-md-4">
-<div class="card shadow">
-<img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f" class="card-img-top">
-<div class="card-body">
-<h5>Investment Glossary</h5>
-<p>Common terms every investor should know</p>
-<a href="https://www.investopedia.com/financial-term-dictionary-4769738" target="_blank">
-Read More
-</a>
-</div>
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="card shadow">
-<img src="https://images.unsplash.com/photo-1508780709619-79562169bc64" class="card-img-top">
-<div class="card-body">
-<h5>Building Your Strategy</h5>
-<p>Step-by-step guide to creating an investment plan</p>
-<a href="https://www.investopedia.com/articles/basics/06/invest1000.asp" target="_blank">
-Read More
-</a>
-</div>
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="card shadow">
-<img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3" class="card-img-top">
-<div class="card-body">
-<h5>Market Analysis Tools</h5>
-<p>Tools and techniques for evaluating investments</p>
-<a href="https://www.investopedia.com/articles/trading/05/011705.asp" target="_blank">
-Read More
-</a>
-</div>
-</div>
-</div>
-
-</div>
-
-
-<h4 class="mt-5">Test Your Knowledge</h4>
-
-<div class="card p-3 mb-2 shadow-sm">
-Investment Fundamentals Quiz — 10 Questions
-<a href="/quiz/Investment Basics">
-<button class="btn btn-primary float-end">Start</button>
-</a>
-</div>
-
-<div class="card p-3 mb-2 shadow-sm">
-Portfolio Management Test — 15 Questions
-<a href="/quiz/Stock Market">
-<button class="btn btn-primary float-end">Start</button>
-</a>
-</div>
-
-<div class="card p-3 mb-2 shadow-sm">
-Risk Assessment Quiz — 8 Questions
-<a href="/quiz/Diversification">
-<button class="btn btn-primary float-end">Start</button>
-</a>
-</div>
-
-
-<div class="row mt-4">
-
-<div class="col-md-6">
-<div class="card p-4 shadow-sm">
-<h5>💡 Investment Tip of the Day</h5>
-<p>
-Don't put all your eggs in one basket. Diversification reduces risk.
-</p>
-</div>
-</div>
-
-<div class="col-md-6">
-<div class="card p-4 shadow-sm">
-<h5>📊 Market Insight</h5>
-<p>
-Time in the market beats timing the market. Long-term investing wins.
-</p>
-</div>
-</div>
-
-</div>
-
+<style>
+    .hover-lift {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+</style>
 {% endblock %}
