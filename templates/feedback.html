@@ -6,7 +6,7 @@
         <div class="col-lg-6">
             
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-                <div class="p-4 p-md-5" style="background: linear-gradient(135deg, #10b981, #059669);">
+                <div class="p-4 p-md-5" style="background: linear-gradient(135deg, #4f46e5, #312e81);">
                     <h2 class="fw-bold text-white mb-2">We Value Your Feedback 💬</h2>
                     <p class="text-white opacity-75 mb-0">Help us improve InvestTrack by sharing your thoughts or reporting issues.</p>
                 </div>
@@ -14,6 +14,15 @@
                 <div class="card-body p-4 p-md-5">
                     <form method="POST">
                         <div class="mb-4">
+                            <label class="form-label fw-bold text-muted small text-uppercase">Feedback Topic</label>
+                            <select name="topic" class="form-select form-select-lg bg-light border-0 shadow-none text-muted mb-4" required>
+                                <option value="" selected disabled>Select an option...</option>
+                                <option value="Feature Request">✨ Feature Request</option>
+                                <option value="Bug Report">🐛 Bug Report</option>
+                                <option value="Design & UX">🎨 Design & UX</option>
+                                <option value="General">💬 General Feedback</option>
+                            </select>
+
                             <label class="form-label fw-bold text-muted small text-uppercase">Your Message</label>
                             <textarea name="message" class="form-control form-control-lg bg-light border-0 shadow-none" rows="5" placeholder="What do you love? What can we do better?" required></textarea>
                         </div>
@@ -25,7 +34,7 @@
                                 </button>
                                 <p class="text-center text-muted small mt-3 mb-0">Feedback submissions are disabled in Read-Only Demo mode.</p>
                             {% else %}
-                                <button class="btn btn-success btn-lg rounded-pill fw-bold shadow-sm custom-hover">
+                                <button class="btn btn-primary btn-lg rounded-pill fw-bold shadow-sm custom-hover" style="background-color: #4f46e5; border-color: #4f46e5;">
                                     Send Feedback
                                 </button>
                             {% endif %}
@@ -35,7 +44,7 @@
             </div>
             
             <div class="text-center mt-4">
-                <a href="/dashboard" class="text-muted text-decoration-none">
+                <a href="/dashboard" class="text-muted text-decoration-none hover-underline">
                     <span class="fs-5">&larr;</span> Cancel and return to Dashboard
                 </a>
             </div>
@@ -46,6 +55,7 @@
 
 <style>
     .custom-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-    .custom-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2) !important; }
+    .custom-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2) !important; filter: brightness(1.1); }
+    .hover-underline:hover { text-decoration: underline !important; }
 </style>
 {% endblock %}

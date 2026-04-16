@@ -252,7 +252,9 @@ def feedback():
         if session.get("is_demo"):
             return redirect("/dashboard")
             
-        message = request.form["message"]
+        topic = request.form.get("topic", "General")
+        raw_message = request.form["message"]
+        message = f"[{topic}] {raw_message}"
 
         supabase.table("feedback").insert({"username": session["user"], "message": message}).execute()
 
