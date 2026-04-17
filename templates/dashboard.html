@@ -31,7 +31,7 @@
 <div class="card card-gradient p-4 mb-4 shadow">
 
 <h2>Welcome to InvestTrack</h2>
-<p>Track and grow your investments smarter 🚀</p>
+<p>Track and grow your investments smarter</p>
 
 </div>
 
@@ -82,7 +82,7 @@
 
 
 <!-- PORTFOLIO SUMMARY -->
-<h4 class="mb-3">💼 Portfolio Summary</h4>
+<h4 class="mb-3"><i class="bi bi-briefcase-fill me-2"></i> Portfolio Summary</h4>
 
 <div class="card shadow p-4 mb-4">
 
@@ -109,7 +109,7 @@
 
 
 <!-- LIST -->
-<h4 class="mb-3">📋 Your Investments</h4>
+<h4 class="mb-3"><i class="bi bi-list-ul me-2"></i> Your Investments</h4>
 
 <div class="card shadow p-3">
     <div class="table-responsive">
@@ -141,11 +141,11 @@
 
         <td>
             {% if inv.result_type == 'Gain' %}
-                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Gain ✅</span>
+                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Gain <i class="bi bi-caret-up-fill ms-1"></i></span>
             {% elif inv.result_type == 'Loss' %}
-                <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3">Loss 📉</span>
+                <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3">Loss <i class="bi bi-caret-down-fill ms-1"></i></span>
             {% else %}
-                <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3">Break-even ⚖️</span>
+                <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3">Steady <i class="bi bi-dash ms-1"></i></span>
             {% endif %}
         </td>
 
@@ -168,10 +168,9 @@
 </div>
 
 
-<!-- MARKET OVERVIEW (NOW AT THE BOTTOM) -->
 <div class="mt-5 mb-4">
     <div class="d-flex align-items-center mb-3">
-        <h4 class="mb-0 fw-bold">📉 Market Overview</h4>
+        <h4 class="mb-0 fw-bold"><i class="bi bi-bar-chart-line-fill me-2"></i> Market Overview</h4>
         <span class="badge bg-success ms-3 pulsate">● Live</span>
     </div>
 
@@ -179,7 +178,7 @@
         <div class="col-md-3">
             <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="fs-4">🍏</span>
+                    <span class="fs-4 text-primary"><i class="bi bi-apple"></i></span>
                     <span class="text-success small fw-bold">+1.2%</span>
                 </div>
                 <h6 class="text-muted mb-1">Apple Inc.</h6>
@@ -191,7 +190,7 @@
         <div class="col-md-3">
             <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="fs-4">⚡</span>
+                    <span class="fs-4 text-warning"><i class="bi bi-lightning-fill"></i></span>
                     <span class="text-danger small fw-bold">-0.8%</span>
                 </div>
                 <h6 class="text-muted mb-1">Tesla Inc.</h6>
@@ -203,7 +202,7 @@
         <div class="col-md-3">
             <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="fs-4">₿</span>
+                    <span class="fs-4 text-info"><i class="bi bi-currency-bitcoin"></i></span>
                     <span class="text-success small fw-bold">+3.5%</span>
                 </div>
                 <h6 class="text-muted mb-1">Bitcoin</h6>
@@ -215,7 +214,7 @@
         <div class="col-md-3">
             <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); border: 1px solid rgba(0,0,0,0.05) !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="fs-4">💎</span>
+                    <span class="fs-4 text-purple"><i class="bi bi-gem"></i></span>
                     <span class="text-success small fw-bold">+2.1%</span>
                 </div>
                 <h6 class="text-muted mb-1">Ethereum</h6>

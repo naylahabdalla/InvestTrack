@@ -6,7 +6,7 @@
 
 <div class="mt-4 container">
 
-    <h2 class="mb-4 fw-bold">📊 Portfolio Analytics</h2>
+    <h2 class="mb-4 fw-bold"><i class="bi bi-graph-up-arrow me-2"></i> Portfolio Analytics</h2>
 
     <!-- KPI CARDS -->
     <div class="row text-center mb-4">
@@ -82,7 +82,7 @@
                 <!-- Recommendation Section -->
                 <div class="p-3 rounded-4 mt-auto mb-3 {% if total == 0 %}bg-light{% elif gain >= 0 %}bg-success-subtle border border-success-subtle{% else %}bg-danger-subtle border border-danger-subtle{% endif %}">
                     <div class="d-flex align-items-center mb-2">
-                        <span class="fs-4 me-2">🤖</span>
+                        <span class="fs-4 me-2 text-primary"><i class="bi bi-cpu"></i></span>
                         <h6 class="mb-0 fw-bold {% if total == 0 %}text-secondary{% elif gain >= 0 %}text-success{% else %}text-danger{% endif %}">Smart Recommendation</h6>
                     </div>
                     <p class="small mb-0 {% if total == 0 %}text-muted{% elif gain >= 0 %}text-success{% else %}text-danger{% endif %}" style="opacity: 0.9;">

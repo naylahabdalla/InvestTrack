@@ -15,6 +15,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700;900&display=swap"
         rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <!-- ✅ Custom Styles -->
     <style>
@@ -123,7 +126,7 @@
 
         <!-- Logo -->
         <a class="navbar-brand fw-bold d-flex align-items-center" href="/dashboard">
-            <span style="font-size:20px; margin-right:8px;">📈</span>
+            <i class="bi bi-graph-up-arrow me-2"></i>
             InvestTrack
             {% if session.get('is_demo') %}
             <span class="demo-badge">Read-Only Demo</span>
@@ -145,12 +148,12 @@
                 </li>
                 {% if user %}
                 <li class="nav-item">
-                    <a class="nav-link fw-bold text-primary" href="/upgrade">🚀 Upgrade</a>
+                    <a class="nav-link fw-bold text-primary" href="/upgrade"><i class="bi bi-lightning-charge-fill me-1"></i> Upgrade</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="featuresDropdown"
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Features <span class="nav-dropdown-arrow">▼</span>
+                        Features <i class="bi bi-chevron-down nav-dropdown-arrow"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="featuresDropdown">
                         <li><a class="dropdown-item" href="/dashboard">Overview</a></li>
@@ -171,7 +174,7 @@
                     <button class="btn btn-link nav-link px-0 text-white" id="bd-theme" type="button"
                         aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static"
                         aria-label="Toggle theme (auto)">
-                        <span class="theme-icon-active" id="theme-icon">🌓</span>
+                        <span class="theme-icon-active" id="theme-icon"><i class="bi bi-circle-half"></i></span>
                     </button>
                 </li>
 
@@ -228,12 +231,12 @@
                     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
                     setTheme(newTheme);
                     setStoredTheme(newTheme);
-                    document.getElementById('theme-icon').innerText = newTheme === 'dark' ? '🌙' : '☀️';
+                    document.getElementById('theme-icon').innerHTML = newTheme === 'dark' ? '<i class="bi bi-moon-stars-fill"></i>' : '<i class="bi bi-sun-fill"></i>';
                 });
 
                 // Set initial icon
                 const activeTheme = document.documentElement.getAttribute('data-bs-theme');
-                document.getElementById('theme-icon').innerText = activeTheme === 'dark' ? '🌙' : '☀️';
+                document.getElementById('theme-icon').innerHTML = activeTheme === 'dark' ? '<i class="bi bi-moon-stars-fill"></i>' : '<i class="bi bi-sun-fill"></i>';
             })
         })()
     </script>

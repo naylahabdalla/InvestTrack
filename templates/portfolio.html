@@ -4,7 +4,7 @@
 
 <div class="container mt-4">
 
-    <h2 class="mb-4 fw-bold">📊 Investment Portfolio</h2>
+    <h2 class="mb-4 fw-bold"><i class="bi bi-pie-chart-fill me-2"></i> Investment Portfolio</h2>
 
     <div class="row mb-4">
         <div class="col-md-4">
@@ -68,11 +68,11 @@
                         <td class="fw-semibold">${{ "{:,.2f}".format(inv.current_price) }}</td>
                         <td>
                             {% if inv.result_type == 'Gain' %}
-                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3">Gain ✅</span>
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3">Gain <i class="bi bi-caret-up-fill ms-1"></i></span>
                             {% elif inv.result_type == 'Loss' %}
-                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-3">Loss 📉</span>
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-3">Loss <i class="bi bi-caret-down-fill ms-1"></i></span>
                             {% else %}
-                                <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill px-3">Break-even ⚖️</span>
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill px-3">Steady <i class="bi bi-dash ms-1"></i></span>
                             {% endif %}
                         </td>
                         <td>
@@ -98,7 +98,7 @@
                     {% if not investments %}
                     <tr>
                         <td colspan="7" class="text-center py-5 text-muted">
-                            <div class="mb-2 fs-2">📭</div>
+                            <div class="mb-2 fs-2 text-opacity-25"><i class="bi bi-inbox"></i></div>
                             No investments found. Start by adding one!
                         </td>
                     </tr>
