@@ -218,6 +218,15 @@ def verify_2fa():
 
     return render_template("verify_2fa.html", error=error)
 
+# ---------------- TERMS & PRIVACY ----------------
+@app.route("/terms")
+def terms():
+    return render_template("terms.html")
+
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
+
 # ---------------- DASHBOARD ----------------
 @app.route("/dashboard")
 def dashboard():
