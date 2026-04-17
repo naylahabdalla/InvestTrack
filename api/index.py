@@ -80,8 +80,11 @@ def signup():
     
         password = request.form["password"]
         confirm = request.form["confirm_password"]
+        consent = request.form.get("consent")
 
-        if password != confirm:
+        if not consent:
+            error = "You must agree to the terms to sign up"
+        elif password != confirm:
             error = "Passwords do not match"
         elif not is_strong_password(password):
             error = "Password requires 8+ chars, letter, number, and special character"
