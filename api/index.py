@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import re
 from functools import wraps
 import os
+import pyotp
 
 url: str = "https://livxzkknhrqusxkyrieq.supabase.co"
 key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxpdnh6a2tuaHJxdXN4a3lyaWVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MDk0NjUsImV4cCI6MjA5MDA4NTQ2NX0.b1WV6RtX3suBkTquZiY-4NS8p0QOzViGimAJkrqMr4U"
@@ -92,10 +93,17 @@ def signup():
             hashed = generate_password_hash(password)
 
             try:
-                supabase.table("users").insert({"username": username, "current_hash": hashed}).execute()
+                # Store consent_given=True and timestamp
+                supabase.table("users").insert({
+                    "username": username, 
+                    "current_hash": hashed,
+                    "consent_given": True,
+                    "consent_timestamp": "now()"
+                }).execute()
 
-                session["user"] = username
-                return redirect("/dashboard")
+                # Don't log in immediately; redirect to 2FA SETUP
+                session["setup_user"] = username
+                return redirect("/setup-2fa")
 
             except Exception as e:
                 err_msg = str(e).lower()
@@ -106,6 +114,49 @@ def signup():
 
 
     return render_template("signup.html", error=error)
+
+# ---------------- 2FA SETUP ----------------
+@app.route("/setup-2fa", methods=["GET", "POST"])
+def setup_2fa():
+    if "setup_user" not in session:
+        return redirect("/signup")
+    
+    username = session["setup_user"]
+    
+    # Check if they already have a secret in the DB (don't overwrite)
+    res = supabase.table("users").select("two_factor_secret").eq("username", username).execute()
+    existing_secret = res.data[0].get("two_factor_secret") if res.data else None
+    
+    if existing_secret:
+        # Already set up, move to dashboard
+        session["user"] = username
+        session.pop("setup_user", None)
+        return redirect("/dashboard")
+
+    # Generate a temporary secret if not in session
+    if "temp_2fa_secret" not in session:
+        session["temp_2fa_secret"] = pyotp.random_base32()
+    
+    secret = session["temp_2fa_secret"]
+    totp = pyotp.TOTP(secret)
+    provisioning_uri = totp.provisioning_uri(name=username, issuer_name="InvestTrack")
+    
+    error = None
+    if request.method == "POST":
+        token = request.form.get("token")
+        if totp.verify(token):
+            # SAVE TO DB
+            supabase.table("users").update({"two_factor_secret": secret}).eq("username", username).execute()
+            
+            # LOGIN SUCCESS
+            session["user"] = username
+            session.pop("setup_user", None)
+            session.pop("temp_2fa_secret", None)
+            return redirect("/dashboard")
+        else:
+            error = "Invalid 2FA code. Please try again."
+
+    return render_template("setup_2fa.html", secret=secret, uri=provisioning_uri, error=error)
 
 # ---------------- LOGIN ----------------
 @app.route("/login", methods=["GET", "POST"])
@@ -122,12 +173,50 @@ def login():
 
         # ✅ SAFE LOGIN CHECK
         if user and user.get("current_hash") and check_password_hash(user.get("current_hash"), password):
-            session["user"] = username
-            return redirect("/dashboard")
+            # Check for 2FA
+            secret = user.get("two_factor_secret")
+            if secret:
+                # Store pending user in session
+                session["pending_2fa_user"] = username
+                return redirect("/verify-2fa")
+            else:
+                session["user"] = username
+                return redirect("/dashboard")
         else:
             error = "Invalid username or password"
 
     return render_template("login.html", error=error)
+
+# ---------------- 2FA VERIFY ----------------
+@app.route("/verify-2fa", methods=["GET", "POST"])
+def verify_2fa():
+    if "pending_2fa_user" not in session:
+        return redirect("/login")
+    
+    username = session["pending_2fa_user"]
+    
+    # Get secret from DB
+    res = supabase.table("users").select("two_factor_secret").eq("username", username).execute()
+    secret = res.data[0].get("two_factor_secret") if res.data else None
+    
+    if not secret:
+        # No 2FA setup, just log in
+        session["user"] = username
+        session.pop("pending_2fa_user", None)
+        return redirect("/dashboard")
+    
+    error = None
+    if request.method == "POST":
+        token = request.form.get("token")
+        totp = pyotp.TOTP(secret)
+        if totp.verify(token):
+            session["user"] = username
+            session.pop("pending_2fa_user", None)
+            return redirect("/dashboard")
+        else:
+            error = "Invalid 2FA code"
+
+    return render_template("verify_2fa.html", error=error)
 
 # ---------------- DASHBOARD ----------------
 @app.route("/dashboard")
