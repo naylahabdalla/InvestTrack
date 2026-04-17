@@ -1,78 +1,36 @@
-# 📈 InvestTrack
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-InvestTrack is a modern, full-stack investment tracking application designed to help users manage their portfolios with ease. It features real-time market data, secure authentication, and a responsive, theme-aware user interface.
+## Getting Started
 
-## 🚀 Live Demo
-The application is successfully deployed and live at:
-[InvestTrack on Vercel](https://invest-track-4klppuxp7-naylahabdalla-2842s-projects.vercel.app)
+First, run the development server:
 
----
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## 🛠 Tech Stack
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Frontend
-- **Framework**: HTML5, Vanilla CSS3, and JavaScript (ES6+).
-- **Styling**: [Bootstrap 5.3](https://getbootstrap.com/) for a modern, responsive layout.
-- **Features**: 
-    - **Dark Mode**: A persistent, user-toggleable dark theme using Bootstrap's color modes and `localStorage`.
-    - **Interactive UI**: Clean dashboards with stat cards and hover effects.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### Backend
-- **Language**: Python 3.x
-- **Framework**: [Flask](https://flask.palletsprojects.com/)
-- **API Integration**: [yfinance](https://github.com/ranaroussi/yfinance) for real-time stock and cryptocurrency price fetching.
-- **Client**: [Supabase Python SDK](https://supabase.com/docs/reference/python/introduction) for database interactions.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-### Database & Security
-- **Engine**: [Postgres](https://www.postgresql.org/) (hosted on Supabase).
-- **Security**: 
-    - **Row Level Security (RLS)**: Fine-grained policies ensure users can only access their own investment records.
-    - **Authentication**: Custom signup/login flow with hashed password storage (stored in the `current_hash` column).
+## Learn More
 
----
+To learn more about Next.js, take a look at the following resources:
 
-## 📂 Project Structure
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-- `app.py`: The main Flask entry point handling routes, authentication, and Supabase integration.
-- `templates/`: Jinja2 templates for the various pages (Dashboard, Portfolio, Analytics, etc.).
-- `static/`: CSS and static assets.
-- `requirements.txt`: Python dependencies for deployment.
-- `vercel.json`: Configuration for Vercel's Python runtime and routing.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
----
+## Deploy on Vercel
 
-## ⚙️ Local Setup
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/naylahabdalla/InvestTrack.git
-   cd InvestTrack
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Configure Environment Variables**:
-   Ensure you have your Supabase URL and Key set up. (The application currently uses the Supabase MCP configuration provided during development).
-
-4. **Run the application**:
-   ```bash
-   python app.py
-   ```
-   The app will be available at `http://localhost:5000`.
-
----
-
-## 📜 Deployment
-
-The project is configured for seamless deployment on **Vercel**. 
-- The `vercel.json` file uses the `@vercel/python` builder.
-- All routes are automatically handled by `app.py`.
-- Ensure that your Supabase credentials are added as Environment Variables in the Vercel dashboard.
-
----
-
-## 🛡 License
-© 2025 InvestTrack. All rights reserved.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
