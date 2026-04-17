@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       fallback: [
         {
           source: '/:path*',
-          destination: '/api/index.py',
+          destination: '/api/index',
         },
       ],
     };
