@@ -5,384 +5,155 @@
 </div> <!-- Escape base.html container to go edge-to-edge -->
 
 <style>
-    .hero {
-        min-height: calc(100vh - 66px); /* Adjust for navbar */
-        margin-top: -30px; /* Offset the container margin-top from base.html */
-        width: 100vw;
-        padding: 0;
-        background-color: #000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        position: relative;
-        color: white;
+    /* --- NEW FULL-SCREEN DASHBOARD HERO --- */
+    .hero-dashboard {
+        min-height: calc(100vh - 66px);
+        background: var(--db-bg);
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        grid-template-rows: 80px 1fr;
+        grid-template-areas: 
+            "sidebar header"
+            "sidebar content";
         overflow: hidden;
-    }
-
-    .hero-video-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100%;
-        overflow: hidden;
-        z-index: 0;
-        background-color: #0f172a;
-    }
-
-    .hero-video {
-        width: 100vw;
-        height: 56.25vw;
-        min-height: 100vh;
-        min-width: 177.77vh;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        /* Scale by 1.15 avoids embedded video letterboxing */
-        transform: translate(-50%, -50%) scale(1.15);
-        pointer-events: none;
-    }
-
-    .hero-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(11, 16, 33, 0.85); /* Deep rich blue/black tint */
-        z-index: 1;
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 2;
-        max-width: 1000px;
-        padding: 20px;
-    }
-
-    .hero-content h1 {
-        font-family: 'Playfair Display', serif;
-        font-weight: 900;
-        font-size: 6rem;
-        letter-spacing: -0.04em;
-        line-height: 1;
-        margin-bottom: 40px;
-    }
-
-    @media (max-width: 768px) {
-        .hero-content h1 {
-            font-size: 3.5rem;
-        }
-    }
-
-    .hero-btn-group {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .btn-hero {
-        padding: 16px 40px;
-        border-radius: 40px;
-        font-weight: 700;
-        font-size: 1.1rem;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        text-decoration: none;
-        display: inline-block;
-    }
-
-    .btn-hero-white {
-        background: #fff;
-        color: #0066ff !important;
-        border: none;
-    }
-
-    .btn-hero-blue {
-        background: #0066ff;
-        color: #fff !important;
-        border: none;
-    }
-
-    .btn-hero-outline {
-        background: transparent;
-        color: #fff !important;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-    }
-
-    .btn-hero:hover {
-        transform: scale(1.05) translateY(-3px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .features {
-        padding: 80px 20px;
-        text-align: center;
-    }
-
-    .stats {
-        background: #0f172a;
-        color: white;
-        padding: 60px 20px;
-        text-align: center;
-    }
-
-    .footer {
-        padding: 30px;
-        text-align: center;
-        background: #111;
-        color: white;
-    }
-
-    /* Premium Experience Section */
-    .portfolio-experience {
-        padding: 100px 0;
-        background: var(--exp-bg);
-        transition: background 0.3s ease;
+        color: var(--text-main);
+        transition: all 0.3s ease;
     }
 
     [data-bs-theme="light"] {
-        --exp-bg: #ffffff;
-        --card-bg: #ffffff;
-        --card-border: #e2e8f0;
-        --sidebar-bg: rgba(248, 250, 252, 0.8);
+        --db-bg: #f8fafc;
+        --db-card: #ffffff;
+        --db-border: #e2e8f0;
+        --db-sidebar: #ffffff;
         --text-main: #0f172a;
         --text-muted: #64748b;
-        --grid-item-bg: #f1f5f9;
-        --accent-glow: rgba(99, 102, 241, 0.1);
+        --accent: #6366f1;
+        --accent-soft: rgba(99, 102, 241, 0.1);
     }
 
     [data-bs-theme="dark"] {
-        --exp-bg: #0f172a;
-        --card-bg: #1e293b;
-        --card-border: #334155;
-        --sidebar-bg: rgba(15, 23, 42, 0.8);
+        --db-bg: #0b0f1a;
+        --db-card: #161b2c;
+        --db-border: #2d3748;
+        --db-sidebar: #0f172a;
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
-        --grid-item-bg: #334155;
-        --accent-glow: rgba(99, 102, 241, 0.4);
+        --accent: #818cf8;
+        --accent-soft: rgba(129, 140, 248, 0.1);
     }
 
-    .feature-item {
-        border-bottom: 1px solid var(--card-border);
-        padding: 24px 0;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .feature-item h4 {
-        font-weight: 600;
-        font-size: 1.25rem;
-        color: var(--text-main);
-    }
-
-    .feature-body p {
-        color: var(--text-muted);
-        line-height: 1.6;
-    }
-
-    .preview-card-outer {
-        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-        padding: 40px;
-        border-radius: 32px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        position: relative;
-    }
-
-    .preview-card-outer::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: 32px;
-        box-shadow: inset 0 0 40px var(--accent-glow);
-        pointer-events: none;
-    }
-
-    .preview-card {
-        background: var(--card-bg);
-        border-radius: 24px;
+    /* Sidebar Styles */
+    .db-sidebar {
+        grid-area: sidebar;
+        background: var(--db-sidebar);
+        border-right: 1px solid var(--db-border);
+        padding: 40px 24px;
         display: flex;
-        overflow: hidden;
-        border: 1px solid var(--card-border);
-        min-height: 400px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+        gap: 20px;
     }
 
-    .asset-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        padding: 24px;
-        flex: 1;
+    .db-brand {
+        font-weight: 800;
+        font-size: 1.5rem;
+        margin-bottom: 40px;
+        color: var(--accent);
     }
 
-    .asset-tile {
-        background: var(--grid-item-bg);
-        aspect-ratio: 1;
+    .nav-item-mock {
+        padding: 12px 16px;
         border-radius: 12px;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid transparent;
-    }
-
-    .asset-tile:hover {
-        transform: translateY(-5px) scale(1.05);
-        border-color: #6366f1;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-    }
-
-    .asset-name {
-        font-size: 0.7rem;
-        margin-top: 8px;
-        font-weight: 500;
+        gap: 12px;
         color: var(--text-muted);
-    }
-
-    .portfolio-summary {
-        width: 220px;
-        background: var(--sidebar-bg);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-left: 1px solid var(--card-border);
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .summary-item {
-        margin-bottom: 20px;
-    }
-
-    .summary-label {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
         font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
     }
 
-    .summary-value {
-        font-size: 1.25rem;
-        font-weight: 800;
-        color: var(--text-main);
-        letter-spacing: -0.025em;
+    .nav-item-mock:hover, .nav-item-mock.active {
+        background: var(--accent-soft);
+        color: var(--accent);
     }
 
-    .summary-change {
-        font-size: 0.85rem;
-        color: #10b981;
-        font-weight: 700;
+    /* Header Styles */
+    .db-header {
+        grid-area: header;
+        background: var(--db-sidebar);
+        border-bottom: 1px solid var(--db-border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
     }
 
-    .invest-btn {
-        margin-top: auto;
-        background: #0f172a;
-        color: #fff;
-        border: none;
-        padding: 14px;
-        border-radius: 14px;
-        font-weight: 700;
-        transition: all 0.2s ease;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        letter-spacing: 0.05em;
+    .search-mock {
+        background: var(--db-bg);
+        border: 1px solid var(--db-border);
+        border-radius: 40px;
+        padding: 8px 24px;
+        width: 350px;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
-    .invest-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        opacity: 0.95;
+    /* Content Area Styles */
+    .db-content {
+        grid-area: content;
+        padding: 40px;
+        overflow-y: auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto auto;
+        gap: 24px;
     }
 
-    [data-bs-theme="dark"] .invest-btn {
-        background: #f8fafc;
-        color: #0f172a;
-    }
-
-    /* Enhanced Stats Section */
-    .stats {
-        background: transparent !important;
-        padding: 100px 0;
-    }
-
-    .stat-card {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
+    .db-card {
+        background: var(--db-card);
+        border: 1px solid var(--db-border);
         border-radius: 24px;
-        padding: 40px 24px;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        position: relative;
-        overflow: hidden;
+        padding: 30px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
     }
 
-    .stat-card:hover {
-        transform: translateY(-12px);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-        border-color: #6366f1;
+    .card-wide { grid-column: span 2; }
+    .card-tall { grid-row: span 2; }
+
+    .card-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 15px;
+        display: block;
     }
 
-    .stat-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(90deg, #6366f1, #a855f7);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .stat-card:hover::before {
-        opacity: 1;
-    }
-
-    .stat-icon {
-        width: 64px;
-        height: 64px;
-        background: var(--grid-item-bg);
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        margin-bottom: 24px;
-        transition: all 0.3s ease;
-    }
-
-    .stat-card:hover .stat-icon {
-        background: #6366f1;
-        color: white;
-    }
-
-    .stat-number {
-        font-size: 3rem;
+    .card-value {
+        font-size: 2.5rem;
         font-weight: 800;
         color: var(--text-main);
-        letter-spacing: -0.05em;
-        margin-bottom: 8px;
+        letter-spacing: -0.04em;
     }
 
-    .stat-label {
-        color: var(--text-muted);
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.85rem;
-        letter-spacing: 0.1em;
+    .chart-container {
+        width: 100%;
+        height: 200px;
+        position: relative;
+        margin-top: 20px;
+    }
+
+    @media (max-width: 1200px) {
+        .hero-dashboard { grid-template-columns: 80px 1fr; }
+        .nav-text { display: none; }
+    }
+
+    @media (max-width: 992px) {
+        .db-content { grid-template-columns: 1fr; }
+        .card-wide { grid-column: span 1; }
     }
 
     /* Enhanced CTA Section */
@@ -458,111 +229,118 @@
 </style>
 
 
-<!-- HERO SECTION -->
-<div class="hero">
-    <!-- Beautiful Professional Background Video -->
-    <div class="hero-video-container">
-        <iframe class="hero-video" src="https://www.youtube.com/embed/9u4saQlsV-8?autoplay=1&mute=1&controls=0&showinfo=0&autohide=1&loop=1&playlist=9u4saQlsV-8&playsinline=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<!-- HERO DASHBOARD SECTION -->
+<div class="hero-dashboard">
+    <!-- Sidebar Mock -->
+    <div class="db-sidebar">
+        <div class="db-brand">📈 InvestTrack</div>
+        <div class="nav-item-mock active"><i class="bi bi-grid-fill"></i> <span class="nav-text">Dashboard</span></div>
+        <div class="nav-item-mock"><i class="bi bi-search"></i> <span class="nav-text">Market Jobs</span></div>
+        <div class="nav-item-mock"><i class="bi bi-wallet2"></i> <span class="nav-text">Application</span></div>
+        <div class="nav-item-mock"><i class="bi bi-chat-square-text"></i> <span class="nav-text">Messages</span></div>
+        <div class="nav-item-mock"><i class="bi bi-graph-up-arrow"></i> <span class="nav-text">Statistics</span></div>
     </div>
-    <div class="hero-overlay"></div>
 
-    <div class="hero-content" data-aos="zoom-in">
-        <h1>Make your <br>next move</h1>
+    <!-- Header Mock -->
+    <div class="db-header">
+        <div class="d-flex align-items-center gap-4">
+            <h4 class="mb-0 fw-bold">Detailed Analytics</h4>
+            <div class="search-mock d-none d-lg-flex">
+                <i class="bi bi-search"></i>
+                <span>Search Anything...</span>
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3"><i class="bi bi-download me-1"></i> Get Report</button>
+            <div class="fs-4 px-2 border-end"><i class="bi bi-bell"></i></div>
+            <div class="d-flex align-items-center gap-2">
+                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width:40px;height:40px;">JS</div>
+                <div class="d-none d-md-block">
+                    <div class="small fw-bold">Jenny Mohon</div>
+                    <div class="text-muted" style="font-size:0.7rem;">Sales Manager</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <div class="hero-btn-group mt-2">
-            <a href="/signup" class="btn-hero btn-hero-white">Get started</a>
-            <a href="/demo" class="btn-hero btn-hero-blue">Try Demo</a>
+    <!-- Content Mock -->
+    <div class="db-content">
+        <!-- Tagline Overlay Card -->
+        <div class="db-card card-wide" style="background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: white; border: none; position: relative; overflow: hidden;">
+            <div style="position:relative; z-index:2;">
+                <h1 class="display-4 fw-bold mb-3">Make your <br>next move</h1>
+                <p class="opacity-75 mb-4 max-width-500">Take control of your financial future with the most advanced portfolio tracker built for the modern investor.</p>
+                <div class="d-flex gap-3">
+                    <a href="/signup" class="btn btn-light rounded-pill px-4 fw-bold">Get Started</a>
+                    <a href="/demo" class="btn btn-outline-light rounded-pill px-4">Try Demo</a>
+                </div>
+            </div>
+            <i class="bi bi-lightning-charge-fill position-absolute" style="font-size: 20rem; right: -2rem; bottom: -5rem; opacity: 0.05;"></i>
+        </div>
+
+        <!-- Total Revenue Card -->
+        <div class="db-card card-tall">
+            <span class="card-label">Total Revenue</span>
+            <div class="d-flex align-items-end gap-2">
+                <span class="card-value">$824,444.68</span>
+                <span class="text-success small fw-bold mb-2">+12.4% <i class="bi bi-arrow-up"></i></span>
+            </div>
+            <div class="chart-container">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Withdrawn Card -->
+        <div class="db-card">
+            <span class="card-label">Withdrawn</span>
+            <div class="d-flex align-items-end gap-2">
+                <span class="card-value" style="font-size: 1.8rem;">$45,673</span>
+                <span class="text-danger small fw-bold mb-1">-1.9%</span>
+            </div>
+            <div class="chart-container" style="height:120px;">
+                <canvas id="withdrawnChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="db-card">
+            <span class="card-label">Overall Balance</span>
+            <div class="d-flex align-items-end gap-2">
+                <span class="card-value" style="font-size: 1.8rem;">$124,500</span>
+                <span class="text-success small fw-bold mb-1">+5.2%</span>
+            </div>
+            <div class="chart-container" style="height:120px;">
+                <canvas id="balanceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Orders Card -->
+        <div class="db-card card-wide">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0 fw-bold">Recent Market Activity</h5>
+                <select class="form-select form-select-sm w-auto border-0 bg-light shadow-none">
+                    <option>Last 30 Days</option>
+                </select>
+            </div>
+            <div class="chart-container" style="height:250px;">
+                <canvas id="activityChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Pie Chart Mock -->
+        <div class="db-card">
+            <h5 class="mb-4 fw-bold">Portfolio Diversity</h5>
+            <div class="chart-container" style="height:200px;">
+                <canvas id="diversityChart"></canvas>
+            </div>
+            <div class="mt-4 d-flex justify-content-around small fw-bold text-muted">
+                <span><i class="bi bi-circle-fill text-primary me-1"></i> Stocks</span>
+                <span><i class="bi bi-circle-fill text-success me-1"></i> Crypto</span>
+                <span><i class="bi bi-circle-fill text-warning me-1"></i> Real Estate</span>
+            </div>
         </div>
     </div>
 </div>
-
-
-<!-- PREMIUM EXPERIENCE SECTION -->
-<section class="portfolio-experience">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-5 pe-lg-5">
-                <h2 class="display-5 fw-bold mb-4">See your whole <br><span class="text-primary">portfolio click into place</span></h2>
-                
-                <div class="feature-item active">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0">Diverse Asset Tracking</h4>
-                        <span class="fs-4">−</span>
-                    </div>
-                    <div class="feature-body">
-                        <p class="mt-3">Monitor stocks, crypto, real estate, and more in one unified view. Everything you own, tracked effortlessly.</p>
-                        <a href="/signup" class="btn btn-link p-0 fw-bold text-decoration-none">Get started →</a>
-                    </div>
-                </div>
-
-                <div class="feature-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0">Real-Time Market Data</h4>
-                        <span class="fs-4">+</span>
-                    </div>
-                </div>
-
-                <div class="feature-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0">Performance Analytics</h4>
-                        <span class="fs-4">+</span>
-                    </div>
-                </div>
-
-                <div class="feature-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0">Global Markets Access</h4>
-                        <span class="fs-4">+</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-7 mt-5 mt-lg-0">
-                <div class="preview-card-outer">
-                    <div class="preview-card">
-                        <div class="asset-grid">
-                            <div class="asset-tile">🍎 <span class="asset-name">Apple</span></div>
-                            <div class="asset-tile">⚡ <span class="asset-name">Tesla</span></div>
-                            <div class="asset-tile">₿ <span class="asset-name">Bitcoin</span></div>
-                            <div class="asset-tile">💠 <span class="asset-name">Ethereum</span></div>
-                            <div class="asset-tile">🏛️ <span class="asset-name">S&P 500</span></div>
-                            <div class="asset-tile">💰 <span class="asset-name">Gold</span></div>
-                            <div class="asset-tile">🏠 <span class="asset-name">REITs</span></div>
-                            <div class="asset-tile">🛢️ <span class="asset-name">Crude Oil</span></div>
-                            <div class="asset-tile">🌾 <span class="asset-name">Wheat</span></div>
-                            <div class="asset-tile">📉 <span class="asset-name">US Bonds</span></div>
-                            <div class="asset-tile">💹 <span class="asset-name">Forex</span></div>
-                            <div class="asset-tile">💎 <span class="asset-name">Luxury</span></div>
-                        </div>
-                        <div class="portfolio-summary">
-                            <div class="summary-item">
-                                <div class="summary-label">Account Value</div>
-                                <div class="summary-value">$24,560.00</div>
-                                <div class="summary-change">+$782.40 (3.2%)</div>
-                            </div>
-                            <div class="summary-item">
-                                <div class="summary-label">Buying Power</div>
-                                <div class="summary-value">$4,210.50</div>
-                            </div>
-                            <div class="summary-item mb-auto">
-                                <div class="summary-label">Most Active</div>
-                                <div class="d-flex justify-content-between mt-2">
-                                    <span style="font-size: 0.8rem; color: var(--text-muted);">AAPL</span>
-                                    <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-main);">$182.40</span>
-                                </div>
-                                <div class="d-flex justify-content-between mt-1">
-                                    <span style="font-size: 0.8rem; color: var(--text-muted);">BTC</span>
-                                    <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-main);">$64,120</span>
-                                </div>
-                            </div>
-                            <button class="invest-btn">Pay for Investment</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 
 <!-- STATS SECTION -->
@@ -687,4 +465,140 @@
 
 
 <div class="container" style="display: none;"> <!-- Reopen container for base.html to close properly -->
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Shared chart options for a clean, minimalist look
+    const sharedOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { display: false },
+            y: { display: false }
+        },
+        elements: {
+            point: { radius: 0 },
+            line: { tension: 0.4 }
+        }
+    };
+
+    // Revenue Chart (Line)
+    new Chart(document.getElementById('revenueChart'), {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            datasets: [{
+                data: [450000, 480000, 520000, 510000, 680000, 750000, 824444],
+                borderColor: '#6366f1',
+                borderWidth: 4,
+                fill: true,
+                backgroundColor: (context) => {
+                    const chart = context.chart;
+                    const {ctx, chartArea} = chart;
+                    if (!chartArea) return null;
+                    const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                    gradient.addColorStop(0, 'rgba(99, 102, 241, 0.2)');
+                    gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
+                    return gradient;
+                }
+            }]
+        },
+        options: {
+            ...sharedOptions,
+            scales: {
+                x: { display: true, grid: { display: false }, ticks: { color: '#94a3b8' } },
+                y: { display: true, grid: { color: 'rgba(148, 163, 184, 0.1)' }, ticks: { color: '#94a3b8', callback: value => '$' + value.toLocaleString() } }
+            }
+        }
+    });
+
+    // Withdrawn Chart (Bar)
+    new Chart(document.getElementById('withdrawnChart'), {
+        type: 'bar',
+        data: {
+            labels: ['1', '2', '3', '4', '5', '6', '7', '8'],
+            datasets: [{
+                data: [12, 19, 15, 25, 22, 30, 24, 28],
+                backgroundColor: '#ef4444',
+                borderRadius: 5
+            }]
+        },
+        options: sharedOptions
+    });
+
+    // Balance Chart (Bar)
+    new Chart(document.getElementById('balanceChart'), {
+        type: 'bar',
+        data: {
+            labels: ['1', '2', '3', '4', '5', '6', '7', '8'],
+            datasets: [{
+                data: [25, 20, 30, 22, 35, 28, 40, 38],
+                backgroundColor: '#10b981',
+                borderRadius: 5
+            }]
+        },
+        options: sharedOptions
+    });
+
+    // Activity Chart (Big Bar)
+    new Chart(document.getElementById('activityChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [
+                {
+                    label: 'Invested',
+                    data: [12000, 19000, 3000, 5000, 2000, 3000, 9000],
+                    backgroundColor: '#6366f1',
+                    borderRadius: 8
+                },
+                {
+                    label: 'Sold',
+                    data: [4000, 8000, 1000, 12000, 5000, 2000, 4000],
+                    backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                    borderRadius: 8
+                }
+            ]
+        },
+        options: {
+            ...sharedOptions,
+            scales: {
+                x: { display: true, grid: { display: false }, ticks: { color: '#94a3b8' } },
+                y: { display: true, grid: { color: 'rgba(148, 163, 184, 0.1)' }, ticks: { color: '#94a3b8' } }
+            },
+            plugins: { legend: { display: true, position: 'bottom', labels: { usePointStyle: true, color: '#94a3b8' } } }
+        }
+    });
+
+    // Diversity Chart (Doughnut)
+    new Chart(document.getElementById('diversityChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Stocks', 'Crypto', 'Real Estate'],
+            datasets: [{
+                data: [55, 25, 20],
+                backgroundColor: ['#6366f1', '#10b981', '#f59e0b'],
+                borderWidth: 0,
+                cutout: '75%'
+            }]
+        },
+        options: {
+            ...sharedOptions,
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // Re-render charts on theme change
+    document.querySelector('.theme-toggle')?.addEventListener('click', () => {
+        setTimeout(() => {
+            Chart.helpers.each(Chart.instances, (instance) => {
+                instance.options.scales.x.ticks.color = getComputedStyle(document.body).getPropertyValue('--text-muted');
+                instance.options.scales.y.ticks.color = getComputedStyle(document.body).getPropertyValue('--text-muted');
+                instance.update();
+            });
+        }, 350);
+    });
+</script>
 {% endblock %}
