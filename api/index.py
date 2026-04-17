@@ -22,7 +22,7 @@ static_dir = os.path.join(base_dir, 'static')
 if not os.path.exists(template_dir):
     template_dir = os.path.join(os.path.dirname(base_dir), 'templates')
 if not os.path.exists(static_dir):
-    static_dir = os.path.join(os.path.dirname(base_dir), 'public', 'static')
+    static_dir = os.path.join(os.path.dirname(base_dir), 'static')
 
 app.template_folder = template_dir
 app.static_folder = static_dir

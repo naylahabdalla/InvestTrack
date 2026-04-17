@@ -1,17 +1,7 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    },
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python"
-    }
-  ],
   "rewrites": [
     {
-      "source": "/(signup|login|dashboard|add|logout|demo|analytics|feedback|learn|portfolio|delete/.*|currency|course/.*|quiz/.*)",
+      "source": "/(.*)",
       "destination": "/api/index.py"
     }
   ],
