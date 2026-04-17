@@ -6,6 +6,8 @@ import re
 from functools import wraps
 import os
 import pyotp
+import stripe
+from datetime import datetime, timedelta
 
 url: str = "https://livxzkknhrqusxkyrieq.supabase.co"
 key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxpdnh6a2tuaHJxdXN4a3lyaWVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MDk0NjUsImV4cCI6MjA5MDA4NTQ2NX0.b1WV6RtX3suBkTquZiY-4NS8p0QOzViGimAJkrqMr4U"
@@ -94,11 +96,17 @@ def signup():
 
             try:
                 # Store consent_given=True and timestamp
+                # Set trial_end for 30 days from now
+                # and subscription_tier = 'free' (or 'trialing')
+                trial_end_dt = datetime.now() + timedelta(days=30)
+                
                 supabase.table("users").insert({
                     "username": username, 
                     "current_hash": hashed,
                     "consent_given": True,
-                    "consent_timestamp": "now()"
+                    "consent_timestamp": "now()",
+                    "trial_end": trial_end_dt.isoformat(),
+                    "subscription_tier": "free"
                 }).execute()
 
                 # Don't log in immediately; redirect to 2FA SETUP
@@ -226,6 +234,38 @@ def terms():
 @app.route("/privacy")
 def privacy():
     return render_template("privacy.html")
+
+# ---------------- SUBSCRIPTION ----------------
+@app.route("/upgrade")
+def upgrade():
+    if "user" not in session:
+        return redirect("/login")
+    
+    # Check current tier
+    response = supabase.table("users").select("subscription_tier", "trial_end").eq("username", session["user"]).execute()
+    user_data = response.data[0] if response.data else {}
+    
+    return render_template("upgrade.html", user_data=user_data)
+
+@app.route("/create-checkout-session", methods=["POST"])
+def create_checkout_session():
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    tier = request.form.get("tier")
+    price_map = {
+        "basic": 599,  # $5.99
+        "ultra": 1499  # $14.99
+    }
+    
+    if tier not in price_map:
+        return jsonify({"error": "Invalid tier"}), 400
+
+    # Simulation mode: Just mark as premium for now since we don't have real Stripe keys
+    # In a real app, you would redirect to Stripe here.
+    supabase.table("users").update({"subscription_tier": tier}).eq("username", session["user"]).execute()
+    
+    return redirect("/dashboard")
 
 # ---------------- DASHBOARD ----------------
 @app.route("/dashboard")

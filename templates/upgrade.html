@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">Upgrade Your Experience</h1>
+        <p class="lead text-muted">Choose the plan that's right for your investment journey.</p>
+        <div class="alert alert-info d-inline-block rounded-pill px-4">
+            ✨ All plans start with a <strong>30-day free trial</strong>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
+        <!-- Basic Plan -->
+        <div class="col" style="max-width: 400px;">
+            <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+                <div class="card-body p-5">
+                    <h3 class="fw-bold text-center mb-4">Basic</h3>
+                    <div class="text-center mb-4">
+                        <span class="display-3 fw-bold">$5.99</span>
+                        <span class="text-muted">/mo</span>
+                    </div>
+                    <ul class="list-unstyled mb-5">
+                        <li class="mb-3">✅ Essential Portfolio Tracking</li>
+                        <li class="mb-3">✅ Performance Analytics</li>
+                        <li class="mb-3">✅ Asset Diversification View</li>
+                        <li class="mb-3">✅ Security & Privacy</li>
+                    </ul>
+                    <form action="/create-checkout-session" method="POST">
+                        <input type="hidden" name="tier" value="basic">
+                        <button type="submit" class="btn btn-outline-primary w-100 btn-lg rounded-pill">Select Basic</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ultra Plan -->
+        <div class="col" style="max-width: 400px;">
+            <div class="card h-100 shadow-lg border-primary rounded-4 overflow-hidden position-relative">
+                <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl-lg" style="border-bottom-left-radius: 12px; font-size: 0.8rem; font-weight: bold;">
+                    RECOMMENDED
+                </div>
+                <div class="card-body p-5">
+                    <h3 class="fw-bold text-center mb-4">Ultra</h3>
+                    <div class="text-center mb-4">
+                        <span class="display-3 fw-bold">$14.99</span>
+                        <span class="text-muted">/mo</span>
+                    </div>
+                    <ul class="list-unstyled mb-5">
+                        <li class="mb-3">🔥 <strong>Live Finance Dashboard</strong></li>
+                        <li class="mb-3">🔥 <strong>Deep Investment Recommendations</strong></li>
+                        <li class="mb-3">🔥 AI-Powered Market Insights</li>
+                        <li class="mb-3">✅ Priority 24/7 Support</li>
+                        <li class="mb-3">✅ Unlimited Assets</li>
+                    </ul>
+                    <form action="/create-checkout-session" method="POST">
+                        <input type="hidden" name="tier" value="ultra">
+                        <button type="submit" class="btn btn-primary w-100 btn-lg rounded-pill">Go Ultra</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 text-center text-muted">
+        <p class="small">Trusted payment methods:</p>
+        <div class="d-flex justify-content-center gap-3 fs-3">
+            <span>💳</span> <span>🅿️</span> <span>🍎</span> <span>🤖</span>
+        </div>
+    </div>
+</div>
+{% endblock %}
