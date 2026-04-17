@@ -1,24 +1,23 @@
 {
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    },
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(signup|login|dashboard|add|logout|demo|analytics|feedback|learn|portfolio|delete/.*|currency|course/.*|quiz/.*)",
+      "destination": "/api/index.py"
+    }
+  ],
   "build": {
     "env": {
       "UV_LINK_MODE": "copy"
     }
-  },
-  "rewrites": [
-    { "source": "/signup", "destination": "/api/index.py" },
-    { "source": "/login", "destination": "/api/index.py" },
-    { "source": "/dashboard", "destination": "/api/index.py" },
-    { "source": "/add", "destination": "/api/index.py" },
-    { "source": "/logout", "destination": "/api/index.py" },
-    { "source": "/demo", "destination": "/api/index.py" },
-    { "source": "/analytics", "destination": "/api/index.py" },
-    { "source": "/feedback", "destination": "/api/index.py" },
-    { "source": "/learn", "destination": "/api/index.py" },
-    { "source": "/portfolio", "destination": "/api/index.py" },
-    { "source": "/currency", "destination": "/api/index.py" },
-    { "source": "/delete/(.*)", "destination": "/api/index.py" },
-    { "source": "/course/(.*)", "destination": "/api/index.py" },
-    { "source": "/quiz/(.*)", "destination": "/api/index.py" },
-    { "source": "/static/(.*)", "destination": "/api/index.py" }
-  ]
+  }
 }
