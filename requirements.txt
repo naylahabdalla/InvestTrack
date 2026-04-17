@@ -1,5 +1,4 @@
 Flask
 supabase
-yfinance
 requests
 werkzeug

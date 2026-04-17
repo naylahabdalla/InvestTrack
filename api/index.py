@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from supabase import create_client, Client
-import yfinance as yf
 import requests
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
@@ -51,9 +50,13 @@ def fetch_live_prices(investments_raw, include_overview=False):
         active_tickers.update({"AAPL", "TSLA", "BTC-USD", "ETH-USD"})
 
     live_prices = {}
+    headers = {'User-Agent': 'Mozilla/5.0'}
     for t in active_tickers:
         try:
-            price = yf.Ticker(t).fast_info['lastPrice']
+            url = f"https://query1.finance.yahoo.com/v8/finance/chart/{t}"
+            res = requests.get(url, headers=headers, timeout=5)
+            data = res.json()
+            price = data['chart']['result'][0]['meta']['regularMarketPrice']
             if price and price > 0:
                 live_prices[t] = float(price)
         except Exception:
