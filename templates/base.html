@@ -36,87 +36,132 @@
             background-color: #0f172a;
         }
 
-        /* Navbar */
+        /* Navbar Redesign: Floating Glassmorphism */
         .navbar {
-            background: linear-gradient(90deg, #1f1f2e, #2b2b45);
+            background: rgba(31, 31, 46, 0.85);
+            backdrop-filter: blur(15px) saturate(160%);
+            -webkit-backdrop-filter: blur(15px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin: 15px 20px;
+            padding: 12px 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: sticky;
+            top: 15px;
+            z-index: 1030;
+        }
+
+        .navbar.scrolled {
+            margin: 10px 15px;
+            padding: 10px 20px;
+            background: rgba(22, 22, 33, 0.95);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            font-size: 22px;
+            letter-spacing: -0.5px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .nav-link {
-            color: #ccc !important;
-            margin-right: 10px;
-            transition: 0.3s;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7) !important;
+            padding: 8px 16px !important;
+            border-radius: 12px;
+            margin: 0 4px;
+            transition: all 0.3s ease;
         }
 
         .nav-link:hover {
             color: #fff !important;
+            background: rgba(255, 255, 255, 0.08);
             transform: translateY(-1px);
         }
 
-        .navbar-brand {
-            font-size: 20px;
+        .nav-link.active {
+            color: #fff !important;
+            background: rgba(99, 102, 241, 0.15);
+        }
+
+        .upgrade-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            color: white !important;
+            font-weight: 700;
+            padding: 10px 24px !important;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.85rem;
             letter-spacing: 0.5px;
         }
 
-        .btn-outline-light {
-            border-radius: 20px;
+        .upgrade-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+            filter: brightness(1.1);
         }
 
-        /* Page spacing */
-        .container {
-            margin-top: 30px;
+        .logout-btn {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff !important;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+        }
+
+        .dropdown-menu {
+            background: rgba(31, 31, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 15px !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-item {
+            color: rgba(255, 255, 255, 0.7) !important;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: #fff !important;
+            padding-left: 20px;
         }
 
         .demo-badge {
-            background: linear-gradient(45deg, #f59e0b, #fbbf24);
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
             color: #000;
             font-size: 0.65rem;
             font-weight: 800;
             padding: 4px 10px;
-            border-radius: 20px;
-            letter-spacing: 0.05em;
-            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
-            text-transform: uppercase;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-left: 10px;
-            display: inline-block;
-            vertical-align: middle;
+            border-radius: 8px;
+            margin-left: 12px;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
         }
 
-        /* Dropdown Custom Arrow */
-        .dropdown-toggle::after {
-            display: none;
-            /* Hide default Bootstrap caret */
-        }
-
-        .nav-dropdown-arrow {
-            font-size: 0.6rem;
-            margin-left: 6px;
-            transition: transform 0.3s ease;
-            display: inline-block;
-        }
-
-        .dropdown.show .nav-dropdown-arrow {
-            transform: rotate(180deg);
-        }
-
-        .dropdown-menu {
-            background: #1f1f2e;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 10px 0;
-            margin-top: 10px !important;
-        }
-
-        .dropdown-item {
-            color: #ccc !important;
-            padding: 8px 20px;
-            transition: all 0.2s;
-        }
-
-        .dropdown-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff !important;
-            padding-left: 24px;
+        body {
+            font-family: 'Inter', sans-serif;
+            padding-top: 20px; /* Space for the floating navbar */
         }
     </style>
 
@@ -124,78 +169,75 @@
 
 <body>
 
-    <!-- ✅ NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm px-4">
-
-        <!-- Logo -->
-        <a class="navbar-brand fw-bold d-flex align-items-center" href="/dashboard">
-            <span style="font-size:20px; margin-right:8px;">📈</span>
-            InvestTrack
-            {% if session.get('is_demo') %}
-            <span class="demo-badge">Read-Only Demo</span>
-            {% endif %}
-        </a>
-
-        <!-- Mobile toggle -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Links -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-
-            <ul class="navbar-nav ms-auto align-items-center">
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/#pricing">Pricing</a>
-                </li>
-                {% if user %}
-                <li class="nav-item">
-                    <a class="nav-link fw-bold text-primary" href="/upgrade"><i
-                            class="bi bi-lightning-charge-fill me-1"></i> Upgrade</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="featuresDropdown"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Features <i class="bi bi-chevron-down nav-dropdown-arrow"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="featuresDropdown">
-                        <li><a class="dropdown-item" href="/dashboard">Overview</a></li>
-                        <li><a class="dropdown-item" href="/portfolio">Portfolio</a></li>
-                        <li><a class="dropdown-item" href="/analytics">Analytics</a></li>
-                        <li><a class="dropdown-item" href="/currency">Currency</a></li>
-                        <li><a class="dropdown-item" href="/learn">Learn</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/feedback">Feedback</a>
-                </li>
+    <!-- ✅ PREMIUM NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-lg">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand d-flex align-items-center" href="/dashboard">
+                <i class="bi bi-graph-up-arrow me-2" style="font-size: 1.2rem; color: #a5b4fc;"></i>
+                <span>InvestTrack</span>
+                {% if session.get('is_demo') %}
+                <span class="demo-badge">DEMO</span>
                 {% endif %}
+            </a>
 
-                <!-- Theme Toggle -->
-                <li class="nav-item ms-2">
-                    <button class="btn btn-link nav-link px-0 text-white" id="bd-theme" type="button"
-                        aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static"
-                        aria-label="Toggle theme (auto)">
-                        <span class="theme-icon-active" id="theme-icon"><i class="bi bi-circle-half"></i></span>
-                    </button>
-                </li>
+            <!-- Mobile toggle -->
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list fs-1"></i>
+            </button>
 
-                <!-- Logout Button -->
-                <li class="nav-item ms-3">
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#pricing">Pricing</a>
+                    </li>
+                    
                     {% if user %}
-                    <a href="/logout" class="btn btn-outline-light rounded-pill px-3">Logout</a>
-                    {% else %}
-                    <a href="/login" class="btn btn-outline-light rounded-pill px-3 me-2">Login</a>
-                    <a href="/signup" class="btn btn-light rounded-pill px-3">Signup</a>
+                    <li class="nav-item">
+                        <a class="nav-link upgrade-btn mx-2 rounded-pill" href="/upgrade">
+                            <i class="bi bi-lightning-charge-fill me-1"></i> Upgrade
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown px-2">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="featuresDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Features <i class="bi bi-chevron-down ms-2 opacity-50 small"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="featuresDropdown">
+                            <li><a class="dropdown-item" href="/dashboard"><i class="bi bi-grid-fill me-2 opacity-75"></i> Overview</a></li>
+                            <li><a class="dropdown-item" href="/portfolio"><i class="bi bi-wallet2 me-2 opacity-75"></i> Portfolio</a></li>
+                            <li><a class="dropdown-item" href="/analytics"><i class="bi bi-pie-chart-fill me-2 opacity-75"></i> Analytics</a></li>
+                            <li><a class="dropdown-item" href="/currency"><i class="bi bi-currency-exchange me-2 opacity-75"></i> Currency</a></li>
+                            <li><a class="dropdown-item" href="/learn"><i class="bi bi-book-half me-2 opacity-75"></i> Learn</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/feedback">Feedback</a>
+                    </li>
                     {% endif %}
-                </li>
 
-            </ul>
+                    <!-- Theme Toggle -->
+                    <li class="nav-item ms-lg-2">
+                        <button class="btn nav-link px-2 text-white opacity-75 hover-opacity-100" id="bd-theme" type="button">
+                            <i class="bi bi-circle-half" id="theme-icon"></i>
+                        </button>
+                    </li>
 
+                    <!-- Access Buttons -->
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                        {% if user %}
+                        <a href="/logout" class="nav-link logout-btn px-4 text-center">Logout</a>
+                        {% else %}
+                        <div class="d-flex flex-column flex-lg-row gap-2">
+                            <a href="/login" class="nav-link opacity-75 hover-opacity-100 px-4 text-center">Login</a>
+                            <a href="/signup" class="btn btn-light rounded-pill px-4 fw-bold">Signup</a>
+                        </div>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
         </div>
-
     </nav>
 
     <!-- ✅ PAGE CONTENT -->
@@ -210,6 +252,17 @@
     <script>
         (() => {
             'use strict'
+            
+            // Scroll handling for navbar
+            window.addEventListener('scroll', () => {
+                const nav = document.querySelector('.navbar');
+                if (window.scrollY > 20) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+
             const getStoredTheme = () => localStorage.getItem('theme')
             const setStoredTheme = theme => localStorage.setItem('theme', theme)
             const getPreferredTheme = () => {
