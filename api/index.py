@@ -672,6 +672,7 @@ def course(name):
             session.modified = True
         return redirect("/learn")
 
+    content_map = {
         "basics": {
             "title": "Investment Basics",
             "desc": "Before buying any asset, you must understand the rules of the game.",
@@ -798,6 +799,7 @@ def quiz(name):
     score = None
     passed = False
     
+    quizzes = {
         "basics": {
             "title": "Investment Fundamentals Test",
             "questions": [
