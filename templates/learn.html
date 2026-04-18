@@ -103,16 +103,76 @@
                     <div class="card h-100 border-0 shadow-sm rounded-4 hover-lift transition-all">
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between align-items-start mb-3">
-                                <h5 class="fw-bold mb-0">Currency & Crypto</h5>
+                                <h5 class="fw-bold mb-0">Currency & Exchange</h5>
                                 {% if 'currency' in stats.courses_done %}
                                     <span class="badge bg-success rounded-pill">Completed ✓</span>
                                 {% else %}
                                     <span class="badge bg-light text-dark border rounded-pill">0%</span>
                                 {% endif %}
                             </div>
-                            <p class="text-muted small mb-4">Explore global foreign exchange rates and cryptocurrency markets.</p>
+                            <p class="text-muted small mb-4">Explore global foreign exchange rates and basic market dynamics.</p>
                             <a href="/course/currency" class="btn btn-primary w-100 rounded-pill fw-bold">
                                 {% if 'currency' in stats.courses_done %}Review Course{% else %}Start Course{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crypto & Web3 -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-lift transition-all">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="fw-bold mb-0">Crypto & Web3</h5>
+                                {% if 'crypto' in stats.courses_done %}
+                                    <span class="badge bg-success rounded-pill">Completed ✓</span>
+                                {% else %}
+                                    <span class="badge bg-light text-dark border rounded-pill">0%</span>
+                                {% endif %}
+                            </div>
+                            <p class="text-muted small mb-4">Master blockchain basics, Bitcoin, and decentralized finance.</p>
+                            <a href="/course/crypto" class="btn btn-primary w-100 rounded-pill fw-bold">
+                                {% if 'crypto' in stats.courses_done %}Review Course{% else %}Start Course{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real Estate -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-lift transition-all">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="fw-bold mb-0">Real Estate & REITs</h5>
+                                {% if 'realestate' in stats.courses_done %}
+                                    <span class="badge bg-success rounded-pill">Completed ✓</span>
+                                {% else %}
+                                    <span class="badge bg-light text-dark border rounded-pill">0%</span>
+                                {% endif %}
+                            </div>
+                            <p class="text-muted small mb-4">Building wealth through property cycles, dividends, and REITs.</p>
+                            <a href="/course/realestate" class="btn btn-primary w-100 rounded-pill fw-bold">
+                                {% if 'realestate' in stats.courses_done %}Review Course{% else %}Start Course{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ESG -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-lift transition-all">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="fw-bold mb-0">Sustainable Finance</h5>
+                                {% if 'esg' in stats.courses_done %}
+                                    <span class="badge bg-success rounded-pill">Completed ✓</span>
+                                {% else %}
+                                    <span class="badge bg-light text-dark border rounded-pill">0%</span>
+                                {% endif %}
+                            </div>
+                            <p class="text-muted small mb-4">Learn about ESG criteria and social impact investing.</p>
+                            <a href="/course/esg" class="btn btn-primary w-100 rounded-pill fw-bold">
+                                {% if 'esg' in stats.courses_done %}Review Course{% else %}Start Course{% endif %}
                             </a>
                         </div>
                     </div>
@@ -137,7 +197,7 @@
                 </div>
             </div>
 
-            <div class="card border-0 shadow-sm rounded-4">
+            <div class="card border-0 shadow-sm rounded-4 mb-3">
                 <div class="card-body p-4">
                     <div class="d-flex align-items-center mb-2">
                         <h6 class="fw-bold mb-0 flex-grow-1">Stock Market Mastery</h6>
@@ -147,6 +207,32 @@
                     </div>
                     <p class="small text-muted mb-3">Verify your understanding of equities, dividends, and ETFs.</p>
                     <a href="/quiz/stocks" class="btn btn-outline-dark btn-sm rounded-pill w-100">Take Quiz</a>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 mb-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <h6 class="fw-bold mb-0 flex-grow-1">Diversification Masterclass</h6>
+                        {% if 'diversification' in stats.quizzes_done %}
+                            <span class="text-success fw-bold">Passed ✓</span>
+                        {% endif %}
+                    </div>
+                    <p class="small text-muted mb-3">Test your knowledge on asset correlation and allocation.</p>
+                    <a href="/quiz/diversification" class="btn btn-outline-dark btn-sm rounded-pill w-100">Take Quiz</a>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 mb-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <h6 class="fw-bold mb-0 flex-grow-1">Global Markets Challenge</h6>
+                        {% if 'global' in stats.quizzes_done %}
+                            <span class="text-success fw-bold">Passed ✓</span>
+                        {% endif %}
+                    </div>
+                    <p class="small text-muted mb-3">Prove your mastery of forex and international risks.</p>
+                    <a href="/quiz/global" class="btn btn-outline-dark btn-sm rounded-pill w-100">Take Quiz</a>
                 </div>
             </div>
             

@@ -543,12 +543,12 @@ def currency():
     course_progress = len(completed_courses)
     quiz_progress = len(completed_quizzes)
     
-    skill_map = ["Beginner", "Novice", "Intermediate", "Advanced", "Expert"]
+    skill_map = ["Novice", "Student", "Apprentice", "Practitioner", "Analyst", "Strategist", "Elite", "Expert", "Master", "Grandmaster", "Legend"]
     skill_index = min((course_progress + quiz_progress), len(skill_map) - 1)
     
     stats = {
         "completed": course_progress + quiz_progress,
-        "total_modules": 6,
+        "total_modules": 11,
         "skill": skill_map[skill_index],
         "courses_done": completed_courses,
         "quizzes_done": completed_quizzes
@@ -602,6 +602,33 @@ def course(name):
                 {"name": "Exchange Rates", "body": "The value of one currency for the purpose of conversion to another (e.g. EUR/USD)."},
                 {"name": "Crypto", "body": "Digital or virtual currency secured by cryptography, operating independently of a central bank."}
             ]
+        },
+        "crypto": {
+            "title": "Crypto & Web3",
+            "desc": "The future of decentralized finance and digital ownership.",
+            "modules": [
+                {"name": "Blockchain Basics", "body": "A distributed, immutable ledger that records transactions across a network of computers."},
+                {"name": "Bitcoin vs Ethereum", "body": "Bitcoin as digital gold vs. Ethereum as a programmable platform for smart contracts."},
+                {"name": "Wallets & Security", "body": "Understanding hot (online) and cold (offline) storage to protect your digital assets."}
+            ]
+        },
+        "realestate": {
+            "title": "Real Estate & REITs",
+            "desc": "Building wealth through physical and digital property.",
+            "modules": [
+                {"name": "REITs Explained", "body": "Real Estate Investment Trusts allow you to invest in large-scale properties without buying them directly."},
+                {"name": "Rental Yield", "body": "The annual rental income from a property divided by its total value, expressed as a percentage."},
+                {"name": "Mortgage & Leverage", "body": "Using borrowed capital to increase the potential return of an investment (and its risk)."}
+            ]
+        },
+        "esg": {
+            "title": "Sustainable Finance (ESG)",
+            "desc": "Investing for profit and purpose.",
+            "modules": [
+                {"name": "What is ESG?", "body": "Environmental, Social, and Governance criteria used to measure the sustainability of a company."},
+                {"name": "Green Bonds", "body": "Fixed-income instruments designed specifically to support climate-related or environmental projects."},
+                {"name": "Ethical Investing", "body": "Selecting investments based on ethical principles and social values alongside financial performance."}
+            ]
         }
     }
     
@@ -632,6 +659,22 @@ def quiz(name):
                 {"q": "What does buying a stock signify?", "opts": {"a": "Loaning money to a company", "b": "Partial ownership of a company", "c": "A guaranteed yearly payout"}, "ans": "b"},
                 {"q": "What is a dividend?", "opts": {"a": "A company profit shared with stockholders", "b": "A penalty fee for selling early", "c": "A type of corporate bond"}, "ans": "a"},
                 {"q": "What does ETF stand for?", "opts": {"a": "Estimated Trading Fund", "b": "Exchange-Traded Fund", "c": "Equity Trust Federation"}, "ans": "b"}
+            ]
+        },
+        "diversification": {
+            "title": "Diversification Masterclass",
+            "questions": [
+                {"q": "What is asset correlation?", "opts": {"a": "When assets move in the same direction", "b": "When assets move in opposite directions", "c": "The speed of market trading"}, "ans": "a"},
+                {"q": "Which asset 'typically' moves opposite to stocks during a crash?", "opts": {"a": "Cryptocurrency", "b": "Real Estate", "c": "Gold/Bonds"}, "ans": "c"},
+                {"q": "What is the primary goal of diversification?", "opts": {"a": "To maximize returns", "b": "To reduce overall portfolio risk", "c": "To pay fewer taxes"}, "ans": "b"}
+            ]
+        },
+        "global": {
+            "title": "Global Markets Challenge",
+            "questions": [
+                {"q": "What is the largest financial market in the world?", "opts": {"a": "The Stock Market", "b": "The Forex Market", "c": "The Bond Market"}, "ans": "b"},
+                {"q": "What happens if a currency's value increases?", "opts": {"a": "It becomes 'stronger' relative to others", "b": "It becomes 'weaker' relative to others", "c": "Nothing changes"}, "ans": "a"},
+                {"q": "What is a major risk of international investing?", "opts": {"a": "Weather volatility", "b": "Currency exchange rate risk", "c": "Too much profit"}, "ans": "b"}
             ]
         }
     }
