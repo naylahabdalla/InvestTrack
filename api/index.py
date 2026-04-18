@@ -798,6 +798,7 @@ def quiz(name):
     
     score = None
     passed = False
+    total = None
     
     quizzes = {
         "basics": {
@@ -928,6 +929,8 @@ def quiz(name):
                 session.modified = True
                 
         return render_template("quiz.html", user=session.get("user"), quiz=quiz_data, score=score, total=total, passed=passed)
+
+    return render_template("quiz.html", user=session.get("user"), quiz=quiz_data, score=score, total=total, passed=passed)
 
 # ---------------- RUN ----------------
 if __name__ == "__main__":
