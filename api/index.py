@@ -229,11 +229,11 @@ def verify_2fa():
 # ---------------- TERMS & PRIVACY ----------------
 @app.route("/terms")
 def terms():
-    return render_template("terms.html")
+    return render_template("terms.html", user=session.get("user"))
 
 @app.route("/privacy")
 def privacy():
-    return render_template("privacy.html")
+    return render_template("privacy.html", user=session.get("user"))
 
 # ---------------- SUBSCRIPTION ----------------
 @app.route("/upgrade")
@@ -245,7 +245,7 @@ def upgrade():
     response = supabase.table("users").select("subscription_tier", "trial_end").eq("username", session["user"]).execute()
     user_data = response.data[0] if response.data else {}
     
-    return render_template("upgrade.html", user_data=user_data)
+    return render_template("upgrade.html", user_data=user_data, user=session.get("user"))
 
 @app.route("/create-checkout-session", methods=["POST"])
 def create_checkout_session():

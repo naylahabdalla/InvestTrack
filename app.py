@@ -123,6 +123,46 @@ def login():
 
     return render_template("login.html", error=error)
 
+# ---------------- TERMS & PRIVACY ----------------
+@app.route("/terms")
+def terms():
+    return render_template("terms.html", user=session.get("user"))
+
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html", user=session.get("user"))
+
+# ---------------- SUBSCRIPTION ----------------
+@app.route("/upgrade")
+def upgrade():
+    if "user" not in session:
+        return redirect("/login")
+    
+    # Check current tier
+    response = supabase.table("users").select("subscription_tier", "trial_end").eq("username", session["user"]).execute()
+    user_data = response.data[0] if response.data else {}
+    
+    return render_template("upgrade.html", user_data=user_data, user=session.get("user"))
+
+@app.route("/create-checkout-session", methods=["POST"])
+def create_checkout_session():
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    tier = request.form.get("tier")
+    price_map = {
+        "basic": 599,  # $5.99
+        "ultra": 1499  # $14.99
+    }
+    
+    if tier not in price_map:
+        return jsonify({"error": "Invalid tier"}), 400
+
+    # Simulation mode: Just mark as premium for now since we don't have real Stripe keys
+    supabase.table("users").update({"subscription_tier": tier}).eq("username", session["user"]).execute()
+    
+    return redirect("/dashboard")
+
 # ---------------- DASHBOARD ----------------
 @app.route("/dashboard")
 def dashboard():
