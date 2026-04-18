@@ -43,10 +43,19 @@
             </div>
 
             <div class="mt-5 text-center px-4 py-5 bg-light rounded-4 border">
+                {% if course.title.lower() in completed_courses %}
+                <h3 class="fw-bold fs-1 mb-3 text-success">✅</h3>
+                <h4 class="fw-bold text-success">Course Mastered!</h4>
+                <p class="text-muted">You have already completed this learning path. Great work!</p>
+                <a href="/learn" class="btn btn-outline-primary btn-lg rounded-pill px-5 mt-2 fw-bold shadow-sm">Back to Hub</a>
+                {% else %}
                 <h3 class="fw-bold fs-1 mb-3">🎓</h3>
-                <h4 class="fw-bold">Awesome Job! You finished the lesson!</h4>
-                <p class="text-muted">You've successfully completed this module. Head back to the Learning Hub to see your progress update.</p>
-                <a href="/learn" class="btn btn-primary btn-lg rounded-pill px-5 mt-2 fw-bold shadow-sm">Return to Dashboard</a>
+                <h4 class="fw-bold">Ready to Level Up?</h4>
+                <p class="text-muted">Confirm you've read through all 10 modules to mark this course as finished and earn your credits.</p>
+                <form action="" method="POST">
+                    <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 mt-2 fw-bold shadow-sm">Mark as Finished</button>
+                </form>
+                {% endif %}
             </div>
 
         </div>
