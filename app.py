@@ -365,10 +365,8 @@ def analytics():
     labels = list(asset_totals.keys())
     values = [round(v, 2) for v in asset_totals.values()]
 
-    # Generate Individual Recommendations for Ultra Users
-    individual_recs = []
-    if is_ultra:
-        individual_recs = generate_recommendations(investments_raw, live_prices)
+    # Generate Individual Recommendations for All Users
+    individual_recs = generate_recommendations(investments_raw, live_prices)
 
     return render_template(
         "analytics.html",

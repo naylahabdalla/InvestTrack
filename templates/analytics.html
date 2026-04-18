@@ -101,14 +101,13 @@
                 </div>
             </div>
         </div>
-    <!-- ULTRA DEEPSIGHTS: INDIVIDUAL RECOMMENDATIONS -->
-    {% if is_ultra %}
+    <!-- INDIVIDUAL ASSET RECOMMENDATIONS (SMART AI INSIGHTS) -->
     <div class="row mt-4 mb-5">
         <div class="col-12">
             <div class="card shadow-sm p-4 border-0 rounded-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="mb-0 fw-bold"><i class="bi bi-star-fill text-warning me-2"></i> Ultra Deepsights: Individual Recommendations</h5>
-                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3">ULTRA EXCLUSIVE</span>
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-cpu-fill text-primary me-2"></i> Smart AI Insights: Individual Recommendations</h5>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3">PROTECTED INSIGHTS</span>
                 </div>
                 
                 <div class="table-responsive">
@@ -146,6 +145,13 @@
                                     <p class="small text-muted mb-0" style="max-width: 320px; line-height: 1.4;">{{ rec.text }}</p>
                                 </td>
                             </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="bi bi-inbox fs-1 d-block mb-3 opacity-25"></i>
+                                    No investments found. Add some to see AI insights!
+                                </td>
+                            </tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -153,25 +159,6 @@
             </div>
         </div>
     </div>
-    {% else %}
-    <!-- Locked Content for Non-Ultra Users -->
-    <div class="row mt-4 mb-5">
-        <div class="col-12 text-center">
-            <div class="card shadow-sm p-5 border-0 rounded-4 bg-light overflow-hidden" style="background: linear-gradient(to right, #f8fafc, #f1f5f9);">
-                <div class="position-relative z-index-1 py-4">
-                    <div class="bg-white shadow-sm d-inline-flex align-items-center justify-content-center rounded-circle mb-4" style="width: 80px; height: 80px;">
-                        <i class="bi bi-lock-fill text-primary" style="font-size: 2.5rem;"></i>
-                    </div>
-                    <h3 class="fw-bold mb-3">Unlock Individual Asset Insights</h3>
-                    <p class="text-muted mb-4 mx-auto" style="max-width: 600px;">Get deep risk assessments and tailored smart recommendations for every single investment in your portfolio. Perfect for managing complex portfolios with precision.</p>
-                    <a href="/upgrade" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm">Upgrade to Ultra <i class="bi bi-arrow-right ms-2"></i></a>
-                </div>
-                <i class="bi bi-star-fill position-absolute" style="font-size: 20rem; right: -5rem; bottom: -8rem; opacity: 0.03; color: var(--bs-primary);"></i>
-                <i class="bi bi-graph-up-arrow position-absolute" style="font-size: 15rem; left: -3rem; top: -5rem; opacity: 0.03; color: var(--bs-primary);"></i>
-            </div>
-        </div>
-    </div>
-    {% endif %}
     </div>
 
 </div>
