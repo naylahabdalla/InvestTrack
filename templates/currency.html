@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+s{% extends "base.html" %}
 
 {% block content %}
 <div class="container mt-4 mb-5">
@@ -21,32 +21,39 @@
                             <!-- From Currency -->
                             <div class="col-md-5">
                                 <label class="form-label text-muted small text-uppercase fw-bold mb-1">From</label>
-                                <select name="from_currency" class="form-select form-select-lg mb-3 shadow-none bg-light border-0">
+                                <select name="from_currency"
+                                    class="form-select form-select-lg mb-3 shadow-none bg-light border-0">
                                     <option value="USD">USD - US Dollar</option>
                                     <option value="EUR">EUR - Euro</option>
                                     <option value="GBP">GBP - British Pound</option>
                                     <option value="TRY">TRY - Turkish Lira</option>
                                     <option value="JPY">JPY - Japanese Yen</option>
                                 </select>
-                                <input type="number" step="0.01" name="amount" class="form-control form-control-lg shadow-none" placeholder="Enter amount" required>
+                                <input type="number" step="0.01" name="amount"
+                                    class="form-control form-control-lg shadow-none" placeholder="Enter amount"
+                                    required>
                             </div>
-                            
+
                             <!-- Arrow Icon -->
-                             <div class="col-md-2 text-center d-none d-md-flex justify-content-center mt-4">
-                                 <span class="fs-3 text-muted"><i class="bi bi-arrow-right"></i></span>
-                             </div>
+                            <div class="col-md-2 text-center d-none d-md-flex justify-content-center mt-4">
+                                <span class="fs-3 text-muted"><i class="bi bi-arrow-right"></i></span>
+                            </div>
 
                             <!-- To Currency -->
                             <div class="col-md-5">
                                 <label class="form-label text-muted small text-uppercase fw-bold mb-1">To</label>
-                                <select name="to_currency" class="form-select form-select-lg mb-3 shadow-none bg-light border-0">
+                                <select name="to_currency"
+                                    class="form-select form-select-lg mb-3 shadow-none bg-light border-0">
                                     <option value="EUR">EUR - Euro</option>
                                     <option value="USD">USD - US Dollar</option>
                                     <option value="GBP">GBP - British Pound</option>
                                     <option value="TRY">TRY - Turkish Lira</option>
                                     <option value="JPY">JPY - Japanese Yen</option>
                                 </select>
-                                <input type="text" class="form-control form-control-lg bg-light shadow-none fw-bold text-success" value="{% if result %}{{ result }}{% endif %}" placeholder="Converted result" readonly>
+                                <input type="text"
+                                    class="form-control form-control-lg bg-light shadow-none fw-bold text-success"
+                                    value="{% if result %}{{ result }}{% endif %}" placeholder="Converted result"
+                                    readonly>
                             </div>
                         </div>
 
@@ -92,8 +99,10 @@
 
             <!-- Disclaimer Card -->
             <div class="card border-0 bg-light rounded-4 mt-4 p-4 text-center">
-                <h6 class="fw-bold mb-2"><i class="bi bi-info-circle-fill text-primary me-2"></i> Market Volatility Note</h6>
-                <p class="small text-muted mb-0">Exchange rates are approximate and fluctuate based on market conditions. For actual transactions, please verify rates with your financial institution.</p>
+                <h6 class="fw-bold mb-2"><i class="bi bi-info-circle-fill text-primary me-2"></i> Market Volatility Note
+                </h6>
+                <p class="small text-muted mb-0">Exchange rates are approximate and fluctuate based on market
+                    conditions. For actual transactions, please verify rates with your financial institution.</p>
             </div>
         </div>
     </div>

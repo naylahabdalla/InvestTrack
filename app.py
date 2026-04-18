@@ -247,10 +247,88 @@ def demo_guard(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def generate_recommendations(investments_raw, live_prices):
+    recs = []
+    for inv in investments_raw:
+        initial = float(inv.get("amount") or 0)
+        status = inv.get("status", "Active")
+        ticker = inv.get("ticker")
+        quantity = inv.get("quantity")
+        asset_type = (inv.get("asset_type") or "Stock").lower()
+        
+        if status == "Sold":
+            current_price = float(inv.get("sell_price") or initial)
+            gain = current_price - initial
+            per = (gain / initial * 100) if initial > 0 else 0
+            recs.append({
+                "asset_name": inv["asset_name"],
+                "gain_loss": per,
+                "risk": "Closed",
+                "action": "Review Result",
+                "color": "secondary",
+                "text": f"This investment is closed with a {per:.1f}% {'gain' if per >= 0 else 'loss'}."
+            })
+            continue
+
+        if ticker and quantity is not None and ticker.strip().upper() in live_prices:
+            current_price = live_prices[ticker.strip().upper()] * float(quantity)
+        else:
+            current_price = float(inv.get("current_value") or initial)
+            
+        gain = current_price - initial
+        per = (gain / initial * 100) if initial > 0 else 0
+        
+        # Risk Logic
+        if per < -15:
+            risk = "High Risk"
+            action = "Review Entry"
+            color = "danger"
+            text = "Strongly monitor. Significant drawdown detected. Decide if the long-term thesis still holds."
+        elif per < 0:
+            risk = "Moderate Risk"
+            action = "Hold & Watch"
+            color = "warning"
+            text = "Minor loss. Markets are currently volatile; patience might be your best asset here."
+        elif per > 25:
+            risk = "Low Risk"
+            action = "Secure Profits"
+            color = "success"
+            text = "Exceptional gains! Good time to take initial investment out and let the 'house money' run."
+        else:
+            risk = "Low Risk"
+            action = "Hold"
+            color = "info"
+            text = "Healthy position. Performance is within normal expected parameters."
+
+        # Asset Type Modifiers
+        if "crypto" in asset_type:
+            if per < 0:
+                risk = "Extreme Risk"
+                color = "danger"
+            else:
+                risk = "High Volatility"
+                color = "warning"
+
+        recs.append({
+            "asset_name": inv["asset_name"],
+            "ticker": ticker,
+            "gain_loss": per,
+            "risk": risk,
+            "action": action,
+            "color": color,
+            "text": text
+        })
+    return recs
+
 @app.route("/analytics")
 def analytics():
     if "user" not in session:
         return redirect("/login")
+
+    # Fetch User Tier
+    user_resp = supabase.table("users").select("subscription_tier").eq("username", session["user"]).execute()
+    tier = user_resp.data[0].get("subscription_tier", "free") if user_resp.data else "free"
+    is_ultra = (tier == 'ultra')
 
     response = supabase.table("investments").select("*").eq("username", session["user"]).execute()
     investments_raw = response.data
@@ -287,6 +365,11 @@ def analytics():
     labels = list(asset_totals.keys())
     values = [round(v, 2) for v in asset_totals.values()]
 
+    # Generate Individual Recommendations for Ultra Users
+    individual_recs = []
+    if is_ultra:
+        individual_recs = generate_recommendations(investments_raw, live_prices)
+
     return render_template(
         "analytics.html",
         user=session.get("user"),
@@ -295,7 +378,9 @@ def analytics():
         gain=round(gain_total, 2),
         percent=round(percent_total, 2),
         labels=labels,
-        values=values
+        values=values,
+        is_ultra=is_ultra,
+        recommendations=individual_recs
     )
 
 @app.route("/feedback", methods=["GET", "POST"])
