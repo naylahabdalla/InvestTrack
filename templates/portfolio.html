@@ -204,10 +204,11 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="asset-icon">
-                                                {% if 'crypto' in inv.asset_type.lower() %}₿
-                                                {% elif 'stock' in inv.asset_type.lower() %}📈
-                                                {% elif 'real estate' in inv.asset_type.lower() %}🏢
-                                                {% elif 'cash' in inv.asset_type.lower() %}💵
+                                                {% set atype = (inv.asset_type or "").lower() %}
+                                                {% if 'crypto' in atype %}₿
+                                                {% elif 'stock' in atype %}📈
+                                                {% elif 'real estate' in atype %}🏢
+                                                {% elif 'cash' in atype %}💵
                                                 {% else %}💼{% endif %}
                                             </div>
                                             <div>

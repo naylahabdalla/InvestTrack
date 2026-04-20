@@ -509,7 +509,7 @@ def portfolio():
         display_investments.append({
             "id": inv["id"],
             "asset_name": inv["asset_name"],
-            "asset_type": inv["asset_type"],
+            "asset_type": inv.get("asset_type") or "Other",
             "amount": initial,
             "status": status,
             "current_price": current_price,
@@ -560,28 +560,6 @@ def currency():
             result = round(amount / rates[from_curr] * rates[to_curr], 2)
             converted_amount = f"{result:,.2f}"
     return render_template("currency.html", user=session.get("user"), result=converted_amount)
-    if "user" not in session:
-        return redirect("/login")
-        
-    completed_courses = session.get('completed_courses', [])
-    completed_quizzes = session.get('completed_quizzes', [])
-    
-    # Calculate progress for 7 courses and 7 quizzes
-    course_progress = len(completed_courses)
-    quiz_progress = len(completed_quizzes)
-    
-    skill_map = ["Novice", "Student", "Apprentice", "Practitioner", "Analyst", "Strategist", "Elite", "Expert", "Master", "Grandmaster", "Legend", "Visionary", "Sage", "Oracle", "Grandmaster Elite"]
-    skill_index = min((course_progress + quiz_progress), len(skill_map) - 1)
-    
-    stats = {
-        "completed": course_progress + quiz_progress,
-        "total_modules": 14,
-        "skill": skill_map[skill_index],
-        "courses_done": completed_courses,
-        "quizzes_done": completed_quizzes
-    }
-
-    return render_template("learn.html", user=session.get("user"), stats=stats)
 
 @app.route("/course/<path:name>", methods=["GET", "POST"])
 def course(name):
