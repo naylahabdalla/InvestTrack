@@ -213,9 +213,13 @@ def dashboard():
     gain_total = total_current_value - total_invested
     percent_total = (gain_total / total_invested * 100) if total_invested > 0 else 0
 
+    # Sort and get top 3 performers
+    top_performers = sorted(display_investments, key=lambda x: x['percent'], reverse=True)[:3]
+
     return render_template(
         "dashboard.html", user=session.get("user"),
         investments=display_investments,
+        top_performers=top_performers,
         total=round(total_invested, 2),
         current=round(total_current_value, 2),
         gain=round(gain_total, 2),
