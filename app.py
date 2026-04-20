@@ -505,6 +505,7 @@ def portfolio():
     display_investments = []
     total_invested = 0
     total_current = 0
+    asset_totals = {}
     
     for inv in investments_raw:
         initial = float(inv.get("amount") or 0)
@@ -520,7 +521,10 @@ def portfolio():
             else:
                 current_price = float(inv.get("current_value") or initial)
             
-
+            # Group by type for allocation chart (Current only)
+            atype = inv.get("asset_type") or "Other"
+            asset_totals[atype] = asset_totals.get(atype, 0) + current_price
+            
         total_invested += initial
         total_current += current_price
         gain = current_price - initial
@@ -540,6 +544,9 @@ def portfolio():
         
     gain_total = total_current - total_invested
     percent_total = (gain_total / total_invested * 100) if total_invested > 0 else 0
+    
+    labels = list(asset_totals.keys())
+    values = [round(v, 2) for v in asset_totals.values()]
         
     return render_template(
         "portfolio.html", 
@@ -548,7 +555,9 @@ def portfolio():
         total=round(total_invested, 2),
         current=round(total_current, 2),
         gain=round(gain_total, 2),
-        percent=round(percent_total, 2)
+        percent=round(percent_total, 2),
+        labels=labels,
+        values=values
     )
 
 @app.route("/delete/<int:id>")
