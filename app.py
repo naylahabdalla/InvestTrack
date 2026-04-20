@@ -53,7 +53,14 @@ def fetch_live_prices(investments_raw, include_overview=False):
     live_prices = {}
     for t in active_tickers:
         try:
-            price = yf.Ticker(t).fast_info['lastPrice']
+            ticker_obj = yf.Ticker(t)
+            # Use .get() if fast_info is a dict, or handle it as an object
+            info = ticker_obj.fast_info
+            if hasattr(info, 'get'):
+                price = info.get('lastPrice')
+            else:
+                price = info['lastPrice']
+                
             if price and price > 0:
                 live_prices[t] = float(price)
         except Exception:
@@ -158,8 +165,14 @@ def create_checkout_session():
     if tier not in price_map:
         return jsonify({"error": "Invalid tier"}), 400
 
+    if session.get("is_demo"):
+        return redirect("/dashboard")
+
     # Simulation mode: Just mark as premium for now since we don't have real Stripe keys
-    supabase.table("users").update({"subscription_tier": tier}).eq("username", session["user"]).execute()
+    try:
+        supabase.table("users").update({"subscription_tier": tier}).eq("username", session["user"]).execute()
+    except Exception:
+        pass
     
     return redirect("/dashboard")
 
@@ -241,30 +254,35 @@ def add():
         if session.get("is_demo"):
             return redirect("/dashboard")
         
-        name = request.form["asset_name"]
-        type_ = request.form["asset_type"]
-        amount = float(request.form["amount"])
-        status = request.form.get("status", "Active")
-        ticker = request.form.get("ticker", "").strip()
-        quantity_str = request.form.get("quantity", "").strip()
-        quantity = float(quantity_str) if quantity_str else None
-        
-        data = {
-            "asset_name": name, 
-            "asset_type": type_, 
-            "amount": amount, 
-            "username": session["user"],
-            "status": status,
-            "ticker": ticker if ticker else None,
-            "quantity": quantity
-        }
-        
-        if status == "Sold":
-            data["sell_price"] = float(request.form.get("sell_price") or amount)
-        else:
-            data["current_value"] = float(request.form.get("current_value") or amount)
+        try:
+            name = request.form.get("asset_name", "Unnamed Asset")
+            type_ = request.form.get("asset_type", "Other")
+            amount = float(request.form.get("amount") or 0)
+            status = request.form.get("status", "Active")
+            ticker = request.form.get("ticker", "").strip()
+            quantity_str = request.form.get("quantity", "").strip()
+            quantity = float(quantity_str) if quantity_str else None
+            
+            data = {
+                "asset_name": name, 
+                "asset_type": type_, 
+                "amount": amount, 
+                "username": session["user"],
+                "status": status,
+                "ticker": ticker if ticker else None,
+                "quantity": quantity
+            }
+            
+            if status == "Sold":
+                data["sell_price"] = float(request.form.get("sell_price") or amount)
+            else:
+                data["current_value"] = float(request.form.get("current_value") or amount)
 
-        supabase.table("investments").insert(data).execute()
+            supabase.table("investments").insert(data).execute()
+        except (ValueError, TypeError):
+            return render_template("add_investment.html", user=session.get("user"), error="Please enter valid numbers for amount and quantity.")
+        except Exception:
+            return render_template("add_investment.html", user=session.get("user"), error="Database error. Please try again.")
 
         return redirect("/dashboard")
 
@@ -436,10 +454,16 @@ def feedback():
             return redirect("/dashboard")
             
         topic = request.form.get("topic", "General")
-        raw_message = request.form["message"]
+        raw_message = request.form.get("message", "")
+        if not raw_message:
+            return render_template("feedback.html", user=session.get("user"), error="Message cannot be empty")
+            
         message = f"[{topic}] {raw_message}"
 
-        supabase.table("feedback").insert({"username": session["user"], "message": message}).execute()
+        try:
+            supabase.table("feedback").insert({"username": session["user"], "message": message}).execute()
+        except Exception:
+            pass
 
         return redirect("/dashboard")
 
