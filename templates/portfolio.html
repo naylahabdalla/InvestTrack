@@ -1,345 +1,114 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Load Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<style>
-:root {
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.3);
-    --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-}
+<div class="container mt-4">
 
-.portfolio-container {
-    padding: 30px 15px;
-    background: #f8fafc;
-    min-height: 100vh;
-}
+    <h2 class="mb-4 fw-bold"><i class="bi bi-pie-chart-fill me-2"></i> Investment Portfolio</h2>
 
-.kpi-card {
-    background: white;
-    border-radius: 20px;
-    padding: 25px;
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--card-shadow);
-    transition: all 0.3s ease;
-    height: 100%;
-}
-
-.kpi-card:hover {
-    transform: translateY(-5px);
-}
-
-.kpi-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 10px;
-}
-
-.kpi-value {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: #1e293b;
-}
-
-.asset-table-card {
-    background: white;
-    border-radius: 24px;
-    border: none;
-    box-shadow: var(--card-shadow);
-    overflow: hidden;
-}
-
-.table thead th {
-    background: #f8fafc;
-    border-bottom: 2px solid #f1f5f9;
-    color: #64748b;
-    font-weight: 700;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    padding: 15px 20px;
-}
-
-.table tbody td {
-    padding: 20px;
-    vertical-align: middle;
-    border-bottom: 1px solid #f1f5f9;
-}
-
-.status-badge {
-    padding: 6px 12px;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-weight: 700;
-}
-
-.asset-icon {
-    width: 40px;
-    height: 40px;
-    background: #f1f5f9;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    margin-right: 15px;
-}
-
-.action-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    border: 1px solid #f1f5f9;
-    color: #64748b;
-    text-decoration: none;
-}
-
-.action-btn:hover {
-    background: #fee2e2;
-    color: #ef4444;
-    border-color: #fecaca;
-}
-
-.allocation-chart-card {
-    background: white;
-    border-radius: 24px;
-    padding: 30px;
-    box-shadow: var(--card-shadow);
-    height: 100%;
-}
-</style>
-
-<div class="portfolio-container">
-    <div class="container">
-        
-        <div class="d-flex justify-content-between align-items-center mb-5">
-            <div>
-                <h2 class="fw-bold text-dark mb-1">Stock & Asset Management</h2>
-                <p class="text-muted mb-0">Track, analyze, and optimize your wealth distribution.</p>
-            </div>
-            <div>
-                {% if not session.get('is_demo') %}
-                <a href="/add" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm">
-                    <i class="bi bi-plus-lg me-2"></i> New Asset
-                </a>
-                {% endif %}
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 rounded-4 p-4 text-center">
+                <h6 class="text-muted">Total Initial Investment</h6>
+                <h2 class="fw-bold mb-0">${{ "{:,.2f}".format(total) }}</h2>
             </div>
         </div>
-
-        <!-- KPI ROW -->
-        <div class="row g-4 mb-5">
-            <div class="col-md-3">
-                <div class="kpi-card">
-                    <div class="kpi-label">Total Outlay</div>
-                    <div class="kpi-value text-primary">${{ "{:,.2f}".format(total) }}</div>
-                    <small class="text-muted">Original capital</small>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="kpi-card">
-                    <div class="kpi-label">Market Value</div>
-                    <div class="kpi-value">${{ "{:,.2f}".format(current) }}</div>
-                    <small class="text-muted">Live ecosystem value</small>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="kpi-card">
-                    <div class="kpi-label">Net Return (P&L)</div>
-                    <div class="kpi-value {% if gain >= 0 %}text-success{% else %}text-danger{% endif %}">
-                        {% if gain >= 0 %}+{% endif %}${{ "{:,.2f}".format(gain) }}
-                    </div>
-                    <small class="{% if gain >= 0 %}text-success{% else %}text-danger{% endif %} fw-bold">
-                        {{ "{:+.2f}".format(percent) }}% ROI
-                    </small>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="kpi-card">
-                    <div class="kpi-label">Portfolio Health</div>
-                    <div class="kpi-value d-flex align-items-center">
-                        {% if percent > 15 %}
-                            <span class="text-success">Excellent <i class="bi bi-shield-check"></i></span>
-                        {% elif percent >= 0 %}
-                            <span class="text-success">Healthy <i class="bi bi-check-circle"></i></span>
-                        {% else %}
-                            <span class="text-warning">Recovering <i class="bi bi-exclamation-triangle"></i></span>
-                        {% endif %}
-                    </div>
-                    <small class="text-muted">Based on overall ROI</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="row g-4">
-            <!-- ASSET LIST -->
-            <div class="col-lg-8">
-                <div class="asset-table-card">
-                    <div class="p-4 border-bottom bg-white d-flex justify-content-between align-items-center">
-                        <h5 class="fw-bold mb-0">Your Holdings</h5>
-                        <span class="badge bg-light text-dark border rounded-pill px-3">{{ investments|length }} Assets</span>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Asset Name</th>
-                                    <th>Status</th>
-                                    <th>Invested</th>
-                                    <th>Market/Sell</th>
-                                    <th>Return %</th>
-                                    <th class="text-end">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for inv in investments %}
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="asset-icon">
-                                                {% set atype = (inv.asset_type or "").lower() %}
-                                                {% if 'crypto' in atype %}₿
-                                                {% elif 'stock' in atype %}📈
-                                                {% elif 'real estate' in atype %}🏢
-                                                {% elif 'cash' in atype %}💵
-                                                {% else %}💼{% endif %}
-                                            </div>
-                                            <div>
-                                                <div class="fw-bold text-dark">{{ inv.asset_name }}</div>
-                                                <div class="small text-muted">{{ inv.asset_type }}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {% if inv.status == 'Sold' %}
-                                            <span class="status-badge bg-secondary-subtle text-secondary border border-secondary-subtle">Sold</span>
-                                        {% else %}
-                                            <span class="status-badge bg-success-subtle text-success border border-success-subtle">Active</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="fw-semibold">${{ "{:,.2f}".format(inv.amount) }}</td>
-                                    <td class="fw-semibold">${{ "{:,.2f}".format(inv.current_price) }}</td>
-                                    <td>
-                                        <div class="{% if inv.gain >= 0 %}text-success{% else %}text-danger{% endif %} fw-bold">
-                                            {{ "{:+.1f}".format(inv.percent) }}%
-                                        </div>
-                                        <div class="small text-muted">
-                                            {% if inv.gain >= 0 %}+{% endif %}${{ "{:,.2f}".format(inv.gain) }}
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        <div class="d-flex justify-content-end gap-2">
-                                            {% if not session.get('is_demo') %}
-                                            <a href="/delete/{{ inv.id }}" class="action-btn" onclick="return confirm('Are you sure you want to remove this asset?')">
-                                                <i class="bi bi-trash3"></i>
-                                            </a>
-                                            {% else %}
-                                            <span class="badge bg-light text-muted border">Demo</span>
-                                            {% endif %}
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% else %}
-                                <tr>
-                                    <td colspan="6" class="text-center py-5">
-                                        <div class="opacity-25 fs-1 mb-3"><i class="bi bi-inbox"></i></div>
-                                        <div class="h5 text-muted">No investments found</div>
-                                        <a href="/add" class="btn btn-sm btn-primary rounded-pill mt-2">Start Investing</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ALLOCATION WIDGET -->
-            <div class="col-lg-4">
-                <div class="allocation-chart-card">
-                    <h5 class="fw-bold mb-4">Capital Allocation</h5>
-                    <div class="position-relative" style="height: 250px;">
-                        <canvas id="allocationChart"></canvas>
-                    </div>
-                    
-                    <div class="mt-4 pt-3 border-top">
-                        <h6 class="fw-bold small text-uppercase text-muted mb-3">Portfolio Insight</h6>
-                        <div class="p-3 bg-light rounded-4 border">
-                            <p class="small mb-0 text-dark" style="line-height: 1.5;">
-                                {% if labels %}
-                                    Your portfolio is primarily weighted towards <strong>{{ labels[0] }}</strong>. 
-                                    {% if labels|length < 3 %}
-                                        Consider diversifying into more asset classes to reduce volatility risk.
-                                    {% else %}
-                                        Excellent diversification! Your risk is well-distributed across {{ labels|length }} asset classes.
-                                    {% endif %}
-                                {% else %}
-                                    Add your first investment to see your capital allocation and diversification score.
-                                {% endif %}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
-</div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const ctx = document.getElementById('allocationChart');
-    if (ctx) {
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: {{ labels | tojson | safe }},
-                datasets: [{
-                    data: {{ values | tojson | safe }},
-                    backgroundColor: [
-                        "#6366f1", "#10b981", "#f59e0b", "#ef4444",
-                        "#0ea5e9", "#8b5cf6", "#ec4899", "#64748b"
-                    ],
-                    borderWidth: 2,
-                    hoverOffset: 15
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            usePointStyle: true,
-                            padding: 20,
-                            font: { size: 11, weight: '600' }
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let val = context.parsed;
-                                let total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                let perc = ((val / total) * 100).toFixed(1);
-                                return ` ${context.label}: $${val.toLocaleString()} (${perc}%)`;
-                            }
-                        }
-                    }
-                },
-                cutout: '70%',
-                radius: '90%'
-            }
-        });
-    }
-});
-</script>
+    <!-- ADD BUTTON -->
+    <div class="mb-4">
+        {% if session.get('is_demo') %}
+        <button class="btn btn-secondary w-100 py-2 fw-semibold disabled" style="border-radius:12px; opacity: 0.6;">
+            + Add Investment (Disabled in Demo)
+        </button>
+        {% else %}
+        <a href="/add" class="btn btn-primary w-100 py-3 fw-bold shadow-sm" style="border-radius:12px;">
+            <span class="fs-5">+ Add New Investment</span>
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- TABLE -->
+    <div class="card shadow-sm border-0 rounded-4 p-0 overflow-hidden">
+        <div class="p-4 border-bottom bg-light">
+            <h5 class="mb-0 fw-bold">Asset Breakdown</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Asset</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Initial ($)</th>
+                        <th>Market/Sell ($)</th>
+                        <th>Result</th>
+                        <th>Net Gain/Loss</th>
+                        <th class="text-end pe-4">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for inv in investments %}
+                    <tr>
+                        <td class="ps-4">
+                            <div class="fw-bold text-dark">{{ inv.asset_name }}</div>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill bg-secondary px-3">{{ inv.asset_type }}</span>
+                        </td>
+                        <td>
+                            {% if inv.status == 'Sold' %}
+                                <span class="badge rounded-pill bg-info text-dark px-3">Sold</span>
+                            {% else %}
+                                <span class="badge rounded-pill bg-success px-3">Active</span>
+                            {% endif %}
+                        </td>
+                        <td class="fw-semibold">${{ "{:,.2f}".format(inv.amount) }}</td>
+                        <td class="fw-semibold">${{ "{:,.2f}".format(inv.current_price) }}</td>
+                        <td>
+                            {% if inv.result_type == 'Gain' %}
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3">Gain <i class="bi bi-caret-up-fill ms-1"></i></span>
+                            {% elif inv.result_type == 'Loss' %}
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-3">Loss <i class="bi bi-caret-down-fill ms-1"></i></span>
+                            {% else %}
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill px-3">Steady <i class="bi bi-dash ms-1"></i></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if inv.gain >= 0 %}
+                                <span class="text-success fw-bold">+${{ "{:,.2f}".format(inv.gain) }}</span>
+                                <small class="text-success ms-1">({{ "{:.1f}".format(inv.percent) }}%)</small>
+                            {% else %}
+                                <span class="text-danger fw-bold">-${{ "{:,.2f}".format(inv.gain|abs) }}</span>
+                                <small class="text-danger ms-1">({{ "{:.1f}".format(inv.percent) }}%)</small>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-4">
+                            {% if session.get('is_demo') %}
+                            <span class="badge bg-light text-muted border">Demo</span>
+                            {% else %}
+                            <a href="/delete/{{ inv.id }}" class="btn btn-outline-danger btn-sm rounded-pill px-3" onclick="return confirm('Are you sure you want to delete this asset?')">
+                                Delete
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if not investments %}
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted">
+                            <div class="mb-2 fs-2 text-opacity-25"><i class="bi bi-inbox"></i></div>
+                            No investments found. Start by adding one!
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
 
 {% endblock %}

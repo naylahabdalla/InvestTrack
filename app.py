@@ -53,14 +53,7 @@ def fetch_live_prices(investments_raw, include_overview=False):
     live_prices = {}
     for t in active_tickers:
         try:
-            ticker_obj = yf.Ticker(t)
-            # Use .get() if fast_info is a dict, or handle it as an object
-            info = ticker_obj.fast_info
-            if hasattr(info, 'get'):
-                price = info.get('lastPrice')
-            else:
-                price = info['lastPrice']
-                
+            price = yf.Ticker(t).fast_info['lastPrice']
             if price and price > 0:
                 live_prices[t] = float(price)
         except Exception:
@@ -214,7 +207,7 @@ def dashboard():
         display_investments.append({
             "id": inv["id"],
             "asset_name": inv["asset_name"],
-            "asset_type": inv["asset_type"],
+            "asset_type": inv.get("asset_type") or "Other",
             "amount": initial,
             "status": status,
             "current_price": current_price,
@@ -280,9 +273,9 @@ def add():
 
             supabase.table("investments").insert(data).execute()
         except (ValueError, TypeError):
-            return render_template("add_investment.html", user=session.get("user"), error="Please enter valid numbers for amount and quantity.")
+            return render_template("add_investment.html", user=session.get("user"), error="Please enter valid numbers.")
         except Exception:
-            return render_template("add_investment.html", user=session.get("user"), error="Database error. Please try again.")
+            return render_template("add_investment.html", user=session.get("user"), error="Database error.")
 
         return redirect("/dashboard")
 
@@ -454,16 +447,10 @@ def feedback():
             return redirect("/dashboard")
             
         topic = request.form.get("topic", "General")
-        raw_message = request.form.get("message", "")
-        if not raw_message:
-            return render_template("feedback.html", user=session.get("user"), error="Message cannot be empty")
-            
+        raw_message = request.form["message"]
         message = f"[{topic}] {raw_message}"
 
-        try:
-            supabase.table("feedback").insert({"username": session["user"], "message": message}).execute()
-        except Exception:
-            pass
+        supabase.table("feedback").insert({"username": session["user"], "message": message}).execute()
 
         return redirect("/dashboard")
 
@@ -504,8 +491,6 @@ def portfolio():
     
     display_investments = []
     total_invested = 0
-    total_current = 0
-    asset_totals = {}
     
     for inv in investments_raw:
         initial = float(inv.get("amount") or 0)
@@ -521,12 +506,7 @@ def portfolio():
             else:
                 current_price = float(inv.get("current_value") or initial)
             
-            # Group by type for allocation chart (Current only)
-            atype = inv.get("asset_type") or "Other"
-            asset_totals[atype] = asset_totals.get(atype, 0) + current_price
-            
         total_invested += initial
-        total_current += current_price
         gain = current_price - initial
         per = (gain / initial * 100) if initial > 0 else 0
         
@@ -542,23 +522,7 @@ def portfolio():
             "result_type": "Gain" if gain > 0 else ("Loss" if gain < 0 else "Break-even")
         })
         
-    gain_total = total_current - total_invested
-    percent_total = (gain_total / total_invested * 100) if total_invested > 0 else 0
-    
-    labels = list(asset_totals.keys())
-    values = [round(v, 2) for v in asset_totals.values()]
-        
-    return render_template(
-        "portfolio.html", 
-        user=session.get("user"), 
-        investments=display_investments, 
-        total=round(total_invested, 2),
-        current=round(total_current, 2),
-        gain=round(gain_total, 2),
-        percent=round(percent_total, 2),
-        labels=labels,
-        values=values
-    )
+    return render_template("portfolio.html", user=session.get("user"), investments=display_investments, total=round(total_invested, 2))
 
 @app.route("/delete/<int:id>")
 def delete(id):
@@ -584,6 +548,28 @@ def currency():
             result = round(amount / rates[from_curr] * rates[to_curr], 2)
             converted_amount = f"{result:,.2f}"
     return render_template("currency.html", user=session.get("user"), result=converted_amount)
+    if "user" not in session:
+        return redirect("/login")
+        
+    completed_courses = session.get('completed_courses', [])
+    completed_quizzes = session.get('completed_quizzes', [])
+    
+    # Calculate progress for 7 courses and 7 quizzes
+    course_progress = len(completed_courses)
+    quiz_progress = len(completed_quizzes)
+    
+    skill_map = ["Novice", "Student", "Apprentice", "Practitioner", "Analyst", "Strategist", "Elite", "Expert", "Master", "Grandmaster", "Legend", "Visionary", "Sage", "Oracle", "Grandmaster Elite"]
+    skill_index = min((course_progress + quiz_progress), len(skill_map) - 1)
+    
+    stats = {
+        "completed": course_progress + quiz_progress,
+        "total_modules": 14,
+        "skill": skill_map[skill_index],
+        "courses_done": completed_courses,
+        "quizzes_done": completed_quizzes
+    }
+
+    return render_template("learn.html", user=session.get("user"), stats=stats)
 
 @app.route("/course/<path:name>", methods=["GET", "POST"])
 def course(name):
