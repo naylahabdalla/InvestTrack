@@ -546,6 +546,7 @@ def feedback():
     return render_template("feedback.html", user=session.get("user"))
 
 @app.route("/learn")
+@demo_guard
 def learn():
     if "user" not in session:
         return redirect("/login")
@@ -621,6 +622,7 @@ def delete(id):
     return redirect("/portfolio")
 
 @app.route("/currency", methods=["GET", "POST"])
+@demo_guard
 def currency():
     if "user" not in session: return redirect("/login")
     result = None
@@ -661,6 +663,7 @@ def currency():
     return render_template("learn.html", user=session.get("user"), stats=stats)
 
 @app.route("/course/<path:name>", methods=["GET", "POST"])
+@demo_guard
 def course(name):
     if "user" not in session: return redirect("/login")
     
@@ -793,6 +796,7 @@ def course(name):
     return render_template("course.html", user=session.get("user"), course=course_data, completed_courses=session.get('completed_courses', []))
 
 @app.route("/quiz/<path:name>", methods=["GET", "POST"])
+@demo_guard
 def quiz(name):
     if "user" not in session: return redirect("/login")
     
