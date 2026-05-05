@@ -303,9 +303,9 @@ def dashboard():
         per = (gain / initial * 100) if initial > 0 else 0
         
         display_investments.append({
-            "id": inv["id"],
-            "asset_name": inv["asset_name"],
-            "asset_type": inv["asset_type"],
+            "id": inv.get("id"),
+            "asset_name": inv.get("asset_name", "Unknown Asset"),
+            "asset_type": inv.get("asset_type") or "Other",
             "amount": initial,
             "status": status,
             "current_price": current_price,
@@ -408,7 +408,7 @@ def generate_recommendations(investments_raw, live_prices):
             gain = current_price - initial
             per = (gain / initial * 100) if initial > 0 else 0
             recs.append({
-                "asset_name": inv["asset_name"],
+                "asset_name": inv.get("asset_name", "Unknown Asset"),
                 "gain_loss": per,
                 "risk": "Closed",
                 "action": "Review Result",
@@ -457,7 +457,7 @@ def generate_recommendations(investments_raw, live_prices):
                 color = "warning"
 
         recs.append({
-            "asset_name": inv["asset_name"],
+            "asset_name": inv.get("asset_name", "Unknown Asset"),
             "ticker": ticker,
             "gain_loss": per,
             "risk": risk,
