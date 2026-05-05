@@ -317,6 +317,8 @@ def dashboard():
     gain_total = total_current_value - total_invested
     percent_total = (gain_total / total_invested * 100) if total_invested > 0 else 0
 
+    top_performers = sorted(display_investments, key=lambda x: x['percent'], reverse=True)[:3]
+
     return render_template(
         "dashboard.html", user=session.get("user"),
         investments=display_investments,
@@ -328,7 +330,8 @@ def dashboard():
         apple=round(live_prices.get("AAPL", 150.0), 2),
         tesla=round(live_prices.get("TSLA", 200.0), 2),
         btc=round(live_prices.get("BTC-USD", 40000.0), 2),
-        eth=round(live_prices.get("ETH-USD", 2500.0), 2)
+        eth=round(live_prices.get("ETH-USD", 2500.0), 2),
+        top_performers=top_performers
     )
 
 # ---------------- ADD ----------------
