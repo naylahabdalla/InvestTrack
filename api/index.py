@@ -630,6 +630,13 @@ def currency():
     if "user" not in session: return redirect("/login")
     result = None
     converted_amount = None
+    
+    try:
+        response = requests.get("https://api.exchangerate-api.com/v4/latest/USD", timeout=5)
+        rates = response.json().get("rates", {})
+    except Exception:
+        rates = {"USD": 1.0, "EUR": 0.92, "GBP": 0.79, "TRY": 31.0, "JPY": 150.0}
+
     if request.method == "POST":
         try:
             amount = float(request.form.get("amount", 0))
@@ -637,11 +644,18 @@ def currency():
             amount = 0
         from_curr = request.form.get("from_currency")
         to_curr = request.form.get("to_currency")
-        rates = {"USD": 1.0, "EUR": 0.92, "GBP": 0.79, "TRY": 31.0, "JPY": 150.0}
-        if from_curr in rates and to_curr in rates:
+        
+        if rates and from_curr in rates and to_curr in rates:
             result = round(amount / rates[from_curr] * rates[to_curr], 2)
             converted_amount = f"{result:,.2f}"
-    return render_template("currency.html", user=session.get("user"), result=converted_amount)
+            
+    usd_to_eur = f"{rates.get('EUR', 0.92):.2f}"
+    gbp_to_usd = f"{(1 / rates.get('GBP', 0.79)):.2f}" if rates.get('GBP') else "1.27"
+    usd_to_jpy = f"{rates.get('JPY', 150.0):.2f}"
+    eur_to_gbp = f"{(rates.get('GBP', 0.79) / rates.get('EUR', 0.92)):.2f}" if rates.get('EUR') else "0.86"
+            
+    return render_template("currency.html", user=session.get("user"), result=converted_amount,
+                           usd_to_eur=usd_to_eur, gbp_to_usd=gbp_to_usd, usd_to_jpy=usd_to_jpy, eur_to_gbp=eur_to_gbp)
     if "user" not in session:
         return redirect("/login")
         
