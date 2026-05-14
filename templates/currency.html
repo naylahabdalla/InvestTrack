@@ -78,25 +78,53 @@ s{% extends "base.html" %}
                 <div class="col-6">
                     <div class="card border-0 shadow-sm rounded-4 text-center p-3">
                         <span class="text-muted small fw-bold">USD → EUR</span>
-                        <h4 class="fw-bold mt-1 text-primary">{{ usd_to_eur }}</h4>
+                        <h4 class="fw-bold mt-1 text-primary">
+                            {{ usd_to_eur }}
+                            {% if trends and trends.usd_to_eur == 'up' %}
+                                <i class="bi bi-arrow-up-right text-success fs-6"></i>
+                            {% else %}
+                                <i class="bi bi-arrow-down-right text-danger fs-6"></i>
+                            {% endif %}
+                        </h4>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="card border-0 shadow-sm rounded-4 text-center p-3">
                         <span class="text-muted small fw-bold">GBP → USD</span>
-                        <h4 class="fw-bold mt-1 text-primary">{{ gbp_to_usd }}</h4>
+                        <h4 class="fw-bold mt-1 text-primary">
+                            {{ gbp_to_usd }}
+                            {% if trends and trends.gbp_to_usd == 'up' %}
+                                <i class="bi bi-arrow-up-right text-success fs-6"></i>
+                            {% else %}
+                                <i class="bi bi-arrow-down-right text-danger fs-6"></i>
+                            {% endif %}
+                        </h4>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="card border-0 shadow-sm rounded-4 text-center p-3">
                         <span class="text-muted small fw-bold">USD → JPY</span>
-                        <h4 class="fw-bold mt-1 text-primary">{{ usd_to_jpy }}</h4>
+                        <h4 class="fw-bold mt-1 text-primary">
+                            {{ usd_to_jpy }}
+                            {% if trends and trends.usd_to_jpy == 'up' %}
+                                <i class="bi bi-arrow-up-right text-success fs-6"></i>
+                            {% else %}
+                                <i class="bi bi-arrow-down-right text-danger fs-6"></i>
+                            {% endif %}
+                        </h4>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="card border-0 shadow-sm rounded-4 text-center p-3">
                         <span class="text-muted small fw-bold">EUR → GBP</span>
-                        <h4 class="fw-bold mt-1 text-primary">{{ eur_to_gbp }}</h4>
+                        <h4 class="fw-bold mt-1 text-primary">
+                            {{ eur_to_gbp }}
+                            {% if trends and trends.eur_to_gbp == 'up' %}
+                                <i class="bi bi-arrow-up-right text-success fs-6"></i>
+                            {% else %}
+                                <i class="bi bi-arrow-down-right text-danger fs-6"></i>
+                            {% endif %}
+                        </h4>
                     </div>
                 </div>
             </div>

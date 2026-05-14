@@ -531,6 +531,15 @@ def delete(id):
     supabase.table("investments").delete().eq("id", id).eq("username", session["user"]).execute()
     return redirect("/portfolio")
 
+def get_currency_trend(ticker):
+    try:
+        url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
+        res = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=3)
+        data = res.json()['chart']['result'][0]['meta']
+        return "up" if data['regularMarketPrice'] >= data['chartPreviousClose'] else "down"
+    except Exception:
+        return "up"
+
 @app.route("/currency", methods=["GET", "POST"])
 def currency():
     if "user" not in session: return redirect("/login")
@@ -566,10 +575,18 @@ def currency():
     gbp_to_usd = f"{(1 / rates.get('GBP', 0.79)):.2f}" if rates.get('GBP') else "1.27"
     usd_to_jpy = f"{rates.get('JPY', 150.0):.2f}"
     eur_to_gbp = f"{(rates.get('GBP', 0.79) / rates.get('EUR', 0.92)):.2f}" if rates.get('EUR') else "0.86"
+    
+    trends = {
+        "usd_to_eur": get_currency_trend("USDEUR=X"),
+        "gbp_to_usd": get_currency_trend("GBPUSD=X"),
+        "usd_to_jpy": get_currency_trend("USDJPY=X"),
+        "eur_to_gbp": get_currency_trend("EURGBP=X")
+    }
             
     return render_template("currency.html", user=session.get("user"), result=converted_amount,
                            usd_to_eur=usd_to_eur, gbp_to_usd=gbp_to_usd, usd_to_jpy=usd_to_jpy, eur_to_gbp=eur_to_gbp,
-                           selected_from=selected_from, selected_to=selected_to, entered_amount=entered_amount)
+                           selected_from=selected_from, selected_to=selected_to, entered_amount=entered_amount,
+                           trends=trends)
     if "user" not in session:
         return redirect("/login")
         
