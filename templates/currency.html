@@ -23,17 +23,17 @@ s{% extends "base.html" %}
                                 <label class="form-label text-muted small text-uppercase fw-bold mb-1">From</label>
                                 <select name="from_currency"
                                     class="form-select form-select-lg mb-3 shadow-none bg-light border-0">
-                                    <option value="USD">USD - US Dollar</option>
-                                    <option value="EUR">EUR - Euro</option>
-                                    <option value="GBP">GBP - British Pound</option>
-                                    <option value="TRY">TRY - Turkish Lira</option>
-                                    <option value="JPY">JPY - Japanese Yen</option>
-                                    <option value="SAR">SAR - Saudi Riyal</option>
-                                    <option value="KES">KES - Kenyan Shilling</option>
+                                    <option value="USD" {% if selected_from == 'USD' or not selected_from %}selected{% endif %}>USD - US Dollar</option>
+                                    <option value="EUR" {% if selected_from == 'EUR' %}selected{% endif %}>EUR - Euro</option>
+                                    <option value="GBP" {% if selected_from == 'GBP' %}selected{% endif %}>GBP - British Pound</option>
+                                    <option value="TRY" {% if selected_from == 'TRY' %}selected{% endif %}>TRY - Turkish Lira</option>
+                                    <option value="JPY" {% if selected_from == 'JPY' %}selected{% endif %}>JPY - Japanese Yen</option>
+                                    <option value="SAR" {% if selected_from == 'SAR' %}selected{% endif %}>SAR - Saudi Riyal</option>
+                                    <option value="KES" {% if selected_from == 'KES' %}selected{% endif %}>KES - Kenyan Shilling</option>
                                 </select>
                                 <input type="number" step="0.01" name="amount"
                                     class="form-control form-control-lg shadow-none" placeholder="Enter amount"
-                                    required>
+                                    value="{{ entered_amount if entered_amount else '' }}" required>
                             </div>
 
                             <!-- Arrow Icon -->
@@ -46,13 +46,13 @@ s{% extends "base.html" %}
                                 <label class="form-label text-muted small text-uppercase fw-bold mb-1">To</label>
                                 <select name="to_currency"
                                     class="form-select form-select-lg mb-3 shadow-none bg-light border-0">
-                                    <option value="EUR">EUR - Euro</option>
-                                    <option value="USD">USD - US Dollar</option>
-                                    <option value="GBP">GBP - British Pound</option>
-                                    <option value="TRY">TRY - Turkish Lira</option>
-                                    <option value="JPY">JPY - Japanese Yen</option>
-                                    <option value="SAR">SAR - Saudi Riyal</option>
-                                    <option value="KES">KES - Kenyan Shilling</option>
+                                    <option value="EUR" {% if selected_to == 'EUR' or not selected_to %}selected{% endif %}>EUR - Euro</option>
+                                    <option value="USD" {% if selected_to == 'USD' %}selected{% endif %}>USD - US Dollar</option>
+                                    <option value="GBP" {% if selected_to == 'GBP' %}selected{% endif %}>GBP - British Pound</option>
+                                    <option value="TRY" {% if selected_to == 'TRY' %}selected{% endif %}>TRY - Turkish Lira</option>
+                                    <option value="JPY" {% if selected_to == 'JPY' %}selected{% endif %}>JPY - Japanese Yen</option>
+                                    <option value="SAR" {% if selected_to == 'SAR' %}selected{% endif %}>SAR - Saudi Riyal</option>
+                                    <option value="KES" {% if selected_to == 'KES' %}selected{% endif %}>KES - Kenyan Shilling</option>
                                 </select>
                                 <input type="text"
                                     class="form-control form-control-lg bg-light shadow-none fw-bold text-success"
