@@ -635,7 +635,7 @@ def currency():
         response = requests.get("https://api.exchangerate-api.com/v4/latest/USD", timeout=5)
         rates = response.json().get("rates", {})
     except Exception:
-        rates = {"USD": 1.0, "EUR": 0.92, "GBP": 0.79, "TRY": 31.0, "JPY": 150.0}
+        rates = {"USD": 1.0, "EUR": 0.92, "GBP": 0.79, "TRY": 31.0, "JPY": 150.0, "SAR": 3.75, "KES": 130.0}
 
     if request.method == "POST":
         try:
